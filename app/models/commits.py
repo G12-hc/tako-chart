@@ -7,3 +7,5 @@ class Commit(BaseModel):
     message: str
     author: str
     repository_id: int
+
+

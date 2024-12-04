@@ -1,17 +1,5 @@
 from fastapi import APIRouter, HTTPException
-from app.services.repositories import get_repository_stats
-
-router = APIRouter()
-
-@router.get("/repositories/{repo_id}/stats")
-def fetch_repository_stats(repo_id: int):
-    """
-    Endpoint to fetch repository statistics.
-    """
-    stats = get_repository_stats(repo_id)
-    if not stats:
-        raise HTTPException(status_code=404, detail="Repository not found")
-    return stats
+from app.routers.repositories import get_repository_stats
 
 
 class RepositoryStats:

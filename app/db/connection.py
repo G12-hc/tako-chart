@@ -27,8 +27,6 @@ except Exception as e:
     print(f"Error creating connection pool: {e}")
     raise
 
-# Context manager to get a connection from the pool
-@contextmanager
 def get_db_connection():
     """
     Context manager to get a database connection from the pool.
@@ -37,7 +35,7 @@ def get_db_connection():
     conn = None
     try:
         conn = connection_pool.getconn()  # Get connection from pool
-        yield conn
+        return conn
     except Exception as e:
         print(f"Database connection error: {e}")
         raise
@@ -82,7 +80,7 @@ connection = None
 
 def initialize_db():
     """
-    Initializes the connection to the PostgreSQL database.
+    Initializes the connection to the PostgreSQL database
     This function could be expanded to include connection parameters,
     and error handling.
     """

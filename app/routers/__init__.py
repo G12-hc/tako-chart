@@ -1,4 +1,7 @@
-# app/services/__init__.py
+# app/routers/__init__.py
+from fastapi import APIRouter
+
+
 
 from .commits import router as commits_router
 from .repositories import router as repositories_router
