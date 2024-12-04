@@ -1,7 +1,7 @@
 
 from fastapi import FastAPI
 import uvicorn
-from app.services import commits, repositories, branches, files, licenses, languages
+from app.routers import commits, repositories, branches, files, licenses, languages
 
 app = FastAPI()
 

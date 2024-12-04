@@ -1,9 +1,11 @@
-from fastapi import APIRouter
-
-from app.db.connection import get_db_connection
+from fastapi import APIRouter, HTTPException
 from psycopg2.extras import RealDictCursor
 
+from app.db import get_db_connection
+
 router = APIRouter()
+
+@router.get("/{repo_id}")
 def get_repository_stats(repo_id: int):
     """
     Fetch repository statistics such as commit count, branch count, and file count.
