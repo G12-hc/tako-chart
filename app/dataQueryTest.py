@@ -3,9 +3,9 @@ import psycopg2
 try:
     # Establish a connection to the database
     conn = psycopg2.connect(
-        database="your_database_name",
-        user="your_username",
-        password="your_password",
+        database="HackCamp",
+        user="postgres",
+        password="postgres",
         host="localhost",
         port="5432"  # Default PostgreSQL port
     )
