@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/hackcamp.iml" filepath="$PROJECT_DIR$/.idea/hackcamp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/ro-visualisation.iml" filepath="$PROJECT_DIR$/.idea/ro-visualisation.iml" />
     </modules>
   </component>
 </project>
