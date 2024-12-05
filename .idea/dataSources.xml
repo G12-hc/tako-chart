@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="postgres@localhost" uuid="8e7b1b44-a2f8-4a66-9522-31d68a4704fc">
+    <data-source source="LOCAL" name="hackcamp@localhost" uuid="8e7b1b44-a2f8-4a66-9522-31d68a4704fc">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://localhost:5432/postgres</jdbc-url>
+      <jdbc-url>jdbc:postgresql://localhost:5432/hackcamp</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
     <data-source source="LOCAL" name="HackCamp@hc24_12" uuid="e4a7f4db-55ea-44f3-a00f-791ec7c97494">
