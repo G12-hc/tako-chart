@@ -2,9 +2,87 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Parkinsans:wght@300..800&display=swap" rel="stylesheet">
+  <!-- Load plotly.js into the DOM -->
+	<script src='https://cdn.plot.ly/plotly-2.35.2.min.js'></script>
+
+  <link rel="stylesheet" href="/Website/Styles/css.css">
+
+  <title>Side-by-Side Tables</title>
+
 </head>
 <body>
+  <h1>Text Area Above the Tables</h1>
+
+    <div class="table-container">
+
+      <div class="text-content" data-text="Bar Chart">
+            <h2>Bar Chart</h2>
+      </div>
+
+        <!-- Plotly chart will be drawn inside this DIV -->
+      <div  id='myDiv'  >   </div>
+
+      <div class="description">
+        <p>this chart bla vla sadfsdfjasd jsdfjasjdfasd
+          ;jsdfsdakfkasdj;if ajkl asdklf akjsdfklj akljf  jfjsdk fsdka
+          skfasdlk;df jkafk aksf kasdfkj asdf l;
+          kajds fka kfdslkfk aksf kalk fakl flkakl l;fa </p>
+      </div>
+
+        <!-- Tables Side by Side -->
+        <div class="table-wrapper">
+            <!-- First Table -->
+            <table class="table">
+                <colgroup>
+                    <col style="width: 100px;">
+                    <col style="width: 200px;">
+                </colgroup>
+                <tr>
+                    <th colspan="2" class="th">Most</th>
+                </tr>
+                <tr>
+                    <td class="td">1</td>
+                    <td class="td">X</td>
+                </tr>
+                <tr>
+                    <td class="td">2</td>
+                    <td class="td">X</td>
+                </tr>
+                <tr>
+                    <td class="td">3</td>
+                    <td class="td">X</td>
+                </tr>
+            </table>
+
+            <!-- Second Table -->
+            <table class="table">
+                <colgroup>
+                    <col>
+                    <col>
+                </colgroup>
+                <tr>
+                    <th colspan="2" class="th">Least</th>
+                </tr>
+                <tr>
+                    <td class="td">n-2</td>
+                    <td class="td">X</td>
+                </tr>
+                <tr>
+                    <td class="td">n-1</td>
+                    <td class="td">X</td>
+                </tr>
+                <tr>
+                    <td class="td">n</td>
+                    <td class="td">X</td>
+                </tr>
+            </table>
+        </div>
+    </div>
 
 </body>
+<script src="/Website/Scripts/javascript.js"></script>
 </html>
