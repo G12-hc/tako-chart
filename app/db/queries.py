@@ -1,6 +1,9 @@
+from psycopg.rows import dict_row
+
+
 def query(query_function):
     def wrapper(conn, *args, **kwargs):
-        with conn.cursor() as cursor:
+        with conn.cursor(row_factory=dict_row) as cursor:
             query_function(cursor, *args, **kwargs)
             return cursor.fetchall()
 
