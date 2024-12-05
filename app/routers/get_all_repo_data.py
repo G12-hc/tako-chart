@@ -30,9 +30,3 @@ def get_all_repo_data(repo_id):
         "branches": branches,
         "files": files,
     }
-
-
-@router.get("/{repo_id}")
-def get_commits(repo_id):
-    with get_db_connection() as conn:
-        return query_commit(conn, repo_id)
