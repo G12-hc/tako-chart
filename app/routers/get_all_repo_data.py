@@ -1,4 +1,5 @@
 from fastapi import APIRouter
+
 from app.db import get_db_connection
 from app.db.queries import (
     query_languages,
@@ -8,6 +9,7 @@ from app.db.queries import (
     query_branches,
     query_files,
 )
+from app.models import File, Commit
 
 router = APIRouter(prefix="/repo_data")
 
