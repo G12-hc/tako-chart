@@ -1,20 +1,22 @@
-from fastapi import FastAPI
 import uvicorn
+from fastapi import FastAPI
+
+from app.routers import commits, branches, files, languages, repositories, licenses
+from app.db.connection import initialize_db
+
+# Create the FastAPI application instance
 
 app = FastAPI()
 
-def read_root():
-    return  {"Hello": "World"}
+app.include_router(commits.router)
+app.include_router(branches.router)
+app.include_router(files.router)
+app.include_router(languages.router)
+app.include_router(repositories.router)
+app.include_router(licenses.router)
 
-@app.get("/")
-async def root():
-    return {"message": "Hello to my HackCamp APP"}
-
-
-@app.get("/hello/{name}")
-async def say_hello(name: str):
-    return {"message": f"Hello  {name}"}
 
 
 if __name__ == "__main__":
+    initialize_db()  # Initialize database or connections
     uvicorn.run(app, host="127.0.0.1", port=8000)
