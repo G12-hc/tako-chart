@@ -2,21 +2,22 @@ import psycopg
 import psycopg_pool
 
 # Database configuration
-DB_CONFIG = "dbname=HackCamp user=postgres password=postgres host=localhost port=5432"
+DB_CONFIG = "dbname=hackcamp user=postgres password=postgres host=localhost port=5432"
 
 
 # Initialize a connection pool
 try:
     connection_pool = psycopg_pool.ConnectionPool(
         DB_CONFIG,
-        min_size=1, # Minimum number of connections
-        max_size=50, # Max connections
+        min_size=1,  # Minimum number of connections
+        max_size=50,  # Max connections
     )
     if connection_pool:
         print("Connection pool created successfully.")
 except Exception as e:
     print(f"Error creating connection pool: {e}")
     raise
+
 
 def get_db_connection():
     """
@@ -34,8 +35,10 @@ def get_db_connection():
         if conn:
             connection_pool.putconn(conn)  # Return connection to the pool
 
+
 # Define a global variable to hold the database connection
 connection = None
+
 
 def initialize_db():
     """
@@ -47,15 +50,14 @@ def initialize_db():
     try:
         # Replace these with your database credentials
         connection = psycopg.connect(
-            dbname="HackCamp",        # Correct parameter format
-            user="postgres",          # Correct parameter format
-            password="postgres",      # Correct parameter format
-            host="localhost",         # Correct parameter format
-            port="5432"               # Correct parameter format
+            dbname="hackcamp",  # Correct parameter format
+            user="postgres",  # Correct parameter format
+            password="postgres",  # Correct parameter format
+            host="localhost",  # Correct parameter format
+            port="5432",  # Correct parameter format
         )
         print("Database connection established.")
     except Exception as e:
         print(f"Error while connecting to the database: {e}")
 
     return None  # Return None as specified
-
