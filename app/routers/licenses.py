@@ -1,4 +1,4 @@
-from fastapi import HTTPException, APIRouter
+from fastapi import APIRouter
 
 from app.db import get_db_connection
 from app.db.queries import query_licenses

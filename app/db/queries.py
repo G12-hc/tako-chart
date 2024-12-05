@@ -28,10 +28,10 @@ def query_files(cursor, threshold):
 def query_languages(cursor, repo_id):
     params = [repo_id]
     cursor.execute("""
-    SELECT language.name 
+    SELECT languages.name 
     FROM languages 
-    JOIN repository_language ON languages.id = repository_language.language_id
-    WHERE repository_language.repository_id = %s""",params)
+    JOIN repository_languages ON languages.id = repository_languages.language_id
+    WHERE repository_languages.repository_id = %s""",params)
 
 
 @query
