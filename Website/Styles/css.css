@@ -15,7 +15,7 @@ body {
     margin: 0 auto;
     padding: 20px;
     background: #ffffff;
-    border: 3px solid #af8059;
+    border: 3px solid #977356;
     border-radius: 20px;
     display: grid; /* Use CSS Grid for precise placement */
     grid-template-areas:
@@ -34,25 +34,21 @@ body {
     font-family: "Parkinsans", serif;
     text-align: left;
     font-size: 30px;
-    color: #d6a47b;
-    text-shadow: 1px 1px 0 #caac94,
-        2px 2px 0 #cdb3a1,
-        3px 3px 0 #c8b3a5,
-        4px 4px 0 #666,
-        5px 5px 0 #555,
-        6px 6px 0 #444;
-    background: linear-gradient(45deg, #d6a47b, #caac94, #cdb3a1);
+    background: linear-gradient(45deg, #a88161, #b38e70, #b38f71);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
 /* Description Box Styling */
 .description {
+    position: relative ;
     grid-area: description; /* Place below text-content */
     width: 100%; /* Full width relative to container */
     max-width: 500px;
     height: auto;
-    margin: 20px 0 0 750px; /* Moves it 20px down and 50px right */    text-align: center;
+    margin: 20px 0 0 750px; /* Moves it 20px down and 50px right */
+    top: 100px;
+    text-align: center;
     font-family: "Lato", sans-serif;
     font-weight: 600;
 }
@@ -64,7 +60,7 @@ body {
     max-width: 650px;
     height: 400px;
     margin: 0; /* Remove margin to align with grid */
-    border: 2px solid #d6a47b;
+    border: 2px solid #977356;
     background-color: #f9f9f9;
     border-radius: 12px;
     overflow: hidden;
