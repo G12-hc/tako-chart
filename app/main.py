@@ -1,20 +1,12 @@
 import uvicorn
 from fastapi import FastAPI
 
-from app.routers import commits, branches, files, languages, repositories, licenses
+from app.routers import get_all_repo_data
 from app.db.connection import initialize_db
 
 # Create the FastAPI application instance
-
 app = FastAPI()
-
-app.include_router(commits.router)
-app.include_router(branches.router)
-app.include_router(files.router)
-app.include_router(languages.router)
-app.include_router(repositories.router)
-app.include_router(licenses.router)
-
+app.include_router(get_all_repo_data.router)
 
 
 if __name__ == "__main__":

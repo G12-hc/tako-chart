@@ -1,5 +1,6 @@
 uvicorn~=0.32.1
 fastapi~=0.115.6
-psycopg2~=2.9.10
+psycopg[binary]~=3.2.3
+psycopg-pool~=3.2.4
 typing~=3.7.4.3
 pydantic~=2.10.3
