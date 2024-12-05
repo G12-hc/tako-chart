@@ -2,6 +2,7 @@ from pydantic import BaseModel
 from datetime import datetime
 from typing import List
 
+
 class File(BaseModel):
     id: int
     is_directory: bool
@@ -11,6 +12,7 @@ class File(BaseModel):
     functional_line_count: int
     symlink_target: str
     branch_id: int
+
 
 class Commit(BaseModel):
     id: int
@@ -38,6 +40,7 @@ class Repository(BaseModel):
     licence_id: int
     workspace_id: str
 
+
 class Branch(BaseModel):
     id: int
     name: str
@@ -48,9 +51,11 @@ class BranchCommit(BaseModel):
     branch_id: int
     commit_id: int
 
+
 class Language(BaseModel):
     id: int
     name: str
+
 
 class Licence(BaseModel):
     id: int
@@ -59,6 +64,7 @@ class Licence(BaseModel):
     spdx_id: str
     url: str
     node_id: str
+
 
 class Workspace(BaseModel):
     id: str
