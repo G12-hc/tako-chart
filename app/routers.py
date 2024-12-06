@@ -11,7 +11,7 @@ from app.db.queries import (
     query_workspaces,
 )
 
-router = APIRouter(prefix="/api/repos")
+router = APIRouter(prefix="/repos")
 
 
 @router.get("/")
