@@ -6,7 +6,9 @@ from app.db.queries import (
     query_repo,
     query_commit,
     query_branches,
-    query_files, query_repos, query_workspaces,
+    query_files,
+    query_repos,
+    query_workspaces,
 )
 
 router = APIRouter(prefix="/repos")
