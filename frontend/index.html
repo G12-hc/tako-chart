@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Parkinsans:wght@300..800&display=swap" rel="stylesheet">
+  <!-- Load plotly.js into the DOM -->
+	<script src='https://cdn.plot.ly/plotly-2.35.2.min.js'></script>
+
+  <link rel="stylesheet" href="/styles/style.css">
+
+  <title>Side-by-Side Tables</title>
+
+</head>
+<body>
+    <div class="container-header">
+      <h1>Text Area Above the Tables</h1>
+      <a class="compare-btn" href="compare.html">Compare</a>
+    </div>
+    <div class="container">
+        <div class="chart-content">
+          <div class="text-content" data-text="Bar Chart">
+            <h2> Commits per author</h2>
+          </div>
+          <div id='myDiv'></div>
+        </div>
+        <div class="table-wrapper">
+            <div class="description">
+              This bar chart illustrates the number of commits made by individuals, with each bar representing a specific person and its height corresponding to their total commits. It provides a clear visual comparison of contribution levels among participants, highlighting variations in activity.
+            </div>
+            <div class="table-block">
+              <table class="most-table">
+                <colgroup>
+                    <col>
+                    <col>
+                </colgroup>
+                <tr>
+                    <th class="th" colspan="2">Most</th>
+                </tr>
+              </table>
+              <table class="least-table">
+                  <colgroup>
+                      <col>
+                      <col>
+                  </colgroup>
+                  <tr>
+                      <th class="th" colspan="2">Least</th>
+                  </tr>
+              </table>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="/scripts/javascript.js"></script>
+</html>
