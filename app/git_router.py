@@ -2,9 +2,9 @@ from fastapi import APIRouter, HTTPException
 from app.db.fetch_git_api import (get_repository_details,
                                   get_commit_history,
                                   get_contributors)
-router = APIRouter()
+router = APIRouter(prefix="/fetch/repository")
 
-@router.get("/github/repository/{owner}/{repo}")
+@router.get("/{owner}/{repo}")
 async def repository_details(owner: str, repo: str):
     # Fetch details about a specific GitHub repository.
     try:
@@ -14,7 +14,7 @@ async def repository_details(owner: str, repo: str):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.get("/github/repository/{owner}/{repo}/commits")
+@router.get("/{owner}/{repo}/commits")
 async def commit_history(owner: str, repo: str):
     # Fetch the commit history of a specific GitHub repository.
     try:
@@ -23,7 +23,12 @@ async def commit_history(owner: str, repo: str):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@router.get("/github/repository/{owner}/{repo}/contributors")
+async def fetch_repo_from_github_api(owner: str, repo: str):
+    repo_data = ...
+    commit_data = ...
+    # insert into database
+
+@router.get("/{owner}/{repo}/contributors")
 async def contributors(owner: str, repo: str):
     # Fetch the repo_contributors of a specific GitHub repository.
     try:

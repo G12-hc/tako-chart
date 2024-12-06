@@ -96,3 +96,32 @@ def query_workspaces(cursor, repo_id):
 
 
 
+@query
+def query_insert_commits(cursor, sha, date, message, author, repository_id):
+    params = [sha, date, message, author, repository_id]
+    cursor.execute(
+        """
+        INSERT INTO commits (sha, date, message, author, repository_id)
+        VALUES(%s, %s, %s, %s, %s)
+        """,params
+    )
+
+
+@query
+def query_insert_repository(cursor, id, external_id, watchers, forks_count, name, owner, status,
+                                    linked_at, modified_at, contributors_url, default_branch,
+                                    user_ids, archieved_user_ids, workspace_id,  license_id):
+    params = [id,external_id, watchers, forks_count, name, owner, status,
+                                    linked_at, modified_at, contributors_url, default_branch,
+                                    user_ids, archieved_user_ids, workspace_id,  license_id]
+    cursor.execute(
+        """
+        INSERT INTO repositories (id,external_id, watchers, forks_count, name, owner, status, 
+                                    linked_at, modified_at, contributors_url, default_branch, 
+                                    user_ids, archieved_user_ids, workspace_id, license_id)
+        VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        """,params
+    )
+
+# @query
+#def query_insert_x(cursor, id, email, )
