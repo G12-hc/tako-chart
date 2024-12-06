@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException
-from app.db.fetch_git_api import get_repository_details, get_commit_history, get_contributors
-
+from app.db.fetch_git_api import (get_repository_details,
+                                  get_commit_history,
+                                  get_contributors)
 router = APIRouter()
 
 @router.get("/github/repository/{owner}/{repo}")

@@ -80,7 +80,7 @@ def query_licenses(cursor, repo_id):
             params
         )
 
-
+@query
 def query_workspaces(cursor, repo_id):
     params = [repo_id]
     cursor.execute(
@@ -92,3 +92,7 @@ def query_workspaces(cursor, repo_id):
         """,
         params
     )
+
+
+
+
