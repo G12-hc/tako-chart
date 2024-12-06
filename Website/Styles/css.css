@@ -112,7 +112,7 @@ table {
     padding: 10px;
 }
 
-.first-table, .second-table {
+.most-table, .least-table {
     width: 48%;
 }
 
@@ -143,10 +143,10 @@ tr:hover {
        display: block;
     }
 
-    .first-table, .second-table{
+    .most-table, .least-table{
         width: 100%;
     }
-    .first-table {
+    .most-table {
         margin-bottom: 10px;
     }
     .chart-content {
@@ -170,6 +170,7 @@ tr:hover {
     #myDiv {
         overflow: scroll;
         width: 100%;
+
     }
 
 }
