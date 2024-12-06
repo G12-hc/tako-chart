@@ -16,6 +16,9 @@ h1 {
 
 /* Container Styling */
 .container {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 60px;
     padding: 20px;
     display: flex;
     flex-direction: row;
@@ -23,6 +26,7 @@ h1 {
     background: #ffffff;
     border: 3px solid #977356;
     border-radius: 20px;
+
 }
 .container-header {
     display: flex;
@@ -52,17 +56,18 @@ h1 {
 }
 
 /* Chart Styling */
-#myDiv {
+.commits-authors {
     overflow: hidden;
+    width: 600px;
     height: 300px;
-    max-width: 600px;
     border: 2px solid #977356;
     background-color: #f9f9f9;
     border-radius: 12px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
 .user-select-none .svg-container {
-    width: auto;
+    width: 200px;
 }
 /* Text Content */
 
@@ -76,7 +81,6 @@ h1 {
     -webkit-text-fill-color: transparent;
 }
 
-/* Description Styling */
 .description {
     margin: 15px 0;
     font-family: "Lato", sans-serif;
@@ -167,7 +171,7 @@ tr:hover {
         margin-top: 40px;
         grid-template-columns: 1fr;
     }
-    #myDiv {
+    .commits-authors {
         overflow: scroll;
         width: 100%;
 
