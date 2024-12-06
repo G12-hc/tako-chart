@@ -15,47 +15,40 @@
 
 </head>
 <body>
-  <h1>Text Area Above the Tables</h1>
-
-    <div class="table-container">
-
-      <div class="text-content" data-text="Bar Chart">
+    <h1>Text Area Above the Tables</h1>
+    <div class="container">
+        <div class="chart-content">
+          <div class="text-content" data-text="Bar Chart">
             <h2> Commits per author</h2>
-      </div>
-
-        <!-- Plotly chart will be drawn inside this DIV -->
-      <div  id='myDiv'  >   </div>
-
-      <div class="description">
-        <p>This bar chart illustrates the number of commits made by individuals, with each bar representing a specific person and its height corresponding to their total commits. It provides a clear visual comparison of contribution levels among participants, highlighting variations in activity.</p>
-      </div>
-
-        <!-- Tables Side by Side -->
+          </div>
+          <div id='myDiv'></div>
+        </div>
         <div class="table-wrapper">
-            <!-- First Table -->
-            <table class="first-table">
+            <div class="description">
+              This bar chart illustrates the number of commits made by individuals, with each bar representing a specific person and its height corresponding to their total commits. It provides a clear visual comparison of contribution levels among participants, highlighting variations in activity.
+            </div>
+            <div class="table-block">
+              <table class="first-table">
                 <colgroup>
-                    <col style="width: 100px;">
-                    <col style="width: 200px;">
+                    <col>
+                    <col>
                 </colgroup>
                 <tr>
-                    <th colspan="2" class="th">Most</th>
+                    <th class="th" colspan="2">Most</th>
                 </tr>
-            </table>
-
-            <!-- Second Table -->
-            <table class="second-table">
-                <colgroup>
-                    <col style="width: 100px;">
-                    <col style="width: 200px;">
-                </colgroup>
-                <tr>
-                    <th colspan="2" class="th">Least</th>
-                </tr>
-            </table>
+              </table>
+              <table class="second-table">
+                  <colgroup>
+                      <col>
+                      <col>
+                  </colgroup>
+                  <tr>
+                      <th class="th" colspan="2">Least</th>
+                  </tr>
+              </table>
+            </div>
         </div>
     </div>
-
 </body>
 <script src="/Website/Scripts/javascript.js"></script>
 </html>
