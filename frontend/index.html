@@ -17,12 +17,13 @@
       <h1>Text Area Above the Tables</h1>
       <a class="compare-btn" href="compare.html">Compare</a>
     </div>
-    <div class="container">
+    <!--Container for Bar chart -->
+    <div class="container bar-container">
         <div class="chart-content">
           <div class="text-content" data-text="Bar Chart">
             <h2> Commits per author</h2>
           </div>
-          <div id='myDiv'></div>
+          <div class="commits-authors"></div>
         </div>
         <div class="table-wrapper">
             <div class="description">
@@ -50,6 +51,44 @@
             </div>
         </div>
     </div>
+
+    <!--Container for Bar chart -->
+    <div class="container pie-container">
+
+        <div class="table-wrapper">
+            <div class="description">
+              This bar chart illustrates the number of commits made by individuals, with each bar representing a specific person and its height corresponding to their total commits. It provides a clear visual comparison of contribution levels among participants, highlighting variations in activity.
+            </div>
+            <div class="table-block">
+              <table class="most-table">
+                <colgroup>
+                    <col>
+                    <col>
+                </colgroup>
+                <tr>
+                    <th class="th" colspan="2">Most</th>
+                </tr>
+              </table>
+              <table class="least-table">
+                  <colgroup>
+                      <col>
+                      <col>
+                  </colgroup>
+                  <tr>
+                      <th class="th" colspan="2">Least</th>
+                  </tr>
+              </table>
+            </div>
+        </div>
+        <div class="chart-content">
+          <div class="text-content" data-text="Bar Chart">
+            <h2> Commits per author</h2>
+          </div>
+          <div class="commits-authors"></div>
+        </div>
+    </div>
+
+
 </body>
 <script src="scripts/javascript.js"></script>
 </html>
