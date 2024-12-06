@@ -24,6 +24,22 @@ h1 {
     border: 3px solid #977356;
     border-radius: 20px;
 }
+.container-header {
+    display: flex;
+
+    margin-left: 20px;
+    margin-right: 20px;
+    align-items: center;
+    flex-direction: row;
+}
+
+.compare-btn{
+    margin-left: auto;
+    text-decoration: none;
+    color: black;
+    text-align: center;
+    vertical-align: middle;
+}
 
 .chart-content, .table-wrapper {
     flex: 1 1 45%;
