@@ -14,6 +14,7 @@ app = FastAPI(title="main app")
 app.mount("/api", api_app)
 app.mount("/", StaticFiles(directory="frontend", html=True), name="frontend")
 
+
 if __name__ == "__main__":
     initialize_db()  # Initialize database or connections
     uvicorn.run(app, host="127.0.0.1", port=8000)

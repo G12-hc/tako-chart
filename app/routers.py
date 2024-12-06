@@ -1,4 +1,5 @@
 from fastapi import APIRouter
+
 from app.db import get_db_connection
 from app.db.queries import (
     query_languages,
@@ -8,8 +9,7 @@ from app.db.queries import (
     query_branches,
     query_files,
     query_repos,
-    query_workspaces,
-)
+    query_workspaces,)
 
 router = APIRouter(prefix="/repos")
 
@@ -40,3 +40,5 @@ def get_all_repo_data(repo_id):
         "files": files,
         "workspace": workspace,
     }
+
+

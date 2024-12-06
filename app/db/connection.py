@@ -35,10 +35,8 @@ def get_db_connection():
         if conn:
             connection_pool.putconn(conn)  # Return connection to the pool
 
-
 # Define a global variable to hold the database connection
 connection = None
-
 
 def initialize_db():
     """
