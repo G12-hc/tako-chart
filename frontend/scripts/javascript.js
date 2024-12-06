@@ -50,8 +50,8 @@ async function run() {
 
     Plotly.newPlot('myDiv', data, layout);
 
-    const mostCommitsTable = document.querySelector('.first-table');
-    const leastCommitsTable = document.querySelector('.second-table');
+const mostCommitsTable = document.querySelector('.most-table');
+const leastCommitsTable = document.querySelector('.least-table');
 
     const highestCommitters = Array.from(commitCountsMap.entries()).slice(0, 3);
     const lowestCommitters = Array.from(commitCountsMap.entries()).slice(Math.max(commitCountsMap.size - 3, 0)).reverse();
