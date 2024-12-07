@@ -6,7 +6,7 @@ html, body {
     background-image: radial-gradient( rgba(5, 112, 1, 0.65), rgba(0, 77, 20, 0.75), rgba(1, 67, 42, 0.76));
     overflow-x: hidden;
 }
-
+/*Web title text styling*/
 h1 {
     text-shadow: rgba(255, 255, 255, 0.18) 2px 2px 2px;
     text-align: center;
@@ -14,9 +14,29 @@ h1 {
     margin: 20px 0;
     color: #E9EDE4;
 }
+/*Web title container styling*/
+.web-title {
+    display: flex;
+    margin-left: 20px;
+    margin-right: 20px;
+    align-items: center;
+    flex-direction: row;
+}
+/*Button redirect to compare page*/
+.compare-btn{
+    margin-left: auto;
+    text-decoration: none;
+    background: linear-gradient(to right, #F6F7F2, #E9EDE4, #E1E5DC);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    vertical-align: middle;
+}
 
-/* Container Styling */
-.container {
+/* COMMON STYLING FOR EVERY DISPLAY*/
+
+/*  Commits per author and code lines in file per project Graph container Styling */
+.commits-per-author-container,.code-lines-in-files-per-project-container{
     margin-left: 20px;
     margin-right: 20px;
     margin-bottom: 60px;
@@ -29,51 +49,32 @@ h1 {
     border-radius: 20px;
 
 }
-.container-header {
-    display: flex;
-    margin-left: 20px;
-    margin-right: 20px;
-    align-items: center;
-    flex-direction: row;
-}
 
-.compare-btn{
-    margin-left: auto;
-    text-decoration: none;
-    background: linear-gradient(to right, #F6F7F2, #E9EDE4, #E1E5DC);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-align: center;
-    vertical-align: middle;
-}
+/*  Commits per author Table and chart and
+    code lines in file per project table and chart
+    Styling
+*/
+.commits-per-author-chart-content, .table-wrapper,
+.code-lines-in-file-per-project-content,
+.code-lines-in-files-per-project-table-wrapper {
 
-.chart-content, .table-wrapper {
     flex: 1 1 45%;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-.table-wrapper {
-    margin-top: 100px;
-}
 
-/* Chart Styling */
-.commits-authors {
-    overflow: hidden;
-    width: 600px;
-    height: 300px;
-    border: 3px solid #013222;
-    background-color: #f9f9f9;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
+/*  Commits per author Chart and codel lines in file per project content Styling */
+.commits-per-author-chart-content,.code-lines-in-file-per-project-content{
+    flex: 1 1 45%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 25px;
 
-.user-select-none .svg-container {
-    width: 200px;
 }
-/* Text Content */
-
-.text-content h2 {
+/*  Code lines in file per project and  Commits per authorTitle Styling */
+.commits-per-authors-title h2,.code-lines-in-file-per-project-title h2 {
     font-family: "oswald", serif;
     font-size: 35px;
     text-align: center;
@@ -84,7 +85,8 @@ h1 {
     -webkit-text-fill-color: transparent;
 }
 
-.description {
+/* Code lines in file per project and Commits per author text description Styling */
+.commits-per-author-description,.code-lines-in-files-per-project-description {
     margin: 15px 0;
     font-family: "oswald", sans-serif;
     font-weight: 600;
@@ -101,35 +103,39 @@ h1 {
     gap: 4%;
     margin-top: 50px;
 }
+/* Overall tables Styling and Responsiveness */
 
+/*All tables style*/
 table {
-    width: 100%;
+    /*width: 100%;*/
+    width: 48%;
     border-collapse: collapse;
     border-radius: 12px;
     overflow: hidden;
 }
-
+/* Tables titles' Styling */
 .th {
     background-color: #046200;
     color: #ffffff;
     font-size: 18px;
-
     text-align: center;
     text-transform: uppercase;
-    
     padding: 10px;
 }
+/*CHECK if it is needed , moved to 'table'*/
 
-.most-table, .least-table {
-    width: 48%;
-}
+/*.most-table, .least-table {*/
+/*    width: 48%;*/
+/*}*/
 
+
+/*Tables content styling*/
 td {
     text-align: center;
     border: 1px solid rgba(0, 0, 0, 0.1);
     padding: 8px;
 }
-
+/*tables rows colors(odds white,even gray)*/
 tr:nth-child(odd) {
     background-color: #f5f5f5;
 }
@@ -138,13 +144,79 @@ tr:nth-child(even) {
     background-color: #ffffff;
 }
 
-/* Hover Effect */
+/* Tables Hover Effect */
 tr:hover {
     background-color: #f2f2f2;
     cursor: pointer;
 }
+/* COMMITS PER AUTHOR STYLING */
+
+/*  Commits per author Chart content Styling */
+.commits-per-author-chart-content{
+    margin-right: 100px;
+    margin-left: -50px;
+
+}
+
+/*  Commits per author Table container Styling */
+.table-wrapper {
+    margin-top: 40px;
+    margin-left: -50px;
+    margin-right: 50px;
+}
+
+/*  plotly Chart Styling */
+.plotly-graph {
+    overflow: hidden;
+    width: 600px;
+    height: 300px;
+    border: 3px solid #013222;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+
+/*CODE LINES IN FILE PER PROJECT STYLING*/
+
+/*code lines in files per project tables wrapper*/
+.code-lines-in-files-per-project-table-wrapper{
+    margin-top: 40px;
+    margin-left: 50px;
+    margin-right: -50px;
+}
+
+/* codel lines in file per project content Styling */
+.code-lines-in-file-per-project-content{
+    margin-right: -50px;
+    margin-left: 100px;
+
+}
+
+
+
+
 
 /* Responsive Design */
+@media screen and (min-width: 1000px) and (max-width: 1500px) {
+    .commits-per-author-chart-content {
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 0;
+        margin-right: 0;
+        margin-left: 0;
+    }
+    .table-wrapper {
+        flex: 1 1 100%;
+        margin-bottom: 0;
+        margin-right: 0;
+        margin-left: 0;
+
+    }
+}
+
+
 
 @media screen and (min-width: 1000px) and (max-width: 1200px) {
     .table-block {
@@ -157,25 +229,39 @@ tr:hover {
     .most-table {
         margin-bottom: 10px;
     }
-    .chart-content {
+    .commits-per-author-chart-content {
         justify-content: center;
         align-items: center;
+        margin-bottom: 0;
+        margin-right: 0;
+        margin-left: 0;
+    }
+    .table-wrapper {
+        flex: 1 1 100%;
+        margin-bottom: 0;
+        margin-right: 0;
+        margin-left: 0;
+
     }
 }
 @media only screen and (max-width: 999px) {
-    .container {
+    .commits-per-author-container {
         flex-direction: column;
     }
 
-    .chart-content, .table-wrapper {
+    .commits-per-author-chart-content, .table-wrapper {
         flex: 1 1 100%;
+        margin-bottom: 0;
+        margin-right: 0;
+        margin-left: 0;
 
     }
     .table-wrapper {
         margin-top: 40px;
         grid-template-columns: 1fr;
+
     }
-    .commits-authors {
+    .plotly-graph {
         overflow: scroll;
         width: 100%;
 
