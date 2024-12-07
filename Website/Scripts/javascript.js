@@ -63,7 +63,7 @@ break;
 
   }
 
-  Plotly.newPlot(element.querySelector('.commits-authors'), plotlyData,layout);
+  Plotly.newPlot(element.querySelector('.plotly-graph'), plotlyData,layout);
 
   const mostCommitsTable = element.querySelector('.most-table');
   const leastCommitsTable = element.querySelector('.least-table');
@@ -106,5 +106,5 @@ break;
   }
 }
 
-drawChart(document.querySelector('.bar-container'), reposData, 'pie-chart-commits-by-author');
-drawChart(document.querySelector('.pie-container'), reposData, 'bar-chart-code-lines-per-file');
+drawChart(document.querySelector('.commits-per-author-container'), reposData, 'pie-chart-commits-by-author');
+drawChart(document.querySelector('.code-lines-in-files-per-project-container'), reposData, 'bar-chart-code-lines-per-file');
