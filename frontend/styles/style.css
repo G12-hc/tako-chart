@@ -200,14 +200,16 @@ tr:hover {
 
 /* Responsive Design */
 @media screen and (min-width: 1000px) and (max-width: 1500px) {
-    .commits-per-author-chart-content {
+    .commits-per-author-chart-content,
+    .code-lines-in-file-per-project-content {
         justify-content: center;
         align-items: center;
         margin-bottom: 0;
         margin-right: 0;
         margin-left: 0;
     }
-    .table-wrapper {
+    .table-wrapper,
+    .code-lines-in-files-per-project-table-wrapper{
         flex: 1 1 100%;
         margin-bottom: 0;
         margin-right: 0;
@@ -229,14 +231,16 @@ tr:hover {
     .most-table {
         margin-bottom: 10px;
     }
-    .commits-per-author-chart-content {
+    .commits-per-author-chart-content,
+    .code-lines-in-file-per-project-content{
         justify-content: center;
         align-items: center;
         margin-bottom: 0;
         margin-right: 0;
         margin-left: 0;
     }
-    .table-wrapper {
+    .table-wrapper,
+    .code-lines-in-files-per-project-table-wrapper{
         flex: 1 1 100%;
         margin-bottom: 0;
         margin-right: 0;
@@ -245,18 +249,23 @@ tr:hover {
     }
 }
 @media only screen and (max-width: 999px) {
-    .commits-per-author-container {
+    .commits-per-author-container,
+    .code-lines-in-files-per-project-container{
         flex-direction: column;
     }
 
-    .commits-per-author-chart-content, .table-wrapper {
+    .commits-per-author-chart-content,
+    .table-wrapper,
+    .code-lines-in-file-per-project-content,
+    .code-lines-in-files-per-project-table-wrapper {
         flex: 1 1 100%;
         margin-bottom: 0;
         margin-right: 0;
         margin-left: 0;
 
     }
-    .table-wrapper {
+    .table-wrapper,
+    .code-lines-in-files-per-project-table-wrapper {
         margin-top: 40px;
         grid-template-columns: 1fr;
 
