@@ -2,16 +2,17 @@ html, body {
     max-width: 100%;
     margin: 0;
     padding: 0;
-    font-family: "Parkinsans", serif;
-    background-color: #EADDCA;
+    font-family: "oswald", serif;
+    background-image: radial-gradient( rgba(5, 112, 1, 0.65), rgba(0, 77, 20, 0.75), rgba(1, 67, 42, 0.76));
     overflow-x: hidden;
 }
 
 h1 {
+    text-shadow: rgba(255, 255, 255, 0.18) 2px 2px 2px;
     text-align: center;
     font-size: 36px;
     margin: 20px 0;
-    color: #977356;
+    color: #E9EDE4;
 }
 
 /* Container Styling */
@@ -23,14 +24,13 @@ h1 {
     display: flex;
     flex-direction: row;
     gap: 20px;
-    background: #ffffff;
-    border: 3px solid #977356;
+    background: #cfd3c9;
+    border: 3px solid #000000;
     border-radius: 20px;
 
 }
 .container-header {
     display: flex;
-
     margin-left: 20px;
     margin-right: 20px;
     align-items: center;
@@ -40,7 +40,9 @@ h1 {
 .compare-btn{
     margin-left: auto;
     text-decoration: none;
-    color: black;
+    background: linear-gradient(to right, #F6F7F2, #E9EDE4, #E1E5DC);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     text-align: center;
     vertical-align: middle;
 }
@@ -60,7 +62,7 @@ h1 {
     overflow: hidden;
     width: 600px;
     height: 300px;
-    border: 2px solid #977356;
+    border: 3px solid #013222;
     background-color: #f9f9f9;
     border-radius: 12px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -72,21 +74,23 @@ h1 {
 /* Text Content */
 
 .text-content h2 {
-    font-family: "Parkinsans", serif;
-    font-size: 30px;
+    font-family: "oswald", serif;
+    font-size: 35px;
     text-align: center;
     margin: 10px 0 30px;
-    background: linear-gradient(45deg, #a88161, #b38e70, #b38f71);
+    text-shadow: rgba(36, 78, 15, 0.3) 3px 0px 10px;
+    background: black;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
 .description {
     margin: 15px 0;
-    font-family: "Lato", sans-serif;
+    font-family: "oswald", sans-serif;
     font-weight: 600;
+    font-size: 18px;
     text-align: center;
-    color: #5a4636;
+    color: #013222;
 }
 
 /* Table Block */
@@ -106,7 +110,7 @@ table {
 }
 
 .th {
-    background-color: #cca78d;
+    background-color: #046200;
     color: #ffffff;
     font-size: 18px;
 
