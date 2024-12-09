@@ -1,8 +1,8 @@
 async function fetchData() {
 // Fetch data from the repository
     const api = "http://127.0.0.1:8000";
-    console.log(api + "/repos/github-168152007")
-    const reposData = await fetch(api + "/repos/github-168152007");
+    console.log(api + "/api/repos/github-168152007");
+    const reposData = await fetch(api + "/api/repos/github-168152007");
     console.log(reposData);
     if (reposData.ok) {
         return JSON.parse(await reposData.text());
@@ -50,8 +50,8 @@ async function run() {
 
     Plotly.newPlot('myDiv', data, layout);
 
-const mostCommitsTable = document.querySelector('.most-table');
-const leastCommitsTable = document.querySelector('.least-table');
+    const mostCommitsTable = document.querySelector('.most-table');
+    const leastCommitsTable = document.querySelector('.least-table');
 
     const highestCommitters = Array.from(commitCountsMap.entries()).slice(0, 3);
     const lowestCommitters = Array.from(commitCountsMap.entries()).slice(Math.max(commitCountsMap.size - 3, 0)).reverse();
