@@ -35,7 +35,7 @@ async def contributors(owner: str, repo: str):
 @router.get("/{owner}/{repo}/files")
 async def files(owner: str, repo: str):
     try:
-        get_file_data = await get_files(owner, repo, branch="main")
+        get_file_data = await get_files(owner, repo)
         return get_file_data
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

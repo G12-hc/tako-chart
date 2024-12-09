@@ -2,13 +2,12 @@ import os, subprocess, tempfile, json
 
 from app.db.fetch_git_api import fetch_file_content, get_files
 
-async def save_files_locally(owner: str, repo: str, branch: str = "main", file_types: list = None):
+async def save_files_locally(owner: str, repo: str, branch: str = "main"):
     """
     Fetch files from GitHub, filter by file types, and save them locally.
     :param owner: Repository owner.
     :param repo: Repository name.
     :param branch: Branch name.
-    :param file_types: List of file extensions to filter (e.g., ['.py', '.js']).
     :return: Path to the temporary directory with saved files.
     """
     file_list = await get_files(owner, repo, branch)
@@ -46,17 +45,16 @@ def run_cloc(directory: str):
     return result.stdout
 
 
-async def analyze_repository(owner: str, repo: str, branch: str = "main", file_types: list = None):
+async def analyze_repository(owner: str, repo: str, branch: str = "main"):
     """
     Analyze a repository's line counts using cloc, with filtering for specific file types.
     :param owner: Repository owner.
     :param repo: Repository name.
     :param branch: Branch name.
-    :param file_types: List of file extensions to filter (e.g., ['.py', '.js']).
     :return: Dictionary with line count statistics.
     """
     # Save filtered files locally
-    temp_dir = await save_files_locally(owner, repo, branch, file_types)
+    temp_dir = await save_files_locally(owner, repo, branch)
 
     try:
         # Run cloc

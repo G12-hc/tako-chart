@@ -62,13 +62,22 @@ async def get_contributors(owner: str, repo: str):
     endpoint = f"/repos/{owner}/{repo}/contributors"
     return await fetch_github_data(endpoint)
 
-async def get_files(owner: str, repo: str, branch: str):
+async def get_file_path(owner, repo):
+    repo_details = await get_repository_details(owner, repo)
+    default_branch = repo_details.get("default_branch", "main")
+    file_path_endpoint = f"/repos/{owner}/{repo}/git/trees/{default_branch}?recursive=1"
+    file_path = await fetch_github_data(file_path_endpoint)
+    for file in file_path:
+        path = file["path"]
+        return path
+
+
+async def get_files(owner: str, repo: str):
     """
     Fetch the list of files for a repository.
     By selecting a branch
     :param owner: Repo owner.
     :param repo: Repo name.
-    :param branch: Branch name.
     :return:
     """
     repo_details = await get_repository_details(owner, repo)
@@ -80,11 +89,7 @@ async def fetch_file_content(owner: str, repo: str, file_path: str):
     """
     Fetch the content of a file from GitHub.
     """
-    headers = {
-        "Authorization": f"Bearer {GITHUB_TOKEN}",
-        "Accept": "application/vnd.github.v3.raw"
-    }
-    file_path = f"/repos/{owner}/{repo}/c"
+    file_path = get_file_path(owner, repo)
     endpoint = f"/repos/{owner}/{repo}/contents/{file_path}"
     return await fetch_github_data(endpoint)
 
