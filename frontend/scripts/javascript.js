@@ -22,16 +22,18 @@ function drawChart(element, data, chartType) {
           values: Array.from(commitCountsMap.values()),
           labels: Array.from(commitCountsMap.keys()),
           type: 'pie',
-          textinfo: "label",
-          insidetextorientation: "radial",
-          showlegend: false
+          //maybe for loop for the firs 3??
+          textinfo: "percentage",
+          showlegend: false,
+          hoverinfo: 'percent+label',
+          //domain: {y: [0, 0]}
         }
         ];
 
         layout = {
-        height: 300,
-        width: 400,
-          padding: 8
+        height: 450,
+        width: 600,
+
       }
 
 
@@ -39,25 +41,17 @@ break;
     case 'bar-chart-code-lines-per-file':
       plotlyData = [
         {
-          x: Array.from(commitCountsMap.values()),
-          y: Array.from(commitCountsMap.keys()),
+          y: Array.from(commitCountsMap.values()),
+          x: Array.from(commitCountsMap.keys()),
           type: 'bar',
-          barcornerradius: 15,
+          marker: {color: 'rgba(5,112,1,0.65)'},
 
         }
       ];
       layout = {
-          xaxis: {
-      title: {
-        text: 'Files'
-        }
-      },
-      yaxis: {
-        title: {
-         text: 'Lines of codes'
-        }
-      },
-        marker: {color: 'rgb(26, 118, 255)'},
+        xaxis: {title: {text: 'Files'}},
+        yaxis: {title: {text: 'Lines of code'}},
+        barcornerradius: 7,
 
       };
 
