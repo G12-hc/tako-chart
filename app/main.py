@@ -8,6 +8,8 @@ from app.db.connection import initialize_db
 app = FastAPI()
 app.include_router(routers.router)
 app.include_router(git_router.router)
+app.include_router(routers.tmp_router)
+
 
 if __name__ == "__main__":
     initialize_db()  # Initialize database or connections

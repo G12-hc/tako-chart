@@ -1,4 +1,5 @@
 import os
+import sys
 
 from app.count_lines import analyze_repository
 from app.db import get_db_connection
@@ -14,24 +15,26 @@ async def assign_repo_data(owner: str, repo: str):
         repo_details = await get_repository_details(owner, repo)
         commit_data = await get_commit_history(owner, repo)
         default_branch = repo_details.get("default_branch", "main")
-        # repo_contributors = await get_contributors(owner, repo)
         file_data = await get_files(owner, repo, default_branch)
         lang_data = await fetch_lang_details(owner, repo)
+
         # repo data
         repository_id = f"github-{repo_details['id']}"
-
         workspace_id = None  # Assign workspace ID dynamically if available, not sure what to put
-        for lang_name, num_bytes in lang_data.items():
-            query_insert_languages(repository_id, lang_name)
 
-        query_insert_licenses(
-            conn,
-            repo_details["license"]["key"],
-            repo_details["license"]["name"],
-            repo_details["license"]["spdx_id"],
-            repo_details["license"]["url"],
-            repo_details["license"]["node_id"]
-        )
+        lang_names = list(lang_data.keys())
+        for lang_name in lang_names:
+            query_insert_languages(conn, repository_id, lang_name)
+
+        if repo_details["licenses"] is not None:
+            query_insert_licenses(
+                conn,
+                repo_details["license"]["key"],
+                repo_details["license"]["name"],
+                repo_details["license"]["spdx_id"],
+                repo_details["license"]["url"],
+                repo_details["license"]["node_id"]
+            )
 
         query_insert_branches(default_branch, repository_id)
 
@@ -83,7 +86,12 @@ async def assign_repo_data(owner: str, repo: str):
 
 
     except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        f_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, f_name, exc_tb.tb_lineno)
         print(f"Error processing repository {owner}/{repo}: {e}")
+
     finally:
         conn.close()
+
 

@@ -71,7 +71,8 @@ def query_languages(cursor, repo_id):
 def query_licenses(cursor, repo_id):
     params = [repo_id]
     cursor.execute(
-        """SELECT * 
+        """
+        SELECT * 
         FROM licenses 
         WHERE id = (SELECT license_id 
                     FROM repositories 
@@ -141,7 +142,7 @@ def query_insert_branches(cursor, name, repository_id):
         """, params
     )
 
-@query
+
 @query
 def query_insert_languages(cursor, repository_id, name):
     """
@@ -170,7 +171,7 @@ def query_insert_languages(cursor, repository_id, name):
         [repository_id, language_id]
     )
 
-@query
+
 @query
 def query_insert_licenses(cursor, repository_id, key, name, spdx_id, url, node_id):
     """
@@ -202,3 +203,4 @@ def query_insert_licenses(cursor, repository_id, key, name, spdx_id, url, node_i
         """,
         [license_id, repository_id]
     )
+

@@ -8,9 +8,9 @@ GITHUB_TOKEN = config.get("tokens", "github") # Set this in cfg.ini
 async def fetch_github_data(endpoint: str, params: dict = None):
     """
     Generic function to interact with GitHub's API.
-    :param endpoint: GitHub API endpoint (e.g., "/repos/owner/repo").
-    :param params Query parameters for the API call.
-    :return: Parsed JSON response.
+    :param endpoint: GitHub API endpoint.
+    :param params: Additional query parameters.
+    :return: JSON response.
     """
     headers = {
         "Authorization": f"Bearer {GITHUB_TOKEN}",
@@ -26,8 +26,8 @@ async def get_repository_details(owner: str, repo: str):
     """
     Fetch detailed information about a repository.
     :param owner: Owner of the repository.
-    :param repo: Repository name.
-    :return Repository returned as a dictionary.
+    :param repo: Name of the repository.
+    :return: JSON response.
     """
     endpoint = f"/repos/{owner}/{repo}"
     return await fetch_github_data(endpoint)
@@ -35,9 +35,9 @@ async def get_repository_details(owner: str, repo: str):
 async def get_commit_history(owner: str, repo: str):
     """
     Fetch the commit history for a repository.
-    :param owner: Repository owner.
+    :param owner: Owner of the repository.
     :param repo: Repository name.
-    :return: List of commits.
+    :return: Commit history.
     """
     endpoint = f"/repos/{owner}/{repo}/commits"
     commits = []
@@ -55,16 +55,21 @@ async def get_commit_history(owner: str, repo: str):
 async def get_contributors(owner: str, repo: str):
     """
     Fetch the list of contributors for a repository.
-    :param owner: Repository owner.
+    :param owner: Owner of the repository.
     :param repo: Repository name.
     :return: List of contributors.
     """
     endpoint = f"/repos/{owner}/{repo}/contributors"
     return await fetch_github_data(endpoint)
 
-async def get_file_path(owner, repo):
-    repo_details = await get_repository_details(owner, repo)
-    default_branch = repo_details.get("default_branch", "main")
+async def get_file_path(owner, repo, default_branch):
+    """
+    Fetch the file path for a repository.
+    :param owner:
+    :param repo:
+    :param default_branch:
+    :return:
+    """
     file_path_endpoint = f"/repos/{owner}/{repo}/git/trees/{default_branch}?recursive=1"
     file_path = await fetch_github_data(file_path_endpoint)
     for file in file_path:
@@ -72,33 +77,35 @@ async def get_file_path(owner, repo):
         return path
 
 
-async def get_files(owner: str, repo: str):
+async def get_files(owner: str, repo: str, default_branch: str = "main"):
     """
     Fetch the list of files for a repository.
     By selecting a branch
-    :param owner: Repo owner.
-    :param repo: Repo name.
-    :return:
+    :param owner
+    :param repo
+    :param default_branch:
+    :return
     """
-    repo_details = await get_repository_details(owner, repo)
-    default_branch = repo_details.get("default_branch", "main")
     endpoint = f"/repos/{owner}/{repo}/git/trees/{default_branch}?recursive=1"
     return await fetch_github_data(endpoint)
 
-async def fetch_file_content(owner: str, repo: str, file_path: str):
+async def fetch_file_content(owner: str, repo: str, default_branch: str = "main"):
     """
     Fetch the content of a file from GitHub.
+    :param owner
+    :param repo
+    :param default_branch
+    :return
     """
-    file_path = get_file_path(owner, repo)
+    file_path = get_file_path(owner, repo, default_branch)
     endpoint = f"/repos/{owner}/{repo}/contents/{file_path}"
     return await fetch_github_data(endpoint)
 
 async def fetch_lang_details(owner: str, repo: str):
     """
     Fetch the language details for a repository.
-    :param owner:
-    :param repo:
-    :return:
     """
     endpoint = f"/repos/{owner}/{repo}/languages"
     return await fetch_github_data(endpoint)
+
+
