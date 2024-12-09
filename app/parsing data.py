@@ -1,49 +1,85 @@
+import os
+
+from app.count_lines import analyze_repository
 from app.db import get_db_connection
-from app.db.fetch_git_api import get_repository_details, get_commit_history, get_contributors
-from app.db.queries import query_insert_commits, query_insert_repository
+from app.db.fetch_git_api import get_repository_details, get_commit_history, get_contributors, get_files, \
+    fetch_lang_details
+from app.db.queries import query_insert_commits, query_insert_repository, query_insert_files, query_insert_branches, \
+    query_insert_languages
 
 
 async def assign_repo_data(owner: str, repo: str, null=None):
     conn = get_db_connection()
-    repo_details = await get_repository_details(owner, repo)
-    commit_data = await get_commit_history(owner, repo)
-    # repo_contributors = await get_contributors(owner, repo)
+    try:
+        repo_details = await get_repository_details(owner, repo)
+        commit_data = await get_commit_history(owner, repo)
+        # repo_contributors = await get_contributors(owner, repo)
+        file_data = await get_files(owner, repo, branch="main")
+        lang_data = await fetch_lang_details(owner, repo)
+        # repo data
+        repository_id = f"github-{repo_details['id']}"
+        default_branch = repo_details.get("default_branch", "main")
+        workspace_id = None  # Assign workspace ID dynamically if available, not sure what to put
+        for lang_name, num_bytes in lang_data.items():
+            query_insert_languages(repository_id, lang_name)
+        query_insert_repository(
+            conn,
+            repository_id,
+            repo_details["id"],
+            repo_details["watchers"],
+            repo_details["forks_count"],
+            repo_details["name"],
+            repo_details["owner"]["login"],
+            "linked", # not sure what to put for linked
+            repo_details["created_at"],
+            repo_details["updated_at"],
+            repo_details["contributors_url"],
+            default_branch,
+            repo_details["owner"]["id"],
+            None,  # Archived user IDs
+            workspace_id,
+        )
+        query_insert_branches(default_branch, repository_id)
 
-    # repo data
-    repository_id = "github-"+ repo_details.get("id")
-    external_id = repo_details.get("id")
-    watchers = repo_details.get("watchers")
-    forks_count = repo_details.get("forks_count")
-    name = repo_details.get("owner", {}).get("login")
-    owner = repo_details.get("owner")
-    status = "linked"
-    linked_at = repo_details.get("created_at")
-    modified_at = repo_details.get("updated_at")
-    contributors_url = repo_details.get("contributors_url")
-    default_branch = repo_details.get("default_branch")
-    user_ids = repo_details.get("owner", {}).get("id")
-    archieved_user_ids =  null
-    license_id = "find from another table the ID"
-    workspace_id =  null
-    path = repo_details.get("full_name")
-    description = repo_details.get("description")
-    language = repo_details.get("language")
+        for commit in commit_data:
+            query_insert_commits(
+                conn,
+                commit["sha"],
+                commit["commit"]["author"]["date"],
+                commit["commit"]["message"],
+                commit["commit"]["author"]["name"],
+                repository_id,
+            )
+
+        for file in file_data.get("tree", []):
+            path = file["path"]
+            analyzed_files = await analyze_repository(owner, repo, branch="main", file_types=[".py", ".js"])
+            for file_info in analyzed_files:
+                total_lines = file_info["total_lines"]
+                functional_lines = file_info["functional_lines"]
+                query_insert_files(
+                    conn,
+                    file["type"] == "tree",  # is directory true
+                    path,
+                    os.path.basename(path),
+                    total_lines,  # total line count
+                    functional_lines,  # functional lines
+                    None,  # symlinkTarget placeholder as I am unsure
+                    "branch_id_placeholder",  # Replace dynamically,
+                    # improve query to match a branch ID to the name
+                )
 
 
 
-    # commit data
-    sha = commit_data.get("sha")
-    date = commit_data.get("commit", {}).get("author", {}).get("date")
-    message = commit_data.get("commit", {}).get("message")
-    author = commit_data.get("commit", {}).get("author", {}).get("name")
 
 
-    # contributor data
-    # for repo_contributors in contributors:
-    query_insert_commits(conn, sha, date, message, author, repository_id)
-    query_insert_repository(conn, repository_id ,external_id, watchers, forks_count, name, owner, status,
-                            linked_at, modified_at, contributors_url, default_branch,
-                            user_ids, archieved_user_ids, workspace_id,  license_id)
-    query_insert_branches(default_branch, repository_id)
-    query_insert_files(is_directory, path, name, line_count, functional_line_count, symlinkTarget, branch_id)
-    query_insert_repository_languages(languge_id,repository_id)
+
+        # for repo_contributors in contributors:
+        query_insert_repository_languages(languge_id,repository_id)
+
+
+
+    except Exception as e:
+        print(f"Error processing repository {owner}/{repo}: {e}")
+    finally:
+        conn.close()
