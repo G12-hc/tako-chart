@@ -1,11 +1,13 @@
+from app.db import get_db_connection
 from app.db.fetch_git_api import get_repository_details, get_commit_history, get_contributors
-from app.db.queries import query_insert_commits, query_insert_repository, query_insert_contributors
+from app.db.queries import query_insert_commits, query_insert_repository
 
 
-def assign_repo_data(owner: str, repo: str):
-    repo_details = get_repository_details(owner, repo)
-    commits = get_commit_history(owner, repo)
-    repo_contributors = get_contributors(owner, repo)
+async def assign_repo_data(owner: str, repo: str, null=None):
+    conn = get_db_connection()
+    repo_details = await get_repository_details(owner, repo)
+    commit_data = await get_commit_history(owner, repo)
+    # repo_contributors = await get_contributors(owner, repo)
 
     # repo data
     repository_id = "github-"+ repo_details.get("id")
@@ -20,29 +22,28 @@ def assign_repo_data(owner: str, repo: str):
     contributors_url = repo_details.get("contributors_url")
     default_branch = repo_details.get("default_branch")
     user_ids = repo_details.get("owner", {}).get("id")
-    archieved_user_ids =  "Something"
+    archieved_user_ids =  null
     license_id = "find from another table the ID"
-    workspace_id =  "No idea"
+    workspace_id =  null
+    path = repo_details.get("full_name")
+    description = repo_details.get("description")
+    language = repo_details.get("language")
+
+
 
     # commit data
-    for commit_data in commits:
-        sha = commit_data.get("sha")
-        date = commit_data.get("commit", {}).get("author", {}).get("date")
-        message = commit_data.get("commit", {}).get("message")
-        author = commit_data.get("commit", {}).get("author", {}).get("name")
-        repository_id = "github-" + commit_data.get("commit", {}).get("id", {}).get("id")  # Example repository ID
-        query_insert_commits(conn, date,message,author,repository_id)
+    sha = commit_data.get("sha")
+    date = commit_data.get("commit", {}).get("author", {}).get("date")
+    message = commit_data.get("commit", {}).get("message")
+    author = commit_data.get("commit", {}).get("author", {}).get("name")
 
 
     # contributor data
     # for repo_contributors in contributors:
-
-
-
-
+    query_insert_commits(conn, sha, date, message, author, repository_id)
     query_insert_repository(conn, repository_id ,external_id, watchers, forks_count, name, owner, status,
                             linked_at, modified_at, contributors_url, default_branch,
                             user_ids, archieved_user_ids, workspace_id,  license_id)
-    query_insert_contributors(
-        conn,
-    )
+    query_insert_branches(default_branch, repository_id)
+    query_insert_files(is_directory, path, name, line_count, functional_line_count, symlinkTarget, branch_id)
+    query_insert_repository_languages(languge_id,repository_id)
