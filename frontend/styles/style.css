@@ -2,7 +2,7 @@ html, body {
     max-width: 100%;
     margin: 0;
     padding: 0;
-    font-family: "oswald", serif;
+    font-family: "Open+Sans", sans-serif;
     background-image: radial-gradient( rgba(5, 112, 1, 0.65), rgba(0, 77, 20, 0.75), rgba(1, 67, 42, 0.76));
     overflow-x: hidden;
 }
@@ -36,7 +36,7 @@ h1 {
 /* COMMON STYLING FOR EVERY DISPLAY*/
 
 /*  Commits per author and code lines in file per project Graph container Styling */
-.commits-per-author-container,.code-lines-in-files-per-project-container{
+.commits-per-author-container,.code-lines-in-files-per-project-container,.commits-over-time-container{
     margin-left: 20px;
     margin-right: 20px;
     margin-bottom: 60px;
@@ -54,9 +54,13 @@ h1 {
     code lines in file per project table and chart
     Styling
 */
-.commits-per-author-chart-content, .table-wrapper,
+.commits-per-author-chart-content,
+.table-wrapper,
 .code-lines-in-file-per-project-content,
-.code-lines-in-files-per-project-table-wrapper {
+.code-lines-in-files-per-project-table-wrapper,
+.commits-over-time-chart-content,
+.commits-over-time-table-wrapper
+{
 
     flex: 1 1 45%;
     display: flex;
@@ -65,7 +69,7 @@ h1 {
 }
 
 /*  Commits per author Chart and codel lines in file per project content Styling */
-.commits-per-author-chart-content,.code-lines-in-file-per-project-content{
+.commits-per-author-chart-content,.code-lines-in-file-per-project-content,.commits-over-time-chart-content{
     flex: 1 1 45%;
     display: flex;
     flex-direction: column;
@@ -74,8 +78,8 @@ h1 {
 
 }
 /*  Code lines in file per project and  Commits per authorTitle Styling */
-.commits-per-authors-title h2,.code-lines-in-file-per-project-title h2 {
-    font-family: "oswald", serif;
+.commits-per-authors-title h2,.code-lines-in-file-per-project-title h2,.commits-over-time-title h2 {
+    font-family: "Open+Sans", sans-serif;
     font-size: 35px;
     text-align: center;
     margin: 10px 0 30px;
@@ -86,9 +90,9 @@ h1 {
 }
 
 /* Code lines in file per project and Commits per author text description Styling */
-.commits-per-author-description,.code-lines-in-files-per-project-description {
+.commits-per-author-description,.code-lines-in-files-per-project-description,.commits-over-time-description{
     margin: 15px 0;
-    font-family: "oswald", sans-serif;
+    font-family: "Open+Sans", sans-serif;
     font-weight: 600;
     font-size: 18px;
     text-align: center;
@@ -193,15 +197,25 @@ tr:hover {
     margin-left: 100px;
 
 }
+/*COMMITS OVER TIME STYLING*/
+.commits-over-time-chart-content{
+    margin-right: -20px;
+    margin-left: -30px;
+    margin-bottom: 0;
+}
 
-
-
+.commits-over-time-table-wrapper{
+    margin-top: 40px;
+    margin-left:0;
+    margin-right: 10px;
+}
 
 
 /* Responsive Design */
 @media screen and (min-width: 1000px) and (max-width: 1500px) {
     .commits-per-author-chart-content,
-    .code-lines-in-file-per-project-content {
+    .code-lines-in-file-per-project-content,
+    .commits-over-time-chart-content{
         justify-content: center;
         align-items: center;
         margin-bottom: 0;
@@ -209,7 +223,8 @@ tr:hover {
         margin-left: 0;
     }
     .table-wrapper,
-    .code-lines-in-files-per-project-table-wrapper{
+    .code-lines-in-files-per-project-table-wrapper,
+    .commits-over-time-table-wrapper{
         flex: 1 1 100%;
         margin-bottom: 0;
         margin-right: 0;
@@ -232,7 +247,8 @@ tr:hover {
         margin-bottom: 10px;
     }
     .commits-per-author-chart-content,
-    .code-lines-in-file-per-project-content{
+    .code-lines-in-file-per-project-content,
+    .commits-over-time-chart-content{
         justify-content: center;
         align-items: center;
         margin-bottom: 0;
@@ -240,7 +256,8 @@ tr:hover {
         margin-left: 0;
     }
     .table-wrapper,
-    .code-lines-in-files-per-project-table-wrapper{
+    .code-lines-in-files-per-project-table-wrapper,
+    .commits-over-time-table-wrapper{
         flex: 1 1 100%;
         margin-bottom: 0;
         margin-right: 0;
@@ -250,14 +267,17 @@ tr:hover {
 }
 @media only screen and (max-width: 999px) {
     .commits-per-author-container,
-    .code-lines-in-files-per-project-container{
+    .code-lines-in-files-per-project-container,
+    .commits-over-time-chart-container{
         flex-direction: column;
     }
 
     .commits-per-author-chart-content,
     .table-wrapper,
     .code-lines-in-file-per-project-content,
-    .code-lines-in-files-per-project-table-wrapper {
+    .code-lines-in-files-per-project-table-wrapper,
+    .commits-over-time-chart-content,
+    .commits-over-time-table-wrapper{
         flex: 1 1 100%;
         margin-bottom: 0;
         margin-right: 0;
@@ -265,7 +285,8 @@ tr:hover {
 
     }
     .table-wrapper,
-    .code-lines-in-files-per-project-table-wrapper {
+    .code-lines-in-files-per-project-table-wrapper,
+    .commits-over-time-table-wrapper{
         margin-top: 40px;
         grid-template-columns: 1fr;
 

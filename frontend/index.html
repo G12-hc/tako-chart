@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Parkinsans:wght@300..800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
   <!-- Load plotly.js into the DOM -->
 	<script src='https://cdn.plot.ly/plotly-2.35.2.min.js'></script>
 
-  <link rel="stylesheet" href="/Website/Styles/css.css">
+  <link rel="stylesheet" href="/frontend/styles/style.css">
 
   <title>Side-by-Side Tables</title>
 
@@ -89,7 +89,6 @@
               </table>
             </div>
         </div>
-
         <!--graph and title container-->
         <div class="code-lines-in-file-per-project-content">
           <div class="code-lines-in-file-per-project-title" data-text="Bar Chart">
@@ -99,10 +98,47 @@
           <div class="plotly-graph"></div>
         </div>
     </div>
+<!--Container for commits per author pie chart -->
+    <div class="commits-over-time-container">
+
+        <!--graph and title container-->
+        <div class="commits-over-time-chart-content">
+          <div class="commits-over-time-title" data-text="pie Chart">
+            <h2> Commits over time</h2>
+              <!-- graph container-->
+          </div>
+          <div class="plotly-graph"></div>
+        </div>
+        <!--container; description and tables-->
+        <div class="commits-over-time-table-wrapper">
+            <div class="commits-over-time-description">
+This bar chart illustrates the number of commits made over time, with each bar representing a specific time period and its height corresponding to the total commits during that period. It provides a clear visual comparison of activity levels across different timeframes, highlighting trends and variations in contribution over time.            </div>
+            <div class="table-block">
+              <table class="most-table">
+                <colgroup>
+                    <col>
+                    <col>
+                </colgroup>
+                <tr>
+                    <th class="th" colspan="2">Most</th>
+                </tr>
+              </table>
+              <table class="least-table">
+                  <colgroup>
+                      <col>
+                      <col>
+                  </colgroup>
+                  <tr>
+                      <th class="th" colspan="2">Least</th>
+                  </tr>
+              </table>
+            </div>
+        </div>
+    </div>
 
 
 
 
 </body>
-<script src="/Website/Scripts/javascript.js"></script>
+<script src="/frontend/scripts/javascript.js"></script>
 </html>

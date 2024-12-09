@@ -55,6 +55,25 @@ break;
 
       };
 
+
+  break;
+    case 'bar-chart-commits-over-time':
+      plotlyData = [
+        {
+          y: Array.from(commitCountsMap.values()),
+          x: Array.from(commitCountsMap.keys()),
+          type: 'histogram',
+          marker: {color: 'rgba(5,112,1,0.65)'},
+
+        }
+      ];
+      layout = {
+        xaxis: {title: {text: 'Files'}},
+        yaxis: {title: {text: 'Lines of code'}},
+
+
+      };
+
   }
 
   Plotly.newPlot(element.querySelector('.plotly-graph'), plotlyData,layout);
@@ -102,3 +121,4 @@ break;
 
 drawChart(document.querySelector('.commits-per-author-container'), reposData, 'pie-chart-commits-by-author');
 drawChart(document.querySelector('.code-lines-in-files-per-project-container'), reposData, 'bar-chart-code-lines-per-file');
+drawChart(document.querySelector('.commits-over-time-container'), reposData, 'bar-chart-commits-over-time');
