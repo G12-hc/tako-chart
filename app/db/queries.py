@@ -1,4 +1,8 @@
+from datetime import datetime
+
 from psycopg.rows import dict_row
+from typing import List
+
 
 def query(query_function):
     def wrapper(conn, *args, **kwargs):
@@ -27,7 +31,7 @@ def query_commit(cursor, repo_id):
         FROM commits 
         WHERE repository_id = %s
         """, params
-    )
+                   )
 
 
 @query
@@ -64,7 +68,7 @@ def query_languages(cursor, repo_id):
         JOIN repository_languages ON languages.id = repository_languages.language_id
         WHERE repository_languages.repository_id = %s
         """, params
-        )
+    )
 
 
 @query
@@ -78,7 +82,8 @@ def query_licenses(cursor, repo_id):
                     FROM repositories 
                     WHERE id = %s)
         """, params
-        )
+    )
+
 
 @query
 def query_workspaces(cursor, repo_id):
@@ -93,8 +98,6 @@ def query_workspaces(cursor, repo_id):
     )
 
 
-
-
 @query
 def query_insert_commits(cursor, sha, date, message, author, repository_id):
     params = [sha, date, message, author, repository_id]
@@ -107,30 +110,47 @@ def query_insert_commits(cursor, sha, date, message, author, repository_id):
 
 
 @query
-def query_insert_repository(cursor, repository_id, external_id, watchers, forks_count, name, owner, status,
-                                    linked_at, modified_at, contributors_url, default_branch,
-                                    user_ids, archieved_user_ids, workspace_id,  license_id):
-    params = [repository_id,external_id, watchers, forks_count, name, owner, status,
-                                    linked_at, modified_at, contributors_url, default_branch,
-                                    user_ids, archieved_user_ids, workspace_id,  license_id]
+def query_insert_repository(cursor,
+                            repository_id: str,
+                            external_id: int,
+                            watchers: int,
+                            forks_count: int,
+                            name: str,
+                            owner: str,
+                            status: str,
+                            linked_at: datetime,
+                            modified_at: datetime,
+                            contributors_url: str,
+                            default_branch: str,
+                            user_ids: List[int],
+                            archieved_user_ids: List[int],
+                            license_id: int = None,
+                            workspace_id: str = None):
+    params = [repository_id, external_id, watchers, forks_count, name, owner, status,
+              linked_at, modified_at, contributors_url, default_branch,
+              user_ids, archieved_user_ids, license_id, workspace_id]
+
+
     cursor.execute(
         """
         INSERT INTO repositories (id,external_id, watchers, forks_count, name, owner, status, 
                                     linked_at, modified_at, contributors_url, default_branch, 
-                                    user_ids, archieved_user_ids, workspace_id, license_id)
-        VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                                    user_ids, archieved_user_ids, license_id, workspace_id)
+        VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """, params
     )
+
 
 @query
 def query_insert_files(cursor, is_directory, path, name, line_count, functional_line_count, symlinkTarget, branch_id):
     params = [is_directory, path, name, line_count, functional_line_count, symlinkTarget, branch_id]
     cursor.execute(
-    """
-    INSERT INTO files (is_directory, path, name, line_count, functional_line_count, "symlinkTarget", branch_id)
-    VALUES(%s, %s, %s, %s, %s, %s, %s)
-    """, params
+        """
+        INSERT INTO files (is_directory, path, name, line_count, functional_line_count, "symlinkTarget", branch_id)
+        VALUES(%s, %s, %s, %s, %s, %s, %s)
+        """, params
     )
+
 
 @query
 def query_insert_branches(cursor, name, repository_id):
@@ -144,63 +164,70 @@ def query_insert_branches(cursor, name, repository_id):
 
 
 @query
-def query_insert_languages(cursor, repository_id, name):
+def query_insert_language(cursor, repository_id, lang_name: str):
     """
-    Inserts a language into the `languages` table if it doesn't already exist
-    and associates it with the `repository_languages` table.
+    Inserts a language into the `languages` table if it doesn't already exist.
+    Returns the ID of the language.
     """
-    # Insert the language if it doesn't exist, returning the ID
     cursor.execute(
         """
         INSERT INTO languages (name)
         VALUES (%s)
-        ON CONFLICT (name) DO UPDATE SET name = EXCLUDED.name
+        ON CONFLICT (name) DO NOTHING
         RETURNING id
         """,
-        [name]
+        [lang_name]
     )
-    language_id = cursor.fetchone()["id"]
+    result = cursor.fetchone()
 
-    # Link the language to the repository
+    # If result is not set then (language already exists), else set to the existing ID
+    if result is None:
+        cursor.execute("SELECT id FROM languages WHERE name = %s", [lang_name])
+        result = cursor.fetchone()
+    lang_id = result['id']
     cursor.execute(
         """
-        INSERT INTO repository_languages (repository_id, language_id)
+        INSERT INTO repository_languages (language_id, repository_id)
         VALUES (%s, %s)
         ON CONFLICT DO NOTHING
         """,
-        [repository_id, language_id]
+        [lang_id, repository_id]
     )
 
 
 @query
-def query_insert_licenses(cursor, repository_id, key, name, spdx_id, url, node_id):
+def query_insert_licenses(cursor, key, name, spdx_id, url, node_id):
     """
     Inserts a license into the `licenses` table if it doesn't exist and associates
     it with a repository in the `repositories` table.
     """
-    # Insert or fetch the license
+    # Check if the license already exists by key
     cursor.execute(
         """
-        INSERT INTO licenses (key, name, spdx_id, url, node_id)
-        VALUES (%s, %s, %s, %s, %s)
-        ON CONFLICT (key) DO UPDATE SET
-            name = EXCLUDED.name,
-            spdx_id = EXCLUDED.spdx_id,
-            url = EXCLUDED.url,
-            node_id = EXCLUDED.node_id
-        RETURNING id
+        SELECT id
+        FROM licenses
+        WHERE key = %s
+        OR name = %s
+        OR spdx_id = %s
+        OR url = %s
+        OR node_id = $s
         """,
         [key, name, spdx_id, url, node_id]
     )
-    license_id = cursor.fetchone()["id"]
+    existing_license = cursor.fetchone()
 
-    # Associate the license with the repository
-    cursor.execute(
-        """
-        UPDATE repositories
-        SET license_id = %s
-        WHERE id = %s
-        """,
-        [license_id, repository_id]
-    )
+    if existing_license:
+        # If the license already exists, return the existing license ID
+        return existing_license["id"]
+    else:
+        # Insert the new license and return the new license ID
+        cursor.execute(
+            """
+            INSERT INTO licenses (key, name, spdx_id, url, node_id)
+            VALUES (%s, %s, %s, %s, %s)
+            RETURNING id
+            """,
+            [key, name, spdx_id, url, node_id]
+        )
+        return cursor.fetchone()["id"]
 
