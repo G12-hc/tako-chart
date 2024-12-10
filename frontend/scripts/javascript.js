@@ -23,17 +23,23 @@ function drawChart(element, data, chartType) {
           labels: Array.from(commitCountsMap.keys()),
           type: 'pie',
           //maybe for loop for the firs 3??
-          textinfo: "percentage",
+          textinfo: "none",
           showlegend: false,
           hoverinfo: 'percent+label',
-          //domain: {y: [0, 0]}
+          domain: {'x': [0, 1], 'y': [0, 1]},
         }
         ];
 
         layout = {
-        height: 450,
-        width: 600,
-
+          height: 300,
+          width: 600,
+          margin: {
+            l: 50,
+            r: 50,
+            t: 25,
+            b: 25,
+            pad: 2
+          }
       }
 
 
