@@ -1,53 +1,59 @@
-html, body {
-    max-width: 100%;
-    margin: 0;
-    padding: 0;
-    font-family: "Open+Sans", sans-serif;
-    background-image: radial-gradient( rgba(5, 112, 1, 0.65), rgba(0, 77, 20, 0.75), rgba(1, 67, 42, 0.76));
-    overflow-x: hidden;
+html,
+body {
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: "Open+Sans", sans-serif;
+  background-image: radial-gradient(
+    rgba(5, 112, 1, 0.65),
+    rgba(0, 77, 20, 0.75),
+    rgba(1, 67, 42, 0.76)
+  );
+  overflow-x: hidden;
 }
 /*Web title text styling*/
 h1 {
-    text-shadow: rgba(255, 255, 255, 0.18) 2px 2px 2px;
-    text-align: center;
-    font-size: 36px;
-    margin: 20px 0;
-    color: #E9EDE4;
+  text-shadow: rgba(255, 255, 255, 0.18) 2px 2px 2px;
+  text-align: center;
+  font-size: 36px;
+  margin: 20px 0;
+  color: #e9ede4;
 }
 /*Web title container styling*/
 .web-title {
-    display: flex;
-    margin-left: 20px;
-    margin-right: 20px;
-    align-items: center;
-    flex-direction: row;
+  display: flex;
+  margin-left: 20px;
+  margin-right: 20px;
+  align-items: center;
+  flex-direction: row;
 }
 /*Button redirect to compare page*/
-.compare-btn{
-    margin-left: auto;
-    text-decoration: none;
-    background: linear-gradient(to right, #F6F7F2, #E9EDE4, #E1E5DC);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-align: center;
-    vertical-align: middle;
+.compare-btn {
+  margin-left: auto;
+  text-decoration: none;
+  background: linear-gradient(to right, #f6f7f2, #e9ede4, #e1e5dc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+  vertical-align: middle;
 }
 
 /* COMMON STYLING FOR EVERY DISPLAY*/
 
 /*  Commits per author and code lines in file per project Graph container Styling */
-.commits-per-author-container,.code-lines-in-files-per-project-container,.commits-over-time-container{
-    margin-left: 20px;
-    margin-right: 20px;
-    margin-bottom: 60px;
-    padding: 20px;
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-    background: #cfd3c9;
-    border: 3px solid #000000;
-    border-radius: 20px;
-
+.commits-per-author-container,
+.code-lines-in-files-per-project-container,
+.commits-over-time-container {
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 60px;
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  background: #cfd3c9;
+  border: 3px solid #000000;
+  border-radius: 20px;
 }
 
 /*  Commits per author Table and chart and
@@ -59,72 +65,75 @@ h1 {
 .code-lines-in-file-per-project-content,
 .code-lines-in-files-per-project-table-wrapper,
 .commits-over-time-chart-content,
-.commits-over-time-table-wrapper
-{
-
-    flex: 1 1 45%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.commits-over-time-table-wrapper {
+  flex: 1 1 45%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /*  Commits per author Chart and codel lines in file per project content Styling */
-.commits-per-author-chart-content,.code-lines-in-file-per-project-content,.commits-over-time-chart-content{
-    flex: 1 1 45%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 25px;
-
+.commits-per-author-chart-content,
+.code-lines-in-file-per-project-content,
+.commits-over-time-chart-content {
+  flex: 1 1 45%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 25px;
 }
 /*  Code lines in file per project and  Commits per authorTitle Styling */
-.commits-per-authors-title h2,.code-lines-in-file-per-project-title h2,.commits-over-time-title h2 {
-    font-family: "Open+Sans", sans-serif;
-    font-size: 35px;
-    text-align: center;
-    margin: 10px 0 30px;
-    text-shadow: rgba(36, 78, 15, 0.3) 3px 0px 10px;
-    background: black;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+.commits-per-authors-title h2,
+.code-lines-in-file-per-project-title h2,
+.commits-over-time-title h2 {
+  font-family: "Open+Sans", sans-serif;
+  font-size: 35px;
+  text-align: center;
+  margin: 10px 0 30px;
+  text-shadow: rgba(36, 78, 15, 0.3) 3px 0px 10px;
+  background: black;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 /* Code lines in file per project and Commits per author text description Styling */
-.commits-per-author-description,.code-lines-in-files-per-project-description,.commits-over-time-description{
-    margin: 15px 0;
-    font-family: "Open+Sans", sans-serif;
-    font-weight: 600;
-    font-size: 18px;
-    text-align: center;
-    color: #013222;
+.commits-per-author-description,
+.code-lines-in-files-per-project-description,
+.commits-over-time-description {
+  margin: 15px 0;
+  font-family: "Open+Sans", sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  text-align: center;
+  color: #013222;
 }
 
 /* Table Block */
 .table-block {
-    display: flex;
-    width: 100%;
-    overflow: hidden;
-    gap: 4%;
-    margin-top: 50px;
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+  gap: 4%;
+  margin-top: 50px;
 }
 /* Overall tables Styling and Responsiveness */
 
 /*All tables style*/
 table {
-    /*width: 100%;*/
-    width: 48%;
-    border-collapse: collapse;
-    border-radius: 12px;
-    overflow: hidden;
+  /*width: 100%;*/
+  width: 48%;
+  border-collapse: collapse;
+  border-radius: 12px;
+  overflow: hidden;
 }
 /* Tables titles' Styling */
 .th {
-    background-color: #046200;
-    color: #ffffff;
-    font-size: 18px;
-    text-align: center;
-    text-transform: uppercase;
-    padding: 10px;
+  background-color: #046200;
+  color: #ffffff;
+  font-size: 18px;
+  text-align: center;
+  text-transform: uppercase;
+  padding: 10px;
 }
 /*CHECK if it is needed , moved to 'table'*/
 
@@ -132,169 +141,156 @@ table {
 /*    width: 48%;*/
 /*}*/
 
-
 /*Tables content styling*/
 td {
-    text-align: center;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    padding: 8px;
+  text-align: center;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 8px;
 }
 /*tables rows colors(odds white,even gray)*/
 tr:nth-child(odd) {
-    background-color: #f5f5f5;
+  background-color: #f5f5f5;
 }
 
 tr:nth-child(even) {
-    background-color: #ffffff;
+  background-color: #ffffff;
 }
 
 /* Tables Hover Effect */
 tr:hover {
-    background-color: #f2f2f2;
-    cursor: pointer;
+  background-color: #f2f2f2;
+  cursor: pointer;
 }
 /* COMMITS PER AUTHOR STYLING */
 
 /*  Commits per author Chart content Styling */
-.commits-per-author-chart-content{
-    margin-right: 100px;
-    margin-left: -50px;
-
+.commits-per-author-chart-content {
+  margin-right: 100px;
+  margin-left: -50px;
 }
 
 /*  Commits per author Table container Styling */
 .table-wrapper {
-    margin-top: 40px;
-    margin-left: -50px;
-    margin-right: 50px;
+  margin-top: 40px;
+  margin-left: -50px;
+  margin-right: 50px;
 }
 
 /*  plotly Chart Styling */
 .plotly-graph {
-    overflow: hidden;
-    width: 600px;
-    height: 300px;
-    border: 3px solid #013222;
-    background-color: #f9f9f9;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  width: 600px;
+  height: 300px;
+  border: 3px solid #013222;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-
-
 
 /*CODE LINES IN FILE PER PROJECT STYLING*/
 
 /*code lines in files per project tables wrapper*/
-.code-lines-in-files-per-project-table-wrapper{
-    margin-top: 40px;
-    margin-left: 50px;
-    margin-right: -50px;
+.code-lines-in-files-per-project-table-wrapper {
+  margin-top: 40px;
+  margin-left: 50px;
+  margin-right: -50px;
 }
 
 /* codel lines in file per project content Styling */
-.code-lines-in-file-per-project-content{
-    margin-right: -50px;
-    margin-left: 100px;
-
+.code-lines-in-file-per-project-content {
+  margin-right: -50px;
+  margin-left: 100px;
 }
 /*COMMITS OVER TIME STYLING*/
-.commits-over-time-chart-content{
-    margin-right: -20px;
-    margin-left: -30px;
-    margin-bottom: 0;
+.commits-over-time-chart-content {
+  margin-right: -20px;
+  margin-left: -30px;
+  margin-bottom: 0;
 }
 
-.commits-over-time-table-wrapper{
-    margin-top: 40px;
-    margin-left:0;
-    margin-right: 10px;
+.commits-over-time-table-wrapper {
+  margin-top: 40px;
+  margin-left: 0;
+  margin-right: 10px;
 }
-
 
 /* Responsive Design */
 @media screen and (min-width: 1000px) and (max-width: 1500px) {
-    .commits-per-author-chart-content,
-    .code-lines-in-file-per-project-content,
-    .commits-over-time-chart-content{
-        justify-content: center;
-        align-items: center;
-        margin-bottom: 0;
-        margin-right: 0;
-        margin-left: 0;
-    }
-    .table-wrapper,
-    .code-lines-in-files-per-project-table-wrapper,
-    .commits-over-time-table-wrapper{
-        flex: 1 1 100%;
-        margin-bottom: 0;
-        margin-right: 0;
-        margin-left: 0;
-
-    }
+  .commits-per-author-chart-content,
+  .code-lines-in-file-per-project-content,
+  .commits-over-time-chart-content {
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0;
+    margin-right: 0;
+    margin-left: 0;
+  }
+  .table-wrapper,
+  .code-lines-in-files-per-project-table-wrapper,
+  .commits-over-time-table-wrapper {
+    flex: 1 1 100%;
+    margin-bottom: 0;
+    margin-right: 0;
+    margin-left: 0;
+  }
 }
-
-
 
 @media screen and (min-width: 1000px) and (max-width: 1200px) {
-    .table-block {
-       display: block;
-    }
+  .table-block {
+    display: block;
+  }
 
-    .most-table, .least-table{
-        width: 100%;
-    }
-    .most-table {
-        margin-bottom: 10px;
-    }
-    .commits-per-author-chart-content,
-    .code-lines-in-file-per-project-content,
-    .commits-over-time-chart-content{
-        justify-content: center;
-        align-items: center;
-        margin-bottom: 0;
-        margin-right: 0;
-        margin-left: 0;
-    }
-    .table-wrapper,
-    .code-lines-in-files-per-project-table-wrapper,
-    .commits-over-time-table-wrapper{
-        flex: 1 1 100%;
-        margin-bottom: 0;
-        margin-right: 0;
-        margin-left: 0;
-
-    }
+  .most-table,
+  .least-table {
+    width: 100%;
+  }
+  .most-table {
+    margin-bottom: 10px;
+  }
+  .commits-per-author-chart-content,
+  .code-lines-in-file-per-project-content,
+  .commits-over-time-chart-content {
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0;
+    margin-right: 0;
+    margin-left: 0;
+  }
+  .table-wrapper,
+  .code-lines-in-files-per-project-table-wrapper,
+  .commits-over-time-table-wrapper {
+    flex: 1 1 100%;
+    margin-bottom: 0;
+    margin-right: 0;
+    margin-left: 0;
+  }
 }
 @media only screen and (max-width: 999px) {
-    .commits-per-author-container,
-    .code-lines-in-files-per-project-container,
-    .commits-over-time-chart-container{
-        flex-direction: column;
-    }
+  .commits-per-author-container,
+  .code-lines-in-files-per-project-container,
+  .commits-over-time-chart-container {
+    flex-direction: column;
+  }
 
-    .commits-per-author-chart-content,
-    .table-wrapper,
-    .code-lines-in-file-per-project-content,
-    .code-lines-in-files-per-project-table-wrapper,
-    .commits-over-time-chart-content,
-    .commits-over-time-table-wrapper{
-        flex: 1 1 100%;
-        margin-bottom: 0;
-        margin-right: 0;
-        margin-left: 0;
-
-    }
-    .table-wrapper,
-    .code-lines-in-files-per-project-table-wrapper,
-    .commits-over-time-table-wrapper{
-        margin-top: 40px;
-        grid-template-columns: 1fr;
-
-    }
-    .plotly-graph {
-        overflow: scroll;
-        width: 100%;
-
-    }
-
+  .commits-per-author-chart-content,
+  .table-wrapper,
+  .code-lines-in-file-per-project-content,
+  .code-lines-in-files-per-project-table-wrapper,
+  .commits-over-time-chart-content,
+  .commits-over-time-table-wrapper {
+    flex: 1 1 100%;
+    margin-bottom: 0;
+    margin-right: 0;
+    margin-left: 0;
+  }
+  .table-wrapper,
+  .code-lines-in-files-per-project-table-wrapper,
+  .commits-over-time-table-wrapper {
+    margin-top: 40px;
+    grid-template-columns: 1fr;
+  }
+  .plotly-graph {
+    overflow: scroll;
+    width: 100%;
+  }
 }
