@@ -16,11 +16,12 @@ h1 {
   text-shadow: rgba(255, 255, 255, 0.18) 2px 2px 2px;
   text-align: center;
   font-size: 36px;
-  color: #e9ede4;
-  margin: 20px 0 20px 10px;
+  margin: 20px 0;
 }
 /*Web title container styling*/
 .web-title {
+  color: #e9ede4;
+  font-size: 21px;
   display: flex;
   margin: 10px 20px;
   align-items: center;
@@ -126,7 +127,7 @@ table {
   overflow: hidden;
 }
 /* Tables titles' Styling */
-.th {
+th {
   background-color: #046200;
   color: #ffffff;
   font-size: 18px;
@@ -211,6 +212,16 @@ tr:hover {
   margin-top: 40px;
   margin-left: 0;
   margin-right: 10px;
+}
+
+/* Repositories dropdown and its label */
+#repos-dropdown {
+  font-size: inherit;
+  margin-left: 1em;
+}
+
+#repos-dropdown-label {
+  margin-left: 3em;
 }
 
 /* Responsive Design */
