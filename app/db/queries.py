@@ -3,20 +3,21 @@ from datetime import datetime
 from psycopg.rows import dict_row
 from typing import List
 
-
 def query(query_function):
     def wrapper(conn, *args, **kwargs):
         with conn.cursor(row_factory=dict_row) as cursor:
+            # Execute the query function
             result = query_function(cursor, *args, **kwargs)
 
-            # Handle `SELECT` queries returning data
-            if cursor.description is not None:
-                if result == 'one':
-                    return cursor.fetchone()  # Fetch a single row
-                return cursor.fetchall()  # Fetch all rows
+            # If the query function explicitly returns a value, use it
+            if result is not None:
+                return result
 
-            # Handle non-SELECT queries (e.g., INSERT/UPDATE/DELETE)
-            return cursor.rowcount  # Return the number of rows affected or None
+            # Otherwise, handle return value based on query type
+            if cursor.description is not None:  # SELECT query
+                return cursor.fetchall()  # Fetch all rows by default
+
+            return cursor.rowcount  # For non-SELECT queries, return affected rows count
 
     return wrapper
 
@@ -55,19 +56,23 @@ def query_branches(cursor, repo_id):
 
 
 @query
-def query_files(cursor, repo_id):
-    params = [repo_id]
+def query_files(cursor, branch_id: int, min_line_count: int = 0):
+    """
+    Fetch files for a specific branch with a minimum line count.
+    """
     cursor.execute(
         """
         SELECT * 
         FROM files 
-        WHERE line_count > %s
-        """, params
+        WHERE branch_id = %s AND line_count > %s
+        """,
+        [branch_id, min_line_count],
     )
 
 
+
 @query
-def query_languages(cursor, repo_id):
+def query_languages(cursor, repo_id: str):
     params = [repo_id]
     cursor.execute(
         """
@@ -84,13 +89,26 @@ def query_licenses(cursor, repo_id):
     params = [repo_id]
     cursor.execute(
         """
-        SELECT * 
+        SELECT licenses.* 
         FROM licenses 
-        WHERE id = (SELECT license_id 
-                    FROM repositories 
-                    WHERE id = %s)
+        JOIN repositories ON licenses.id = repositories.license_id
+        WHERE repositories.id = %s
         """, params
     )
+
+
+# Query purpose incase I want to update the branch dynamically
+@query
+def query_get_branch_id(cursor, branch_name: str, repository_id: str):
+    """
+    Fetch the branch ID for a specific branch name and repository.
+    """
+    cursor.execute(
+        "SELECT id FROM branches WHERE name = %s AND repository_id = %s",
+        [branch_name, repository_id],
+    )
+    result = cursor.fetchone()
+    return result["id"] if result else None
 
 
 @query
@@ -98,10 +116,10 @@ def query_workspaces(cursor, repo_id):
     params = [repo_id]
     cursor.execute(
         """
-        SELECT wID.* 
-        FROM repositories rID
-        JOIN workspaces wID ON rID.workspace_id = wID.id
-        WHERE rID.id = %s
+        SELECT workspaces.* 
+        FROM workspaces 
+        JOIN repositories ON workspaces.id = repositories.workspace_id
+        WHERE repositories.id = %s
         """, params
     )
 
@@ -203,7 +221,7 @@ def query_insert_language(cursor, repository_id, lang_name: str):
 
 
 @query
-def query_insert_licenses(cursor, key, name, spdx_id, url, node_id):
+def query_insert_licenses(cursor, key=None, name=None, spdx_id=None, url=None, node_id=None):
     """
     Inserts a license into the `licenses` table if it doesn't exist and associates
     it with a repository in the `repositories` table.
@@ -240,7 +258,7 @@ def query_insert_licenses(cursor, key, name, spdx_id, url, node_id):
         lic = cursor.fetchone()
         existing_license = lic['id']
 
-    print(existing_license)
-
+    print("ID inside query: ",existing_license, "Type: ", type(existing_license))
     return existing_license
+
 
