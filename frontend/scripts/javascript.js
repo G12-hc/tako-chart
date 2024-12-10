@@ -54,8 +54,6 @@ break;
         barcornerradius: 7,
 
       };
-
-
   break;
     case 'bar-chart-commits-over-time':
       plotlyData = [
@@ -73,7 +71,6 @@ break;
 
 
       };
-
   }
 
   Plotly.newPlot(element.querySelector('.plotly-graph'), plotlyData,layout);
