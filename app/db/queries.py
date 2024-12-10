@@ -7,8 +7,16 @@ from typing import List
 def query(query_function):
     def wrapper(conn, *args, **kwargs):
         with conn.cursor(row_factory=dict_row) as cursor:
-            query_function(cursor, *args, **kwargs)
-            return cursor.fetchall()
+            result = query_function(cursor, *args, **kwargs)
+
+            # Handle `SELECT` queries returning data
+            if cursor.description is not None:
+                if result == 'one':
+                    return cursor.fetchone()  # Fetch a single row
+                return cursor.fetchall()  # Fetch all rows
+
+            # Handle non-SELECT queries (e.g., INSERT/UPDATE/DELETE)
+            return cursor.rowcount  # Return the number of rows affected or None
 
     return wrapper
 
@@ -130,7 +138,6 @@ def query_insert_repository(cursor,
               linked_at, modified_at, contributors_url, default_branch,
               user_ids, archieved_user_ids, license_id, workspace_id]
 
-
     cursor.execute(
         """
         INSERT INTO repositories (id,external_id, watchers, forks_count, name, owner, status, 
@@ -201,26 +208,27 @@ def query_insert_licenses(cursor, key, name, spdx_id, url, node_id):
     Inserts a license into the `licenses` table if it doesn't exist and associates
     it with a repository in the `repositories` table.
     """
-    # Check if the license already exists by key
+    # Check if the license already exists by key or other attributes
     cursor.execute(
         """
         SELECT id
         FROM licenses
-        WHERE key = %s
-        OR name = %s
-        OR spdx_id = %s
-        OR url = %s
-        OR node_id = $s
+        WHERE 
+            key = %s OR
+            name = %s OR
+            spdx_id = %s OR 
+            url = %s OR 
+            node_id = %s
         """,
         [key, name, spdx_id, url, node_id]
     )
-    existing_license = cursor.fetchone()
+    lic = cursor.fetchone()
 
-    if existing_license:
-        # If the license already exists, return the existing license ID
-        return existing_license["id"]
+    # If a license exists, return its ID
+    if lic is not None:
+        existing_license = lic['id']
     else:
-        # Insert the new license and return the new license ID
+        # Insert the new license and fetch the ID
         cursor.execute(
             """
             INSERT INTO licenses (key, name, spdx_id, url, node_id)
@@ -229,5 +237,10 @@ def query_insert_licenses(cursor, key, name, spdx_id, url, node_id):
             """,
             [key, name, spdx_id, url, node_id]
         )
-        return cursor.fetchone()["id"]
+        lic = cursor.fetchone()
+        existing_license = lic['id']
+
+    print(existing_license)
+
+    return existing_license
 

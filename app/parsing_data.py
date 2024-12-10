@@ -1,5 +1,5 @@
 import os
-# import sys
+import sys
 from datetime import datetime
 
 from app.count_lines import analyze_repository
@@ -22,17 +22,17 @@ async def assign_repo_data(owner: str, repo: str):
         # repo data
         repository_id = f"github-{repo_details['id']}"
         workspace_id = None  # Assign workspace ID dynamically if available, not sure what to put
-        licence_id = None # Is assigned after inset attempt
+        license_id = None # Is assigned after inset attempt
         user_ids = [user["id"] for user in contributor_data]
         print(user_ids)
-        archieved_user_ids = [0]
+        archieved_user_ids = [0,1]
         linked_status= "Linked"
 
         # Licence
         if repo_details["license"] is None:
             print("No licenses found")
         else:
-             licence_id = query_insert_licenses(
+             license_id = query_insert_licenses(
                 conn,
                 repo_details["license"]["key"],
                 repo_details["license"]["name"],
@@ -40,7 +40,7 @@ async def assign_repo_data(owner: str, repo: str):
                 repo_details["license"]["url"],
                 repo_details["license"]["node_id"]
             )
-
+        # license_id = 1
         # Repository
         query_insert_repository(
             conn,
@@ -56,8 +56,8 @@ async def assign_repo_data(owner: str, repo: str):
             repo_details["contributors_url"],
             default_branch,
             user_ids,
-            archieved_user_ids,  # Archived user IDs
-            licence_id,
+            archieved_user_ids, # Archived user IDs
+            license_id,
             workspace_id,
         )
 
