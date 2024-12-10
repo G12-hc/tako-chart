@@ -16,14 +16,13 @@ h1 {
   text-shadow: rgba(255, 255, 255, 0.18) 2px 2px 2px;
   text-align: center;
   font-size: 36px;
-  margin: 20px 0;
   color: #e9ede4;
+  margin: 20px 0 20px 10px;
 }
 /*Web title container styling*/
 .web-title {
   display: flex;
-  margin-left: 20px;
-  margin-right: 20px;
+  margin: 10px 20px;
   align-items: center;
   flex-direction: row;
 }
