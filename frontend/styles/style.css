@@ -4,18 +4,15 @@ body {
   margin: 0;
   padding: 0;
   font-family: "Open+Sans", sans-serif;
-  background-image: radial-gradient(
-    rgba(5, 112, 1, 0.65),
-    rgba(0, 77, 20, 0.75),
-    rgba(1, 67, 42, 0.76)
-  );
+  background-color: white;
   overflow-x: hidden;
 }
 /*Web title text styling*/
 h1 {
-  text-shadow: rgba(255, 255, 255, 0.18) 2px 2px 2px;
+  color: rgb(33 55 86);
   text-align: center;
   font-size: 36px;
+  font-weight: 400;
   margin: 20px 0;
 }
 /*Web title container styling*/
@@ -30,12 +27,15 @@ h1 {
 /*Button redirect to compare page*/
 .compare-btn {
   margin-left: auto;
+  margin-right: 5%;
   text-decoration: none;
-  background: linear-gradient(to right, #f6f7f2, #e9ede4, #e1e5dc);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: white;
   text-align: center;
   vertical-align: middle;
+  background-color: #47ae31;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-weight: bold;
 }
 
 /* COMMON STYLING FOR EVERY DISPLAY*/
@@ -51,8 +51,9 @@ h1 {
   display: flex;
   flex-direction: row;
   gap: 20px;
-  background: #cfd3c9;
-  border: 3px solid #000000;
+  background: transparent;
+  border: 1px solid rgba(103, 101, 101, 0.39);
+  box-shadow: 0 10px 20px rgba(103, 101, 101, 0.23);
   border-radius: 20px;
 }
 
@@ -66,22 +67,14 @@ h1 {
 .code-lines-in-files-per-project-table-wrapper,
 .commits-over-time-chart-content,
 .commits-over-time-table-wrapper {
+  margin-bottom: 25px;
   flex: 1 1 45%;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-/*  Commits per author Chart and codel lines in file per project content Styling */
-.commits-per-author-chart-content,
-.code-lines-in-file-per-project-content,
-.commits-over-time-chart-content {
-  flex: 1 1 45%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 25px;
-}
+
 /*  Code lines in file per project and  Commits per authorTitle Styling */
 .commits-per-authors-title h2,
 .code-lines-in-file-per-project-title h2,
@@ -90,22 +83,20 @@ h1 {
   font-size: 35px;
   text-align: center;
   margin: 10px 0 30px;
-  text-shadow: rgba(36, 78, 15, 0.3) 3px 0px 10px;
-  background: black;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #47ae31;
+  font-weight: 600;
 }
 
 /* Code lines in file per project and Commits per author text description Styling */
 .commits-per-author-description,
 .code-lines-in-files-per-project-description,
-.commits-over-time-description {
+.commits-over-time-description{
   margin: 15px 0;
   font-family: "Open+Sans", sans-serif;
-  font-weight: 600;
-  font-size: 18px;
+  font-weight: 400;
+  font-size: 20px;
   text-align: center;
-  color: #013222;
+  color: rgb(33 55 86);
 }
 
 /* Table Block */
@@ -128,7 +119,7 @@ table {
 }
 /* Tables titles' Styling */
 th {
-  background-color: #046200;
+  background-color: #47ae31;
   color: #ffffff;
   font-size: 18px;
   text-align: center;
@@ -181,10 +172,10 @@ tr:hover {
   overflow: hidden;
   width: 600px;
   height: 300px;
-  border: 3px solid #013222;
   background-color: #f9f9f9;
   border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(103, 101, 101, 0.2);
+  box-shadow: 0 0 20px rgba(103, 101, 101, 0.08);
 }
 
 /*CODE LINES IN FILE PER PROJECT STYLING*/
@@ -218,10 +209,12 @@ tr:hover {
 #repos-dropdown {
   font-size: inherit;
   margin-left: 1em;
+
 }
 
 #repos-dropdown-label {
   margin-left: 3em;
+  color: #47ae31;
 }
 
 /* Responsive Design */
