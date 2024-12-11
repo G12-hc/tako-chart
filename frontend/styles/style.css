@@ -209,10 +209,12 @@ tr:hover {
 #repos-dropdown {
   font-size: inherit;
   margin-left: 1em;
+
 }
 
 #repos-dropdown-label {
   margin-left: 3em;
+  color: #47ae31;
 }
 
 /* Responsive Design */
