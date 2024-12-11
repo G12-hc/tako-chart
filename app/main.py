@@ -2,7 +2,7 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
-from app import routers
+from app import routers, git_router
 from app.db.connection import initialize_db
 
 
@@ -11,6 +11,8 @@ def create_app():
     # Create the API application instance
     api_app = FastAPI(title="API app")
     api_app.include_router(routers.router)
+    api_app.include_router(git_router.router)
+    api_app.include_router(routers.tmp_router)
 
     # Create the main application instance
     app = FastAPI(title="main app")

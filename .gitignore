@@ -81,3 +81,8 @@ fabric.properties
 # Virtual environments
 venv/
 .venv/
+
+
+# enviroment
+# hidden token
+cfg.ini
