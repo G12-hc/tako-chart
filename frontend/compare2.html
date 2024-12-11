@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Graph and Table Comparison</title>
+  <link rel="icon" type="text/x-icon" href="favicon.ico" />
+    <!-- Load plotly.js into the DOM -->
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+    <link rel="stylesheet" href="styles/style2.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="favicon.ico" alt="Logo">
+      <div class="title">TITLE</div>
+    </div>
+    <nav class="nav">
+      <a href="#">Topic 1</a>
+      <a href="#">Topic 2</a>
+      <a href="#">Topic 3</a>
+      <a href="#">Topic 4</a>
+    </nav>
+    <div class="search">
+      <label>
+        <input type="text" placeholder="Search">
+      </label>
+      <button>Go</button>
+    </div>
+  </header>
+
+  <main>
+      <h2>Graph Comparison</h2>
+    <section class="section graph-comparison">
+      <div>
+        <label for="repo-dropdown-1"></label><select id="repo-dropdown-1">
+          <option value="repo1">Repo 1</option>
+          <option value="repo2">Repo 2</option>
+        </select>
+        <div id="graph1" class="graph"></div>
+      </div>
+      <div>
+        <label for="repo-dropdown-2"></label><select id="repo-dropdown-2">
+          <option value="repo1">Repo 1</option>
+          <option value="repo2">Repo 2</option>
+        </select>
+        <div id="graph2" class="graph"></div>
+      </div>
+    </section>
+    <h2>Table Comparison</h2>
+    <section class="section table-comparison">
+      <div>Repo Name</div>
+      <div>Comp 1</div>
+      <div>Comp 2</div>
+      <div>Comp 3</div>
+      <div>Repo 1</div>
+      <div>Value 1</div>
+      <div>Value 2</div>
+      <div>Value 3</div>
+      <div>Repo 2</div>
+      <div>Value 4</div>
+      <div>Value 5</div>
+      <div>Value 6</div>
+    </section>
+    <h2>Individual Tables</h2>
+    <section class="section individual-tables">
+      <div class="repo">
+        <h3>Repo 1</h3>
+        <div class="most-least">
+          <div>Most</div>
+          <div>Least</div>
+        </div>
+      </div>
+      <div class="repo">
+        <h3>Repo 2</h3>
+        <div class="most-least">
+          <div>Most</div>
+          <div>Least</div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <div class="plotly-graph"></div>
+  <div class="plotly-graph"></div>
+</body>
+</html>
