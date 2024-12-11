@@ -181,6 +181,7 @@ async function drawBarChart(
 
   const plotlyData = [
     {
+      type: "bar",
       x: data.map(getX),
       y: data.map(getY),
       marker: { color: "rgba(5,112,1,0.65)" },
