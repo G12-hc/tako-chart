@@ -7,7 +7,7 @@ GITHUB_API_URL = "https://api.github.com"
 GITHUB_TOKEN = config.get("tokens", "github") # Set this in cfg.ini
 
 
-async def fetch_github_data(endpoint: str, params: dict = None) -> httpx.Response:
+async def fetch_github_data(endpoint: str, params: dict = None) -> dict:
     """
     Generic function to interact with GitHub's API.
     :param endpoint: GitHub API endpoint.
@@ -26,7 +26,7 @@ async def fetch_github_data(endpoint: str, params: dict = None) -> httpx.Respons
     )
 
     # Create a client with redirection disabled
-    async with httpx.AsyncClient(timeout=None, follow_redirects=False) as client:
+    async with httpx.AsyncClient(timeout=timeout, follow_redirects=False) as client:
         response = await client.get(f"{GITHUB_API_URL}{endpoint}", headers=headers, params=params)
 
         # Handle redirect responses explicitly
@@ -34,11 +34,13 @@ async def fetch_github_data(endpoint: str, params: dict = None) -> httpx.Respons
             redirect_location = response.headers.get("Location")
             if redirect_location:
                 print(f"Redirected to: {redirect_location}")
-                return redirect_location
+                return {"redirected_to": redirect_location}
 
         # Raise an exception for other HTTP errors
         response.raise_for_status()
-        return response
+
+        # Return the JSON response as a dictionary
+        return response.json()
 
 
 async def get_repository_details(owner: str, repo: str):
@@ -66,7 +68,7 @@ async def get_commit_history(owner: str, repo: str):
         page_commits = await fetch_github_data(endpoint, params)
         if not page_commits:
             break
-        # commits.extend(page_commits)
+        commits.extend(page_commits)
         page += 1
     return commits
     # return await fetch_github_data(endpoint)
@@ -95,7 +97,7 @@ async def get_file_path(owner, repo, default_branch):
     file_paths_response = await fetch_github_data(file_path_endpoint)
 
     # Parse the response as JSON
-    file_paths_json = await file_paths_response.json()
+    file_paths_json = file_paths_response
 
     # Ensure the response contains a 'tree' key
     if "tree" not in file_paths_json:
@@ -140,29 +142,31 @@ async def fetch_file_content(owner: str, repo: str, default_branch: str = "main"
 
 async def download_zip(owner: str, repo: str, default_branch: str = "main"):
     """
-    Download a zip file from GitHub.
-    :param owner:
-    :param repo:
-    :param default_branch:
-    :return:
+    Download a tarball file from GitHub.
+    :param owner: GitHub repository owner.
+    :param repo: GitHub repository name.
+    :param default_branch: GitHub branch to download (defaults to "main").
+    :return: Content of the tarball file.
     """
+    # Define the endpoint to fetch the tarball of the repository
     endpoint = f"/repos/{owner}/{repo}/tarball/{default_branch}"
 
-    # Fetch tarball with redirect handling
-    redirect_or_response = await fetch_github_data(endpoint)
+    # Fetch the tarball, handle redirects automatically using follow_redirects=True
+    async with httpx.AsyncClient(follow_redirects=True) as client:
+        try:
+            response = await client.get(f"{GITHUB_API_URL}{endpoint}")
+            response.raise_for_status()  # Raise an exception for HTTP errors (404, 500, etc.)
 
-    if isinstance(redirect_or_response, str):  # Redirect URL returned
-        # Follow the redirect and fetch the tarball
-        async with httpx.AsyncClient() as client:
-            response = await client.get(redirect_or_response)
-            response.raise_for_status()
+            # Return the content of the tarball (binary data)
             return response.content
-    else:  # Normal response
-        return redirect_or_response.content
-
-
-
-
+        except httpx.HTTPStatusError as e:
+            # Handle specific HTTP errors like 404, 403, etc.
+            print(f"HTTP error occurred while fetching tarball: {e}")
+            raise
+        except httpx.RequestError as e:
+            # Handle general request errors (e.g., network issues)
+            print(f"An error occurred while requesting the tarball: {e}")
+            raise
 
     # return await fetch_github_data(endpoint)
 

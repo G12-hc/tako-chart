@@ -6,8 +6,8 @@ from app.db.connection import initialize_db
 
 # Create the FastAPI application instance
 app = FastAPI()
-# app.include_router(routers.router)
-# app.include_router(git_router.router)
+app.include_router(routers.router)
+app.include_router(git_router.router)
 app.include_router(routers.tmp_router)
 
 

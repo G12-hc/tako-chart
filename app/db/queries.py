@@ -5,19 +5,19 @@ from typing import List
 
 def query(query_function):
     def wrapper(conn, *args, **kwargs):
-        with conn.cursor(row_factory=dict_row) as cursor:
-            # Execute the query function
-            result = query_function(cursor, *args, **kwargs)
+        try:
+            with conn.cursor(row_factory=dict_row) as cursor:
+                result = query_function(cursor, *args, **kwargs)
 
-            # If the query function explicitly returns a value, use it
-            if result is not None:
-                return result
+                if cursor.description is not None:
+                    if result == 'one':
+                        return cursor.fetchone()
+                    return cursor.fetchall()
 
-            # Otherwise, handle return value based on query type
-            if cursor.description is not None:  # SELECT query
-                return cursor.fetchall()  # Fetch all rows by default
-
-            return cursor.rowcount  # For non-SELECT queries, return affected rows count
+                return cursor.rowcount
+        except Exception as e:
+            print(f"Error executing query: {e}")
+            raise
 
     return wrapper
 
@@ -69,6 +69,28 @@ def query_files(cursor, branch_id: int, min_line_count: int = 0):
         [branch_id, min_line_count],
     )
 
+@query
+def query_file_by_line_count(cursor, repo_id):
+    """
+    Fetch files for a specific branch with a minimum line count.
+    :param cursor:
+    :param repo_id:
+    :return:
+    """
+    params = [repo_id]
+    cursor.execute(
+        """
+        SELECT
+            REGEXP_REPLACE(f.name, '^[^.]*\\.', '') AS stripped_name,
+            SUM(f.line_count) AS total_line_count
+        FROM files f
+        JOIN branches b ON f.branch_id = b.id
+        JOIN repositories r ON b.repository_id = r.id
+        WHERE f.is_directory = FALSE AND r.id = %s
+        GROUP BY stripped_name
+        ORDER BY stripped_name
+        """,params
+    )
 
 
 @query

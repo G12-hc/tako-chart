@@ -9,7 +9,7 @@ from app.db.queries import (
     query_branches,
     query_files,
     query_repos,
-    query_workspaces,)
+    query_workspaces, query_file_by_line_count, )
 from app.parsing_data import assign_repo_data
 
 router = APIRouter(prefix="/repos")
@@ -31,6 +31,7 @@ def get_all_repo_data(repo_id):
     files = query_files(conn, 100)
     repo = query_repo(conn, repo_id)
     workspace = query_workspaces(conn, repo_id)
+    linecount = query_file_by_line_count(conn, repo_id)
     return {
         "languages": languages,
         "licenses": licenses,
@@ -39,11 +40,12 @@ def get_all_repo_data(repo_id):
         "branches": branches,
         "files": files,
         "workspace": workspace,
+        "linecount per file": linecount
     }
 
 tmp_router=APIRouter(prefix="/tmp")
 @tmp_router.get("/{owner}/{repo}")
-async def import_repo_data(owner="G12-hc", repo="tako-chart"):
-    conn = get_db_connection()
+async def import_repo_data(owner, repo):
+
     await assign_repo_data(owner, repo)
     return {True}

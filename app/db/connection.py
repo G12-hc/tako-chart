@@ -4,7 +4,6 @@ import psycopg_pool
 # Database configuration
 DB_CONFIG = "dbname=hackcamp user=postgres password=postgres host=localhost port=5432"
 
-
 # Initialize a connection pool
 try:
     connection_pool = psycopg_pool.ConnectionPool(
@@ -46,16 +45,15 @@ def initialize_db():
     """
     global connection
     try:
-        # Replace these with your database credentials
+        # Replace these with my DB config
         connection = psycopg.connect(
             dbname="hackcamp",  # Correct parameter format
-            user="postgres",  # Correct parameter format
-            password="postgres",  # Correct parameter format
-            host="localhost",  # Correct parameter format
-            port="5432",  # Correct parameter format
+            user="postgres",
+            password="postgres",
+            host="localhost",
+            port="5432",
         )
         print("Database connection established.")
     except Exception as e:
         print(f"Error while connecting to the database: {e}")
-
     return None  # Return None as specified

@@ -1,4 +1,5 @@
-import os, sys, asyncio
+import os, sys
+# import asyncio
 from datetime import datetime
 
 from app.count_lines import analyze_repository
@@ -21,6 +22,7 @@ from app.db.queries import (
 
 async def assign_repo_data(owner: str, repo: str):
     conn = get_db_connection()
+
     try:
         # fetch data from the git api
         repo_details = await get_repository_details(owner, repo)
@@ -37,7 +39,6 @@ async def assign_repo_data(owner: str, repo: str):
         print(user_ids)
         archieved_user_ids = [0,1]
         linked_status= "Linked"
-        license_id = None
         # print("Calling query_insert_licenses with:")
         # print("Key:", repo_details["license"]["key"])
         # print("Name:", repo_details["license"]["name"])
@@ -82,9 +83,9 @@ async def assign_repo_data(owner: str, repo: str):
         query_insert_branches(conn, default_branch, repository_id)
 
         # Files
-
         for file in file_data.get("tree", []):
             path = file["path"]
+            print("INSIDE FILE LOOP: ", path)
             analyzed_files = await analyze_repository(owner, repo, default_branch)
             for file_info in analyzed_files:
                 total_lines = file_info["total_lines"]
@@ -102,6 +103,7 @@ async def assign_repo_data(owner: str, repo: str):
                 )
 
         for commit in commit_data:
+            print("commiting")
             query_insert_commits(
                 conn,
                 commit["sha"],
@@ -113,14 +115,15 @@ async def assign_repo_data(owner: str, repo: str):
 
         # Languages using asyncio to better deal with inserting multiple languages
         lang_names = list(lang_data.keys())
-        await asyncio.gather(
-            *[query_insert_language(conn, repository_id, lang_name)
-              for lang_name in lang_names]
-        )
+        print("Inside lang amount: ", len(lang_names))
+        # await asyncio.gather(
+        #     *[query_insert_language(conn, repository_id, lang_name)
+        #       for lang_name in lang_names]
+        # )
 
-        # for lang_name in lang_names:
-        #     lang_name = str(lang_name)
-        #     query_insert_language(conn, repository_id, lang_name)
+        for lang_name in lang_names:
+            lang_name = str(lang_name)
+            query_insert_language(conn, repository_id, lang_name)
 
 
     # except Exception as e:

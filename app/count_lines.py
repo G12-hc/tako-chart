@@ -1,4 +1,9 @@
-import os, subprocess, tempfile, shutil, json # glob, tarfile
+import os
+import subprocess
+import tempfile
+import shutil
+import json
+import tarfile  # Import tarfile for handling .tar.gz files
 
 from app.db.fetch_git_api import download_zip  # Assuming your method is defined here
 
@@ -9,10 +14,8 @@ def run_cloc(directory: str):
     :param directory: Directory to analyze.
     :return: JSON output from cloc.
     """
-    # Run the cloc command-line tool on the directory
     result = subprocess.run(["cloc", "--json", directory], capture_output=True, text=True)
 
-    # Check for errors in execution
     if result.returncode != 0:
         raise Exception(f"cloc failed: {result.stderr}")
 
@@ -27,19 +30,27 @@ async def analyze_repository(owner: str, repo: str, branch: str = "main"):
     :param branch: Branch name.
     :return: Dictionary with line count statistics.
     """
-    # Download the repository as a zip and extract it
-    temp_dir = tempfile.mkdtemp()  # Create a temp directory for extraction
-    zip_content = await download_zip(owner, repo, branch)  # Fetch the zip file
 
-    # Save and extract the zip archive
-    zip_path = os.path.join(temp_dir, f"{repo}.zip")
-    with open(zip_path, "wb") as f:
-        f.write(zip_content)  # Save zip content to disk
+    # Create a temporary directory for extraction
+    temp_dir = tempfile.mkdtemp()
 
+    # Download the repository content
+    zip_content = await download_zip(owner, repo, branch)  # Fetch the .tar.gz file
+
+    # Save the .tar.gz content to a file
+    tar_path = os.path.join(temp_dir, f"{repo}.tar.gz")
+    with open(tar_path, "wb") as f:
+        f.write(zip_content)  # Save the downloaded tar.gz content
+
+    # Define the extraction directory
     extract_dir = os.path.join(temp_dir, f"{repo}_extracted")
     os.makedirs(extract_dir, exist_ok=True)
+    if not os.path.exists(extract_dir):
+        raise FileNotFoundError(f"The directory {extract_dir} does not exist.")
 
-    shutil.unpack_archive(zip_path, extract_dir, format="zip")  # Extract the zip archive
+    # Extract the .tar.gz file using tarfile
+    with tarfile.open(tar_path, "r:gz") as tar:
+        tar.extractall(path=extract_dir)  # Extract all contents
 
     try:
         # Run cloc on the extracted repository
