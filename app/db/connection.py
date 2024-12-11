@@ -1,6 +1,8 @@
 import psycopg
 import psycopg_pool
 
+from contextlib import contextmanager
+
 # Database configuration
 DB_CONFIG = "dbname=hackcamp user=postgres password=postgres host=localhost port=5432"
 
@@ -18,7 +20,8 @@ except Exception as e:
     raise
 
 
-def get_db_connection():
+@contextmanager
+def db_connection():
     """
     Context manager to get a database connection from the pool.
     Automatically closes and returns the connection to the pool.
@@ -26,7 +29,7 @@ def get_db_connection():
     conn = None
     try:
         conn = connection_pool.getconn()  # Get connection from pool
-        return conn
+        yield conn
     except Exception as e:
         print(f"Database connection error: {e}")
         raise

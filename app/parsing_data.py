@@ -1,16 +1,17 @@
 import os, sys
+
 # import asyncio
 from datetime import datetime
 
 from app.count_lines import analyze_repository
-from app.db import get_db_connection
+from app.db import db_connection
 from app.db.fetch_git_api import (
     get_repository_details,
     get_commit_history,
     get_files,
     fetch_lang_details,
-    get_contributors
-    )
+    get_contributors,
+)
 from app.db.queries import (
     query_insert_commits,
     query_insert_repository,
@@ -20,10 +21,9 @@ from app.db.queries import (
     query_insert_language,
 )
 
-async def assign_repo_data(owner: str, repo: str):
-    conn = get_db_connection()
 
-    try:
+async def assign_repo_data(owner: str, repo: str):
+    with db_connection() as conn:
         # fetch data from the git api
         repo_details = await get_repository_details(owner, repo)
         commit_data = await get_commit_history(owner, repo)
@@ -33,12 +33,14 @@ async def assign_repo_data(owner: str, repo: str):
         contributor_data = await get_contributors(owner, repo)
         # prep repo data
         repository_id = f"github-{repo_details['id']}"
-        workspace_id = None  # Assign workspace ID dynamically if available, not sure what to put
-        license_id = None # Is assigned after inset attempt
+        workspace_id = (
+            None  # Assign workspace ID dynamically if available, not sure what to put
+        )
+        license_id = None  # Is assigned after inset attempt
         user_ids = [user["id"] for user in contributor_data]
         print(user_ids)
-        archieved_user_ids = [0,1]
-        linked_status= "Linked"
+        archieved_user_ids = [0, 1]
+        linked_status = "Linked"
         # print("Calling query_insert_licenses with:")
         # print("Key:", repo_details["license"]["key"])
         # print("Name:", repo_details["license"]["name"])
@@ -50,13 +52,13 @@ async def assign_repo_data(owner: str, repo: str):
         if repo_details["license"] is None:
             print("No licenses found")
         else:
-             license_id = query_insert_licenses(
+            license_id = query_insert_licenses(
                 conn,
                 repo_details["license"]["key"],
                 repo_details["license"]["name"],
                 repo_details["license"]["spdx_id"],
                 repo_details["license"]["url"],
-                repo_details["license"]["node_id"]
+                repo_details["license"]["node_id"],
             )
         print("LICENSE ID:", license_id, "Type: ", type(license_id))
         license_id = 1
@@ -75,7 +77,7 @@ async def assign_repo_data(owner: str, repo: str):
             repo_details["contributors_url"],
             default_branch,
             user_ids,
-            archieved_user_ids, # Archived user IDs
+            archieved_user_ids,  # Archived user IDs
             license_id,
             workspace_id,
         )
@@ -125,13 +127,8 @@ async def assign_repo_data(owner: str, repo: str):
             lang_name = str(lang_name)
             query_insert_language(conn, repository_id, lang_name)
 
-
     # except Exception as e:
     #       exc_type, exc_obj, exc_tb = sys.exc_info()
     #       f_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
     #       print(exc_type, f_name, exc_tb.tb_lineno)
     #       print(f"Error processing repository {owner}/{repo}: {e}")
-    finally:
-        conn.close()
-
-
