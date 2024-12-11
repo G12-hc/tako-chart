@@ -81,7 +81,7 @@ def query_file_by_line_count(cursor, repo_id):
     cursor.execute(
         """
         SELECT
-            REGEXP_REPLACE(f.name, '^[^.]*\\.', '') AS stripped_name,
+            REGEXP_REPLACE(f.name, '^[^.]*\.', '') AS stripped_name,
             SUM(f.line_count) AS total_line_count
         FROM files f
         JOIN branches b ON f.branch_id = b.id
