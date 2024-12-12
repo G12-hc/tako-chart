@@ -65,7 +65,7 @@ h1 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex: 1 1 auto;
+  flex: 1 1 50%;
   min-width: 0; /* Allow shrinking within flex containers */
 }
 
@@ -189,6 +189,7 @@ tr:nth-child(even) {
 
 /*  Commits per author Table container Styling */
 .table-wrapper {
+  flex: 1 1 50%;
   margin-top: 40px;
   margin-left: -50px;
   margin-right: 50px;
