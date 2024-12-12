@@ -281,7 +281,7 @@ async def query_functional_line_counts_per_file(cursor, repo_id):
         WHERE f.branch_id = (
             SELECT b.id
             FROM branches b
-            JOIN repositories r ON r.id = %s
+            JOIN repositories r ON r.id = %s AND b.repository_id = r.id
             WHERE r.default_branch = b.name
 
         )
