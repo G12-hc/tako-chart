@@ -144,7 +144,10 @@ async function drawPieChart(domElement, { endpoint, getLabel, getValue, repo }) 
       labels: data.map(getLabel),
       values: data.map(getValue),
       type: "pie",
+      textinfo: "none",
+      showlegend: false,
       hoverinfo: "percent+label",
+      domain: { x: [0, 1], y: [0, 1] },
     },
   ];
 
@@ -161,6 +164,8 @@ async function drawBarChart(domElement, { xLabel, yLabel, endpoint, getX, getY, 
       x: data.map(getX),
       y: data.map(getY),
       type: "bar",
+      marker: { color: "rgba(5,112,1,0.65)" },
+      textinfo: "none",
     },
   ];
 
@@ -177,6 +182,7 @@ async function drawHistogram(domElement, { xLabel, yLabel, endpoint, getX, repo 
     {
       x: data.map(getX),
       type: "histogram",
+      marker: { color: "rgba(5,112,1,0.65)" },
     },
   ];
 
