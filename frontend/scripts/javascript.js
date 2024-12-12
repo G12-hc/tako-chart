@@ -203,11 +203,13 @@ async function drawBarChart(
       type: "bar",
       marker: { color: "rgba(5,112,1,0.65)" },
       textinfo: "none",
-
     },
   ];
   layout = {
-    xaxis: { title: { text: xLabel } },
+    xaxis: {
+      title: { text: xLabel },
+      showticklabels: false
+    },
     yaxis: { title: { text: yLabel } },
     barcornerradius: 7,
   };
