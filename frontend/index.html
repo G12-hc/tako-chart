@@ -27,7 +27,7 @@
       <select id="repos-dropdown">
         <option></option>
       </select>
-      <a class="compare-btn" href="compare.html">Compare</a>
+      <a class="compare-btn button" href="compare.html">Compare</a>
     </div>
     <!-- List of containers, currently commit/author pie; lines/file bar; commit/time bar. -->
     <!-- Container for commits per author pie chart -->
@@ -36,10 +36,16 @@
       <div class="commits-per-author-chart-content">
         <div class="commits-per-authors-title" data-text="pie Chart">
           <h2>Commits per author</h2>
-          <!-- graph container-->
         </div>
-        <div class="plotly-graph"></div>
+
+        <!-- Graph container -->
+
+          <div class="plotly-graph" id="commits-per-author-plotlyGraph"></div>
+          <button class="fullscreen-button button">Make Full Screen</button>
+
       </div>
+
+
       <!--container; description and tables-->
       <div class="table-wrapper">
         <div class="commits-per-author-description">
@@ -110,9 +116,12 @@
       <div class="code-lines-in-file-per-project-content">
         <div class="code-lines-in-file-per-project-title" data-text="Bar Chart">
           <h2>Lines of code per files</h2>
-          <!-- graph container-->
         </div>
-        <div class="plotly-graph"></div>
+
+       <!-- Graph container -->
+
+          <div class="plotly-graph" id="code-lines-in-file-plotlyGraph"></div>
+          <button class="fullscreen-button button">Make Full Screen</button>
       </div>
     </div>
     <!--Container for commits over time bar chart -->
@@ -121,11 +130,16 @@
       <div class="commits-over-time-chart-content">
         <div class="commits-over-time-title" data-text="bar Chart">
           <h2>Commits over time</h2>
-          <!-- graph container-->
         </div>
-        <div class="plotly-graph"></div>
+       <!-- Graph container -->
+
+          <div class="plotly-graph" id="commits-over-time-plotlyGraph"></div>
+          <button class="fullscreen-button button">Make Full Screen</button>
+
       </div>
-      <!--container; description and tables-->
+
+
+        <!--container; description and tables-->
       <div class="commits-over-time-table-wrapper">
         <div class="commits-over-time-description">
           This bar chart illustrates the number of commits made over time, with

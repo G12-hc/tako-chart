@@ -78,6 +78,8 @@ fabric.properties
 
 
 # Our specific files
+# Server configuration
+/cfg.ini
 # Virtual environments
 venv/
 .venv/
