@@ -3,11 +3,9 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
 from app import routers
-from app.db.connection import initialize_db
 
 
 def create_app():
-    initialize_db()
     # Create the API application instance
     api_app = FastAPI(title="API app")
     api_app.include_router(routers.router)
