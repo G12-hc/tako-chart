@@ -194,15 +194,20 @@ async function drawHistogram(domElement, { xLabel, yLabel, endpoint, getX, repo 
 
 // Initialize dropdowns for the two repositories
 initReposDropdown(
-  document.getElementById("repos-dropdown1"),
-  "plotly-graph1",
-  "dropdown_type_chart1",
-  "repo1"
+    document.getElementById("repos-dropdown1"),
+    "plotly-graph1",
+    selectedChartType,
+    "repo1"
 );
 
 initReposDropdown(
-  document.getElementById("repos-dropdown2"),
-  "plotly-graph2",
-  "dropdown_type_chart2",
-  "repo2"
+    document.getElementById("repos-dropdown2"),
+    "plotly-graph2",
+    selectedChartType,
+    "repo2"
 );
+
+document.getElementById('global_type_chart').onchange = function () {
+  const selectedChartType = this.value;
+
+}
