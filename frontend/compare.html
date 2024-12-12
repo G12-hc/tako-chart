@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet"/>
+    <link rel="icon" type="image/x-icon" href="favicon.ico"/>
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+    <link rel="stylesheet" href="styles/compare_styles.css"/>
+    <title>Compare Repositories</title>
+</head>
+<body>
+    <div class="web-title">
+        <a href="index.html">
+            <img alt="The tako-chart logo, a purple octopus" id="titleImg" src="assets/takochart-rounded-64x.png"/>
+        </a>
+        <h1>Compare Repositories</h1>
+        <a class="compare-btn" href="index.html">Back</a>
+    </div>
+
+    <div class="compare-container">
+        <!-- First repository chart -->
+        <div class="chart-content">
+            <label for="repos-dropdown1">Repository 1:
+                <select id="repos-dropdown1">
+                    <option value="">Select a repository</option>
+                </select>
+            </label>
+            <label for="dropdown_type_chart1">Chart Type 1:
+                <select id="dropdown_type_chart1">
+                    <option value="pie">Commits by Author (Pie)</option>
+                    <option value="bar">Lines of Code (Bar)</option>
+                    <option value="hist">Commits Over Time (Histogram)</option>
+                </select>
+            </label>
+            <div id="plotly-graph1" class="plotly-graph"></div>
+        </div>
+
+        <!-- Second repository chart -->
+        <div class="chart-content">
+            <label for="repos-dropdown2">Repository 2:
+                <select id="repos-dropdown2">
+                    <option value="">Select a repository</option>
+                </select>
+            </label>
+            <label for="dropdown_type_chart2">Chart Type 2:
+                <select id="dropdown_type_chart2">
+                    <option value="pie">Commits by Author (Pie)</option>
+                    <option value="bar">Lines of Code (Bar)</option>
+                    <option value="hist">Commits Over Time (Histogram)</option>
+                </select>
+            </label>
+            <div id="plotly-graph2" class="plotly-graph"></div>
+        </div>
+    </div>
+
+    <script src="scripts/javascript_compare.js"></script>
+</body>
+</html>

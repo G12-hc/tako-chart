@@ -29,7 +29,7 @@ if (currentRepo !== "") {
   });
 }
 
-async function initReposDropdown() {
+async function initReposDropdown(dropdown) {
   // Fetch data from the repository
   const data = await fetch("/api/repos");
 
@@ -38,8 +38,8 @@ async function initReposDropdown() {
   }
 
   const repos = JSON.parse(await data.text()).repos;
-  const dropdown = document.getElementById("repos-dropdown");
-
+  /*const dropdown = document.getElementById("repos-dropdown");
+*/
   for (const { id, name, owner } of repos) {
     const option = document.createElement("option");
     option.textContent = `${owner}/${name}`;
@@ -56,8 +56,19 @@ async function initReposDropdown() {
     document.location.search = `?repo=${dropdown.value}`;
   };
 }
+const dropdown = document.getElementById("repos-dropdown");
+const dropdown1 = document.getElementById("repos-dropdown1");
+const dropdown2 = document.getElementById("repos-dropdown2");
 
-initReposDropdown();
+if (dropdown){
+  initReposDropdown(dropdown)
+}
+if (dropdown1){
+  initReposDropdown(dropdown1);
+}
+if (dropdown2){
+  initReposDropdown(dropdown2);
+}
 
 async function fetchData({ endpoint, repo }) {
   // Fetch data for the chart
