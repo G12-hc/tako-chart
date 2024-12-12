@@ -7,7 +7,9 @@ if (currentRepo !== "") {
     getValue: (row) => row.commit_count,
     endpoint: "commits-per-author",
     repo: currentRepo,
-  });
+    },
+      "commits"
+  );
 
   drawBarChart(
     document.querySelector(".code-lines-in-files-per-project-container"),
@@ -19,6 +21,7 @@ if (currentRepo !== "") {
       endpoint: "line-counts-per-file",
       repo: currentRepo,
     },
+      "files"
   );
   drawHistogram(document.querySelector(".commits-over-time-container"), {
     getX: (commit) => commit.date,
@@ -71,39 +74,39 @@ async function fetchData({ endpoint, repo }) {
   }
 }
 
-function drawTables(element, data) {
-  const mostCommitsTable = element.querySelector(".most-table");
-  const leastCommitsTable = element.querySelector(".least-table");
+function drawTables(element, data, label) {
+  const mostTable = element.querySelector(".most-table");
+  const leastTable = element.querySelector(".least-table");
 
-  const highestCommitters = data.slice(0, 3);
-  const lowestCommitters = data.slice(Math.max(data.length - 3, 0)).reverse();
+  const highestEntries = data.slice(0, 3);
+  const lowestEntries = data.slice(Math.max(data.length - 3, 0)).reverse();
 
   var i = 0;
 
-  for (const [author, commitCount] of highestCommitters) {
+  for (const [author, commitCount] of highestEntries) {
     const row = document.createElement("tr");
-    mostCommitsTable.appendChild(row);
+    mostTable.appendChild(row);
     const rankCell = document.createElement("td");
     rankCell.textContent = `${i + 1}`;
     row.appendChild(rankCell);
-    const authorCell = document.createElement("td");
-    authorCell.textContent = `${author} (${commitCount} commits)`;
-    row.appendChild(authorCell);
+    const entryCell = document.createElement("td");
+    entryCell.textContent = `${author} (${commitCount} ${label})`;
+    row.appendChild(entryCell);
 
     i++;
   }
 
   i = data.length;
 
-  for (const [author, commitCount] of lowestCommitters) {
+  for (const [author, commitCount] of lowestEntries) {
     const row = document.createElement("tr");
-    leastCommitsTable.appendChild(row);
+    leastTable.appendChild(row);
     const rankCell = document.createElement("td");
     rankCell.textContent = `${i}`;
     row.appendChild(rankCell);
-    const authorCell = document.createElement("td");
-    authorCell.textContent = `${author} (${commitCount} commits)`;
-    row.appendChild(authorCell);
+    const entryCell = document.createElement("td");
+    entryCell.textContent = `${author} (${commitCount} ${label})`;
+    row.appendChild(entryCell);
 
     i--;
   }
@@ -146,6 +149,7 @@ async function drawHistogram(
 async function drawPieChart(
   domElement,
   { endpoint, getLabel, getValue, repo },
+  label,
 ) {
   const data = await fetchData({ endpoint, repo });
 
@@ -180,7 +184,7 @@ async function drawPieChart(
   const dataAsArrays = data.map((row) => [getLabel(row), getValue(row)]);
 
   Plotly.newPlot(domElement.querySelector(".plotly-graph"), plotlyData, layout);
-  drawTables(domElement, dataAsArrays);
+  drawTables(domElement, dataAsArrays, label);
 
     setupFullscreenButton(graphDiv, button);
 
@@ -189,6 +193,7 @@ async function drawPieChart(
 async function drawBarChart(
   domElement,
   { xLabel, yLabel, endpoint, getX, getY, repo },
+  label,
 ) {
   const data = await fetchData({ endpoint, repo });
 
@@ -220,7 +225,7 @@ async function drawBarChart(
   const dataAsArrays = data.map((row) => [getX(row), getY(row)]);
 
   Plotly.newPlot(domElement.querySelector(".plotly-graph"), plotlyData, layout);
-  drawTables(domElement, dataAsArrays);
+  drawTables(domElement, dataAsArrays, label);
 
     setupFullscreenButton(graphDiv, button);
 
