@@ -1,12 +1,14 @@
 from fastapi import APIRouter
+
 from app.db import db_connection
 from app.db.queries import (
+    query_commits_per_author,
     query_commit_dates,
     query_repos,
-    query_commits_per_author,
-    query_line_counts_per_file,
     query_functional_line_counts_per_file,
+    query_line_counts_per_file,
 )
+from app.parsing_data import assign_repo_data
 
 router = APIRouter()
 
@@ -16,6 +18,11 @@ def get_all_repos():
     with db_connection() as conn:
         repos = query_repos(conn)
         return {"repos": repos}
+
+
+@router.post("/fetch-repo/{owner}/{repo}")
+async def import_repo_data(owner, repo):
+    await assign_repo_data(owner, repo)
 
 
 @router.get("/chart-data/commit-dates/{repo_id}")

@@ -23,11 +23,18 @@
         src="assets/takochart-rounded-64x.png"
       />
       <h1>TakoChart</h1>
-      <label for="repos-dropdown" id="repos-dropdown-label">Repository:</label>
-      <select id="repos-dropdown">
-        <option></option>
-      </select>
-      <a class="compare-btn button" href="compare.html">Compare</a>
+      <div id="topbar">
+        <div id="repo-container">
+          <label class="btn-compare" for="repos-dropdown-label" id="repos-dropdown-label">Repository</label>
+          <select id="repos-dropdown">
+            <option></option>
+          </select>
+        </div>
+        <div id="button-group">
+          <button class="compare-btn button" onclick="window.prompt('Owner/Repository\nex. (g12-hc/tako-chart)')">Add Repository</button>
+          <button class="compare-btn button" onclick="window.location.href='compare.html'">Compare</button>
+        </div>
+      </div>
     </div>
     <!-- List of containers, currently commit/author pie; lines/file bar; commit/time bar. -->
     <!-- Container for commits per author pie chart -->
@@ -35,13 +42,13 @@
       <!--graph and title container-->
       <div class="commits-per-author-chart-content">
         <div class="commits-per-authors-title" data-text="pie Chart">
-          <h2>Commits per author</h2>
+          <h2>Commits per Author</h2>
         </div>
 
         <!-- Graph container -->
 
           <div class="plotly-graph" id="commits-per-author-plotlyGraph"></div>
-          <button class="fullscreen-button button">Make Full Screen</button>
+          <button class="fullscreen-button button">Fullscreen</button>
 
       </div>
 
@@ -50,11 +57,8 @@
       <div class="table-wrapper">
         <div class="commits-per-author-description">
           <p>
-            This pie chart illustrates the number of commits made by contributors,
-            with each piece of the pie representing a specific author and its
-            percentage corresponding to the total commits. It provides a clear
-            visual comparison of contribution levels among authors, highlighting
-            differences in activity.
+          Illustrates commits per commit author. Each section represents specific
+          author and percentage share of total commits.
           </p>
         </div>
         <div class="table-block">
@@ -87,11 +91,9 @@
         <!--Description container -->
         <div class="code-lines-in-files-per-project-description">
           <p>
-            This bar chart illustrates the number of lines of code across files,
-            with each bar representing a specific file and its height
-            corresponding to the total lines of code within that file. It provides
-            a clear visual comparison of code volume among files, highlighting
-            differences in file size and complexity.
+          Illustrates amount of lines in each file in this repository
+          each bar represents a specific file, which can be seen by hovering
+          over said bar.
           </p>
         </div>
         <!--Tables container -->
@@ -119,13 +121,13 @@
       <!--graph and title container-->
       <div class="code-lines-in-file-per-project-content">
         <div class="code-lines-in-file-per-project-title" data-text="Bar Chart">
-          <h2>Lines of code per file</h2>
+          <h2>Lines per File</h2>
         </div>
 
        <!-- Graph container -->
 
           <div class="plotly-graph" id="code-lines-in-file-plotlyGraph"></div>
-          <button class="fullscreen-button button">Make Full Screen</button>
+          <button class="fullscreen-button button">Fullscreen</button>
       </div>
     </div>
     <!--Container for commits over time bar chart -->
@@ -133,12 +135,12 @@
       <!--graph and title container-->
       <div class="commits-over-time-chart-content">
         <div class="commits-over-time-title" data-text="bar Chart">
-          <h2>Commits over time</h2>
+          <h2>Commits over Time</h2>
         </div>
        <!-- Graph container -->
 
           <div class="plotly-graph" id="commits-over-time-plotlyGraph"></div>
-          <button class="fullscreen-button button">Make Full Screen</button>
+          <button class="fullscreen-button button">Fullscreen</button>
 
       </div>
 
@@ -147,12 +149,8 @@
       <div class="commits-over-time-table-wrapper">
         <div class="commits-over-time-description">
           <p>
-            This bar chart illustrates the number of commits made over time, with
-            each bar representing a specific time period and its height
-            corresponding to the total commits during that period. It provides a
-            clear visual comparison of activity levels across different
-            timeframes, highlighting trends and variations in contribution over
-            time.
+          Illustrates number of commits over time, each bar represents a time period
+          (1 (one) week) along with how many commits were made.
           </p>
         </div>
       </div>

@@ -20,16 +20,28 @@ h1 {
   color: #e9ede4;
   font-size: 21px;
   display: flex;
+  gap: 10px;
   margin: 10px 20px;
   align-items: center;
   flex-direction: row;
+}
+
+.web-title > img {
+  filter: drop-shadow(0 0 10px #ddd);
+}
+
+.web-title > h1 {
+  text-shadow: 1px 3px 2px #ddd;
 }
 /*Button redirect to compare page*/
 .compare-btn {
   margin-left: auto;
   margin-right: 5%;
+  margin-bottom: 0;
+  margin-top: 0 !important;
   text-decoration: none;
   font-weight: bold;
+  font-size: inherit;
 }
 
 /* COMMON STYLING FOR EVERY DISPLAY*/
@@ -151,19 +163,6 @@ td:hover {
   background-color: #f2f2f2;
   cursor: pointer;
 }
-td:hover::after {
-  content: attr(data-full-text); /* Show full text from a custom attribute */
-  position: absolute;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  padding: 5px;
-  z-index: 1;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  white-space: normal; /* Allow wrapping */
-  max-width: 300px; /* Optional: control tooltip size */
-  color: #333;
-}
-
 
 /*tables rows colors(odds white,even gray)*/
 tr:nth-child(odd) {
@@ -232,7 +231,11 @@ tr:nth-child(even) {
   transform: scale(0.95);
 }
 
-
+#button-group {
+  display: flex;
+  gap: 1em;
+  margin-left: auto;
+}
 
 
 /*CODE LINES IN FILE PER PROJECT STYLING*/
@@ -265,13 +268,35 @@ tr:nth-child(even) {
 /* Repositories dropdown and its label */
 #repos-dropdown {
   font-size: inherit;
-  margin-left: 1em;
-
+  background: white;
+  border: 0;
+  border-left: solid 2px #47ae31 !important;
+  padding: 5px 5px;
 }
 
 #repos-dropdown-label {
+  color: white;
+  height: 100% !important;
+  position: relative;
+  background: #47ae31;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+#repo-container {
   margin-left: 3em;
-  color: #47ae31;
+  padding-left: 3px;
+  border: solid 2px #43972a;
+  background: #47ae31;
+  border-radius: 5px 5px 5px 5px;
+}
+
+#topbar {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  position: relative;
 }
 
 /* Responsive Design */
