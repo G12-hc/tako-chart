@@ -1,139 +1,86 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-
-
-
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="icon" type="text/x-icon" href="favicon.ico" />
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Graph and Table Comparison</title>
+  <link rel="icon" type="text/x-icon" href="favicon.ico" />
     <!-- Load plotly.js into the DOM -->
     <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
-    <link rel="stylesheet" href="styles/style.css" />
-    <title>Side-by-Side Tables</title>
-  </head>
+    <link rel="stylesheet" href="styles/style2.css" />
+</head>
 <body>
-
-
-  <div class="web-title">
-    <img
-            alt="The tako-chart logo, a purple octopus"
-            id="titleImg"
-            src="assets/takochart-rounded-64x.png"
-    />
-    <h1>TakoChart</h1>
-    <label for="repos-dropdown" id="repos-dropdown-label">Repository:</label>
-    <select id="repos-dropdown">
-      <option></option>
-    </select>
-    <a class="compare-btn" href="index.html">Home</a>
-  </div>
-
-  <!-- List of containers, currently commit/author pie; lines/file bar; commit/time bar. -->
-  <!-- Container for commits per author pie chart -->
-  <div class="commits-per-author-container">
-    <!--graph and title container-->
-    <div class="commits-per-author-chart-content">
-      <div class="commits-per-authors-title" data-text="pie Chart">
-        <form action="/action_page.php">
-        <label for="cars">Choose a car:</label>
-      <select name="cars" id="cars">
-        <option value="volvo">Volvo</option>
-        <option value="saab">Saab</option>
-        <option value="opel">Opel</option>
-        <option value="audi">Audi</option>
-      </select>
-    <br><br>
-    <input type="submit" value="Submit">
-</form>
-        <!-- graph container-->
-      </div>
-      <div class="plotly-graph"></div>
+  <header>
+    <div class="logo">
+      <img src="favicon.ico" alt="Logo">
+      <div class="title">TITLE</div>
     </div>
-    <div class="commits-per-author-chart-content">
-      <div class="commits-per-authors-title" data-text="pie Chart">
-        <h2>Commits per author</h2>
-        <!-- graph container-->
-      </div>
-      <div class="plotly-graph"></div>
+    <nav class="nav">
+      <a href="#">Topic 1</a>
+      <a href="#">Topic 2</a>
+      <a href="#">Topic 3</a>
+      <a href="#">Topic 4</a>
+    </nav>
+    <div class="search">
+      <label>
+        <input type="text" placeholder="Search">
+      </label>
+      <button>Go</button>
     </div>
-  </div>
+  </header>
 
-
-  <div class="commits-per-author-container">
-    <div class="table-wrapper">
-      <div class="table-block">
-        <table class="most-table">
-          <colgroup>
-            <col />
-            <col />
-          </colgroup>
-          <tr>
-            <th colspan="2">Most</th>
-          </tr>
-        </table>
-        <table class="least-table">
-          <colgroup>
-            <col />
-            <col />
-          </colgroup>
-          <tr>
-            <th colspan="2">Least</th>
-          </tr>
-        </table>
+  <main>
+      <h2>Graph Comparison</h2>
+    <section class="section graph-comparison">
+      <div>
+        <label for="repo-dropdown-1"></label><select id="repo-dropdown-1">
+          <option value="repo1">Repo 1</option>
+          <option value="repo2">Repo 2</option>
+        </select>
+        <div id="graph1" class="graph"></div>
       </div>
-    </div>
-    <div class="table-wrapper">
-      <div class="table-block">
-        <table class="most-table">
-          <colgroup>
-            <col />
-            <col />
-          </colgroup>
-          <tr>
-            <th colspan="2">Most</th>
-          </tr>
-        </table>
-        <table class="least-table">
-          <colgroup>
-            <col />
-            <col />
-          </colgroup>
-          <tr>
-            <th colspan="2">Least</th>
-          </tr>
-        </table>
+      <div>
+        <label for="repo-dropdown-2"></label><select id="repo-dropdown-2">
+          <option value="repo1">Repo 1</option>
+          <option value="repo2">Repo 2</option>
+        </select>
+        <div id="graph2" class="graph"></div>
       </div>
-    </div>
-    <div class="table-wrapper">
-      <div class="table-block">
-        <table class="most-table">
-          <colgroup>
-            <col />
-            <col />
-          </colgroup>
-          <tr>
-            <th colspan="2">Most</th>
-          </tr>
-        </table>
-        <table class="least-table">
-          <colgroup>
-            <col />
-            <col />
-          </colgroup>
-          <tr>
-            <th colspan="2">Least</th>
-          </tr>
-        </table>
+    </section>
+    <h2>Table Comparison</h2>
+    <section class="section table-comparison">
+      <div>Repo Name</div>
+      <div>Comp 1</div>
+      <div>Comp 2</div>
+      <div>Comp 3</div>
+      <div>Repo 1</div>
+      <div>Value 1</div>
+      <div>Value 2</div>
+      <div>Value 3</div>
+      <div>Repo 2</div>
+      <div>Value 4</div>
+      <div>Value 5</div>
+      <div>Value 6</div>
+    </section>
+    <h2>Individual Tables</h2>
+    <section class="section individual-tables">
+      <div class="repo">
+        <h3>Repo 1</h3>
+        <div class="most-least">
+          <div>Most</div>
+          <div>Least</div>
+        </div>
       </div>
-    </div>
-  </div>
+      <div class="repo">
+        <h3>Repo 2</h3>
+        <div class="most-least">
+          <div>Most</div>
+          <div>Least</div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <div class="plotly-graph"></div>
+  <div class="plotly-graph"></div>
 </body>
-  <script src="scripts/javascript.js"></script>
 </html>

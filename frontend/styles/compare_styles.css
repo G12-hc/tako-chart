@@ -1,0 +1,147 @@
+body, h1, h2, table, img, div, a {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+@media (max-width: 768px) {
+  .compare-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .chart-content {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}
+
+  body {
+    font-family: 'Open Sans', sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f9;
+    color: #333;
+    padding: 20px;
+  }
+
+  .web-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .web-title img {
+    height: 40px;
+    width: auto;
+  }
+
+  .web-title h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  .web-title .compare-btn {
+    text-decoration: none;
+    color: #fff;
+    background-color: #4CAF50;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+  }
+
+  .web-title .compare-btn:hover {
+    background-color: #45a049;
+  }
+
+  .compare-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+  }
+
+  .chart-content {
+    flex: 1 1 45%;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .chart-to-compare {
+    margin-bottom: 15px;
+  }
+
+  .chart-to-compare h2 {
+    font-size: 1.2rem;
+    text-align: center;
+  }
+
+  .plotly-graph {
+    height: 300px;
+  }
+
+  .table-wrapper {
+    flex: 1 1 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
+  }
+
+  .table-block {
+    width: 100%;
+    display: flex;
+    gap: 20px;
+    justify-content: space-around;
+  }
+
+  .most-table, .least-table {
+    width: 45%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .most-table th, .least-table th {
+    text-align: center;
+    font-size: 1.1rem;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+  }
+
+  .most-table td, .least-table td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ddd;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .chart-content {
+      flex: 1 1 100%;
+    }
+
+    .most-table, .least-table {
+      width: 90%;
+    }
+  }
+
+.plotly-graph {
+  transition: transform 0.2s;
+}
+
+.plotly-graph:hover {
+  transform: scale(1.05);
+}
