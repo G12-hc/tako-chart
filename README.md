@@ -41,4 +41,5 @@ $ make deps # To reinstall dependencies
 $ make clean # Clean the virtual environment
 ```
 ### 5. Done!
-Open in browser at `https://localhost:8000`
+Open in browser at `https://HOST_IP:8000`
+- If running on the same machine: `https://localhost:8000`
