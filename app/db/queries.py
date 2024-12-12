@@ -5,18 +5,18 @@ from typing import List
 
 
 def query(query_function):
-    def wrapper(conn, *args, **kwargs):
+    async def wrapper(conn, *args, **kwargs):
         try:
-            with conn.cursor(row_factory=dict_row) as cursor:
-                result = query_function(cursor, *args, **kwargs)
+            async with conn.cursor(row_factory=dict_row) as cursor:
+                result = await query_function(cursor, *args, **kwargs)
 
                 if result is not None:
                     return result
 
                 if cursor.description is not None:
                     if result == "one":
-                        return cursor.fetchone()
-                    return cursor.fetchall()
+                        return await cursor.fetchone()
+                    return await cursor.fetchall()
 
                 return cursor.rowcount
         except Exception as e:
@@ -27,12 +27,12 @@ def query(query_function):
 
 
 @query
-def query_repos(cursor):
-    cursor.execute("SELECT * FROM repositories")
+async def query_repos(cursor):
+    await cursor.execute("SELECT * FROM repositories")
 
 
 @query
-def query_file_by_line_count(cursor, repo_id):
+async def query_file_by_line_count(cursor, repo_id):
     """
     Fetch files for a specific branch with a minimum line count.
     :param cursor:
@@ -40,7 +40,7 @@ def query_file_by_line_count(cursor, repo_id):
     :return:
     """
     params = [repo_id]
-    cursor.execute(
+    await cursor.execute(
         """
         SELECT
             REGEXP_REPLACE(f.name, '^[^.]*\.', '') AS stripped_name,
@@ -57,9 +57,9 @@ def query_file_by_line_count(cursor, repo_id):
 
 
 @query
-def query_insert_commits(cursor, sha, date, message, author, repository_id):
+async def query_insert_commits(cursor, sha, date, message, author, repository_id):
     params = [sha, date, message, author, repository_id]
-    cursor.execute(
+    await cursor.execute(
         """
         INSERT INTO commits (sha, date, message, author, repository_id)
         VALUES(%s, %s, %s, %s, %s)
@@ -69,7 +69,7 @@ def query_insert_commits(cursor, sha, date, message, author, repository_id):
 
 
 @query
-def query_insert_repository(
+async def query_insert_repository(
     cursor,
     repository_id: str,
     external_id: int,
@@ -105,7 +105,7 @@ def query_insert_repository(
         workspace_id,
     ]
 
-    cursor.execute(
+    await cursor.execute(
         """
         INSERT INTO repositories (id,external_id, watchers, forks_count, name, owner, status, 
                                     linked_at, modified_at, contributors_url, default_branch, 
@@ -117,7 +117,7 @@ def query_insert_repository(
 
 
 @query
-def query_insert_files(
+async def query_insert_files(
     cursor,
     is_directory,
     path,
@@ -128,7 +128,7 @@ def query_insert_files(
     branch_name,
     repo_id,
 ):
-    cursor.execute(
+    await cursor.execute(
         """
         INSERT INTO files (is_directory, path, name, line_count, functional_line_count, "symlinkTarget", branch_id)
         SELECT %(is_directory)s, %(path)s, %(name)s, %(line_count)s, %(functional_line_count)s, %(symlink_target)s, b.id
@@ -149,9 +149,9 @@ def query_insert_files(
 
 
 @query
-def query_insert_branches(cursor, name, repository_id):
+async def query_insert_branches(cursor, name, repository_id):
     params = [name, repository_id]
-    cursor.execute(
+    await cursor.execute(
         """
         INSERT INTO branches (name, repository_id)
         VALUES(%s, %s)
@@ -161,12 +161,12 @@ def query_insert_branches(cursor, name, repository_id):
 
 
 @query
-def query_insert_language(cursor, repository_id, lang_name: str):
+async def query_insert_language(cursor, repository_id, lang_name: str):
     """
     Inserts a language into the `languages` table if it doesn't already exist.
     Returns the ID of the language.
     """
-    cursor.execute(
+    await cursor.execute(
         """
         INSERT INTO languages (name)
         VALUES (%s)
@@ -175,14 +175,14 @@ def query_insert_language(cursor, repository_id, lang_name: str):
         """,
         [lang_name],
     )
-    result = cursor.fetchone()
+    result = await cursor.fetchone()
 
     # If result is not set then (language already exists), else set to the existing ID
     if result is None:
-        cursor.execute("SELECT id FROM languages WHERE name = %s", [lang_name])
+        await cursor.execute("SELECT id FROM languages WHERE name = %s", [lang_name])
         result = cursor.fetchone()
     lang_id = result["id"]
-    cursor.execute(
+    await cursor.execute(
         """
         INSERT INTO repository_languages (language_id, repository_id)
         VALUES (%s, %s)
@@ -193,7 +193,7 @@ def query_insert_language(cursor, repository_id, lang_name: str):
 
 
 @query
-def query_insert_licenses(
+async def query_insert_licenses(
     cursor, key=None, name=None, spdx_id=None, url=None, node_id=None
 ):
     """
@@ -201,7 +201,7 @@ def query_insert_licenses(
     it with a repository in the `repositories` table.
     """
     # Check if the license already exists by key or other attributes
-    cursor.execute(
+    await cursor.execute(
         """
         SELECT id
         FROM licenses
@@ -214,14 +214,14 @@ def query_insert_licenses(
         """,
         [key, name, spdx_id, url, node_id],
     )
-    lic = cursor.fetchone()
+    lic = await cursor.fetchone()
 
     # If a license exists, return its ID
     if lic is not None:
         existing_license = lic["id"]
     else:
         # Insert the new license and fetch the ID
-        cursor.execute(
+        await cursor.execute(
             """
             INSERT INTO licenses (key, name, spdx_id, url, node_id)
             VALUES (%s, %s, %s, %s, %s)
@@ -229,7 +229,7 @@ def query_insert_licenses(
             """,
             [key, name, spdx_id, url, node_id],
         )
-        lic = cursor.fetchone()
+        lic = await cursor.fetchone()
         existing_license = lic["id"]
 
     print("ID inside query: ", existing_license, "Type: ", type(existing_license))
@@ -237,9 +237,9 @@ def query_insert_licenses(
 
 
 @query
-def query_commits_per_author(cursor, repo_id):
+async def query_commits_per_author(cursor, repo_id):
     params = [repo_id]
-    cursor.execute(
+    await cursor.execute(
         """
         SELECT c.author, COUNT(DISTINCT c.id) as commit_count
         FROM commits c
@@ -252,9 +252,9 @@ def query_commits_per_author(cursor, repo_id):
 
 
 @query
-def query_line_counts_per_file(cursor, repo_id):
+async def query_line_counts_per_file(cursor, repo_id):
     params = [repo_id]
-    cursor.execute(
+    await cursor.execute(
         """
         SELECT f.path, f.line_count
         FROM files f
@@ -272,9 +272,9 @@ def query_line_counts_per_file(cursor, repo_id):
 
 
 @query
-def query_functional_line_counts_per_file(cursor, repo_id):
+async def query_functional_line_counts_per_file(cursor, repo_id):
     params = [repo_id]
-    cursor.execute(
+    await cursor.execute(
         """
         SELECT f.path, f.functional_line_count
         FROM files f
@@ -292,9 +292,9 @@ def query_functional_line_counts_per_file(cursor, repo_id):
 
 
 @query
-def query_commit_dates(cursor, repo_id):
+async def query_commit_dates(cursor, repo_id):
     params = [repo_id]
-    cursor.execute(
+    await cursor.execute(
         """
         SELECT c.date
         FROM commits c

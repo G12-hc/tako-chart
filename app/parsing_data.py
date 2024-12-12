@@ -22,7 +22,7 @@ from app.db.queries import (
 
 
 async def assign_repo_data(owner: str, repo: str):
-    with db_connection() as conn:
+    async with db_connection() as conn:
         # fetch data from the git api
         [repo_details, commit_data, lang_data, contributor_data] = await asyncio.gather(
             get_repository_details(owner, repo),
@@ -46,7 +46,7 @@ async def assign_repo_data(owner: str, repo: str):
         if repo_details["license"] is None:
             print("No licenses found")
         else:
-            license_id = query_insert_licenses(
+            license_id = await query_insert_licenses(
                 conn,
                 repo_details["license"]["key"],
                 repo_details["license"]["name"],
@@ -55,7 +55,7 @@ async def assign_repo_data(owner: str, repo: str):
                 repo_details["license"]["node_id"],
             )
         # Repository
-        query_insert_repository(
+        await query_insert_repository(
             conn,
             repository_id,
             repo_details["id"],
@@ -74,12 +74,12 @@ async def assign_repo_data(owner: str, repo: str):
             workspace_id,
         )
         # Branches
-        query_insert_branches(conn, default_branch, repository_id)
+        await query_insert_branches(conn, default_branch, repository_id)
 
         # Files
         analyzed_files = await analyze_repository(owner, repo, default_branch)
         for path, data in analyzed_files.items():
-            query_insert_files(
+            await query_insert_files(
                 conn,
                 data["is_directory"],
                 path,
@@ -94,7 +94,7 @@ async def assign_repo_data(owner: str, repo: str):
             )
 
         for commit in commit_data:
-            query_insert_commits(
+            await query_insert_commits(
                 conn,
                 commit["sha"],
                 commit["commit"]["author"]["date"],
@@ -105,7 +105,7 @@ async def assign_repo_data(owner: str, repo: str):
 
         for lang_name in lang_data.keys():
             lang_name = str(lang_name)
-            query_insert_language(conn, repository_id, lang_name)
+            await query_insert_language(conn, repository_id, lang_name)
 
     # except Exception as e:
     #       exc_type, exc_obj, exc_tb = sys.exc_info()
