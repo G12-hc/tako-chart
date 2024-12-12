@@ -231,7 +231,11 @@ tr:nth-child(even) {
   transform: scale(0.95);
 }
 
-
+#button-group {
+  display: flex;
+  gap: 1em;
+  margin-left: auto;
+}
 
 
 /*CODE LINES IN FILE PER PROJECT STYLING*/
@@ -272,6 +276,8 @@ tr:nth-child(even) {
 
 #repos-dropdown-label {
   color: white;
+  height: 100% !important;
+  position: relative;
   background: #47ae31;
   font-weight: bold;
   font-size: 16px;

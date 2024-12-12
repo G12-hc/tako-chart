@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="styles/style.css" />
     <title>Side-by-Side Tables</title>
   </head>
-  <body onresize="window.location.href = window.location.href;">
+  <body>
     <div class="web-title">
       <img
         alt="The tako-chart logo, a purple octopus"
@@ -25,13 +25,15 @@
       <h1>TakoChart</h1>
       <div id="topbar">
         <div id="repo-container">
-          <label for="repos-dropdown" id="repos-dropdown-label">Repository</label>
+          <label class="btn-compare" for="repos-dropdown-label" id="repos-dropdown-label">Repository</label>
           <select id="repos-dropdown">
             <option></option>
           </select>
         </div>
-
-        <a class="compare-btn button" href="compare.html">Compare</a>
+        <div id="button-group">
+          <button class="compare-btn button" onclick="window.prompt('Owner/Repository\nex. (g12-hc/tako-chart)')">Add Repository</button>
+          <button class="compare-btn button" onclick="window.location.href='compare.html'">Compare</button>
+        </div>
       </div>
     </div>
     <!-- List of containers, currently commit/author pie; lines/file bar; commit/time bar. -->
