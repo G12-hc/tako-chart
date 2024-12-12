@@ -115,8 +115,11 @@ async function drawHistogram(
 ) {
   const data = await fetchData({ endpoint, repo });
 
-  // Set the plotly settings, data, and other things, based on the chart type
-  //
+    const graphDiv = domElement.querySelector(".plotly-graph");
+  const button = domElement.querySelector(".fullscreen-button");
+
+
+  // Set up the Plotly data and layout
   let plotlyData, layout;
 
   plotlyData = [
@@ -132,14 +135,23 @@ async function drawHistogram(
     yaxis: { title: { text: yLabel } },
   };
 
+  // Render the Plotly graph
   Plotly.newPlot(domElement.querySelector(".plotly-graph"), plotlyData, layout);
+
+    setupFullscreenButton(graphDiv, button);
+
 }
+
 
 async function drawPieChart(
   domElement,
   { endpoint, getLabel, getValue, repo },
 ) {
   const data = await fetchData({ endpoint, repo });
+
+    const graphDiv = domElement.querySelector(".plotly-graph");
+  const button = domElement.querySelector(".fullscreen-button");
+
 
   const plotlyData = [
     {
@@ -155,8 +167,6 @@ async function drawPieChart(
   ];
 
   const layout = {
-    height: 300,
-    width: 600,
     margin: {
       l: 50,
       r: 50,
@@ -171,6 +181,9 @@ async function drawPieChart(
 
   Plotly.newPlot(domElement.querySelector(".plotly-graph"), plotlyData, layout);
   drawTables(domElement, dataAsArrays);
+
+    setupFullscreenButton(graphDiv, button);
+
 }
 
 async function drawBarChart(
@@ -179,17 +192,25 @@ async function drawBarChart(
 ) {
   const data = await fetchData({ endpoint, repo });
 
+    const graphDiv = domElement.querySelector(".plotly-graph");
+  const button = domElement.querySelector(".fullscreen-button");
+
+
   const plotlyData = [
     {
       type: "bar",
       x: data.map(getX),
       y: data.map(getY),
+      type: "bar",
       marker: { color: "rgba(5,112,1,0.65)" },
       textinfo: "none",
     },
   ];
   layout = {
-    xaxis: { title: { text: xLabel } },
+    xaxis: {
+      title: { text: xLabel },
+      showticklabels: false
+    },
     yaxis: { title: { text: yLabel } },
     barcornerradius: 7,
   };
@@ -200,4 +221,34 @@ async function drawBarChart(
 
   Plotly.newPlot(domElement.querySelector(".plotly-graph"), plotlyData, layout);
   drawTables(domElement, dataAsArrays);
+
+    setupFullscreenButton(graphDiv, button);
+
+}
+
+function setupFullscreenButton(graphDiv, button) {
+  button.addEventListener("click", () => {
+    if (graphDiv.requestFullscreen) {
+      graphDiv.requestFullscreen();
+    } else if (graphDiv.mozRequestFullScreen) {
+      graphDiv.mozRequestFullScreen();
+    } else if (graphDiv.webkitRequestFullscreen) {
+      graphDiv.webkitRequestFullscreen();
+    } else if (graphDiv.msRequestFullscreen) {
+      graphDiv.msRequestFullscreen();
+    } else {
+      alert("Fullscreen mode is not supported by your browser.");
+    }
+
+    document.addEventListener("fullscreenchange", () => {
+      if (document.fullscreenElement) {
+        graphDiv.style.width = "100vw";
+        graphDiv.style.height = "100vh";
+      } else {
+        graphDiv.style.width = "";
+        graphDiv.style.height = "";
+      }
+      Plotly.Plots.resize(graphDiv);
+    });
+  });
 }
