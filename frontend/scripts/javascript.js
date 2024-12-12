@@ -35,6 +35,10 @@ async function initializeMultiRepoPage() {
 
 async function initReposDropdown(dropdownId, queryParam) {
   const dropdown = document.getElementById(dropdownId);
+  if (!data.ok) {
+    console.error("Error fetching repositories");
+    return;
+  }
   if (!dropdown) {
     console.error(`Dropdown with ID '${dropdownId}' not found.`);
     return;
@@ -43,21 +47,19 @@ async function initReposDropdown(dropdownId, queryParam) {
   try {
     const data = await fetch("/api/repos");
     if (!data.ok) {
-      console.error("Error fetching repositories", response.status);
+      console.error("Error fetching repositories", data.status);
       return;
     }
 
-    const { repos } = await data.json();
-    repos.forEach(({ id, name, owner }) => {
-      const option = document.createElement("option");
-      option.textContent = `${owner}/${name}`;
-      option.value = id;
-      dropdown.appendChild(option);
-
-      if (queryParam === id) {
-        option.selected = true;
-      }
-    });
+    for (const { id, name, owner } of repos) {
+    const option = document.createElement("option");
+    option.textContent = `${owner}/${name}`;
+    option.value = id;
+    dropdown.appendChild(option);
+    if (queryParam === id) {
+      option.selected = "selected";
+    }
+  }
 
     dropdown.onchange = () => {
       const selectedRepo = dropdown.value;
@@ -72,6 +74,43 @@ async function initReposDropdown(dropdownId, queryParam) {
     console.error("Error initializing dropdown:", error);
   }
 }
+
+
+async function drawChartsForRepo(repoKey, repoId, containerSelector) {
+  const container = document.querySelector(containerSelector);
+
+  // Draw pie chart for commits per author
+  await drawPieChart(container, {
+    getLabel: (row) => row.author,
+    getValue: (row) => row.commit_count,
+    endpoint: "commits-per-author",
+    repo: repoId,
+  });
+
+  // Draw bar chart for lines of code per file
+  await drawBarChart(container, {
+    xLabel: "File",
+    yLabel: "Lines of code",
+    getX: (row) => row.path,
+    getY: (row) => row.line_count,
+    endpoint: "line-counts-per-file",
+    repo: repoId,
+  });
+
+  // Draw histogram for commits over time
+  await drawHistogram(container, {
+    getX: (commit) => commit.date,
+    xLabel: "Date",
+    yLabel: "Commit count",
+    endpoint: "commit-dates",
+    repo: repoId,
+  });
+}
+
+function drawGraph(domElement, { type, data, layout }) {
+  Plotly.newPlot(domElement.querySelector(".plotly-graph"), data, layout);
+}
+
 
 async function updateGraphsForRepo(repoId, graphContainerId) {
   // Identify containers for single or multi-repo pages

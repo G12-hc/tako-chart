@@ -114,10 +114,9 @@ async function fetchData({ endpoint, repo }) {
   const uri = `/api/chart-data/${endpoint}/${repo}`;
   const data = await fetch(uri);
 
-  if (data.ok) {
-    return JSON.parse(await data.text());
-  } else {
-    // TODO: error
+  if (!data.ok) {
+    console.error("Error fetching chart data");
+    return [];
   }
 }
 
