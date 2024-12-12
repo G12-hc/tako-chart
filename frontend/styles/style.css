@@ -264,16 +264,25 @@ tr:nth-child(even) {
 /* Repositories dropdown and its label */
 #repos-dropdown {
   font-size: inherit;
-  margin-left: 0.2em;
   background: white;
-  border: solid 2px #43972a;
-  border-radius: 5px;
+  border: 0;
+  border-left: solid 2px #47ae31 !important;
   padding: 5px 5px;
 }
 
 #repos-dropdown-label {
+  color: white;
+  background: #47ae31;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+#repo-container {
   margin-left: 3em;
-  color: #47ae31;
+  padding-left: 3px;
+  border: solid 2px #43972a;
+  background: #47ae31;
+  border-radius: 5px 5px 5px 5px;
 }
 
 #topbar {
