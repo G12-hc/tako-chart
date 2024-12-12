@@ -1,6 +1,8 @@
+SYSTEM_PYTHON_313=python3.13
+
 .venv:
 	@echo "Setting up a virtual environment..."
-	@python -m venv .venv
+	$(SYSTEM_PYTHON_313) -m venv .venv
 
 .PHONY: deps
 deps: .venv
@@ -13,7 +15,7 @@ venv: .venv deps
 .PHONY: dev-server
 dev-server: .venv
 	@echo "Starting development server..."
-	@(. .venv/bin/activate; python -m app.main)
+	@(. .venv/bin/activate; $(SYSTEM_PYTHON_313) -m app.main)
 
 .PHONY: clean
 clean:

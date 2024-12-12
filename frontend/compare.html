@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="text/x-icon" href="favicon.ico" />
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+    <link rel="stylesheet" href="styles/compare_style.css" />
+
+  </head>
+
+  <body>
+    <div class="web-title">
+      <img
+        alt="The tako-chart logo, a purple octopus"
+        id="titleImg"
+        src="assets/takochart-rounded-64x.png"
+      />
+      <h1>Compare</h1>
+      <a class="compare-btn" href="index.html">Back</a>
+    </div>
+
+    <div class="compare-container">
+      <!--graph and title container-->
+      <div class="chart-content">
+        <div class="chart-to-compare">
+          <!-- graph container-->
+        </div>
+        <div class="plotly-graph"></div>
+      </div>
+
+      <div class="chart-content">
+        <div class="chart-to-compare">
+        </div>
+        <div class="plotly-graph"></div>
+      </div>
+      
+      <!--container; description and tables-->
+      <div class="table-wrapper">
+        <div class="table-block">
+          <table class="most-table">
+            <colgroup>
+              <col />
+              <col />
+            </colgroup>
+            <tr>
+              <th colspan="2">Most</th>
+            </tr>
+          </table>
+          <table class="least-table">
+            <colgroup>
+              <col />
+              <col />
+            </colgroup>
+            <tr>
+              <th colspan="2">Least</th>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+  </body>
+  <script src="scripts/javascript.js"></script>
+</html>
