@@ -3,10 +3,10 @@ import subprocess
 import tempfile
 import shutil
 import json
-import tarfile  # Import tarfile for handling .tar.gz files
+import tarfile
 from pathlib import Path
 
-from app.db.fetch_git_api import download_zip  # Assuming your method is defined here
+from app.db.fetch_git_api import download_zip
 
 
 def run_cloc(directory: str):

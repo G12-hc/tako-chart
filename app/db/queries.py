@@ -32,52 +32,6 @@ def query_repos(cursor):
 
 
 @query
-def query_repo(cursor, repo_id):
-    cursor.execute("SELECT * FROM repositories WHERE id = %s", [repo_id])
-
-
-@query
-def query_commit(cursor, repo_id):
-    params = [repo_id]
-    cursor.execute(
-        """
-        SELECT * 
-        FROM commits 
-        WHERE repository_id = %s
-        """,
-        params,
-    )
-
-
-@query
-def query_branches(cursor, repo_id):
-    params = [repo_id]
-    cursor.execute(
-        """
-        SELECT * 
-        FROM branches 
-        WHERE repository_id = %s
-        """,
-        params,
-    )
-
-
-@query
-def query_files(cursor, branch_id: int, min_line_count: int = 0):
-    """
-    Fetch files for a specific branch with a minimum line count.
-    """
-    cursor.execute(
-        """
-        SELECT * 
-        FROM files 
-        WHERE branch_id = %s AND line_count > %s
-        """,
-        [branch_id, min_line_count],
-    )
-
-
-@query
 def query_file_by_line_count(cursor, repo_id):
     """
     Fetch files for a specific branch with a minimum line count.
@@ -97,62 +51,6 @@ def query_file_by_line_count(cursor, repo_id):
         WHERE f.is_directory = FALSE AND r.id = %s
         GROUP BY stripped_name
         ORDER BY stripped_name
-        """,
-        params,
-    )
-
-
-@query
-def query_languages(cursor, repo_id: str):
-    params = [repo_id]
-    cursor.execute(
-        """
-        SELECT languages.name 
-        FROM languages 
-        JOIN repository_languages ON languages.id = repository_languages.language_id
-        WHERE repository_languages.repository_id = %s
-        """,
-        params,
-    )
-
-
-@query
-def query_licenses(cursor, repo_id):
-    params = [repo_id]
-    cursor.execute(
-        """
-        SELECT licenses.* 
-        FROM licenses 
-        JOIN repositories ON licenses.id = repositories.license_id
-        WHERE repositories.id = %s
-        """,
-        params,
-    )
-
-
-# Query purpose incase I want to update the branch dynamically
-@query
-def query_get_branch_id(cursor, branch_name: str, repository_id: str):
-    """
-    Fetch the branch ID for a specific branch name and repository.
-    """
-    cursor.execute(
-        "SELECT id FROM branches WHERE name = %s AND repository_id = %s",
-        [branch_name, repository_id],
-    )
-    result = cursor.fetchone()
-    return result["id"] if result else None
-
-
-@query
-def query_workspaces(cursor, repo_id):
-    params = [repo_id]
-    cursor.execute(
-        """
-        SELECT workspaces.* 
-        FROM workspaces 
-        JOIN repositories ON workspaces.id = repositories.workspace_id
-        WHERE repositories.id = %s
         """,
         params,
     )
