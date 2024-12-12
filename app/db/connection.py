@@ -1,4 +1,3 @@
-import psycopg
 import psycopg_pool
 
 from contextlib import contextmanager
@@ -20,43 +19,9 @@ except Exception as e:
     raise
 
 
-@contextmanager
 def db_connection():
     """
     Context manager to get a database connection from the pool.
     Automatically closes and returns the connection to the pool.
     """
-    conn = None
-    try:
-        conn = connection_pool.getconn()  # Get connection from pool
-        yield conn
-    except Exception as e:
-        print(f"Database connection error: {e}")
-        raise
-    finally:
-        if conn:
-            connection_pool.putconn(conn)  # Return connection to the pool
-
-# Define a global variable to hold the database connection
-connection = None
-
-def initialize_db():
-    """
-    Initializes the connection to the PostgreSQL database
-    This function could be expanded to include connection parameters,
-    and error handling.
-    """
-    global connection
-    try:
-        # Replace these with my DB config
-        connection = psycopg.connect(
-            dbname="hackcamp",  # Correct parameter format
-            user="postgres",
-            password="postgres",
-            host="localhost",
-            port="5432",
-        )
-        print("Database connection established.")
-    except Exception as e:
-        print(f"Error while connecting to the database: {e}")
-    return None  # Return None as specified
+    return connection_pool.connection()

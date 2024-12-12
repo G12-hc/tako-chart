@@ -1,6 +1,6 @@
-import os, sys
+import os
+import asyncio
 
-# import asyncio
 from datetime import datetime
 
 from app.count_lines import analyze_repository
@@ -8,7 +8,6 @@ from app.db import db_connection
 from app.db.fetch_git_api import (
     get_repository_details,
     get_commit_history,
-    get_files,
     fetch_lang_details,
     get_contributors,
 )
@@ -25,12 +24,14 @@ from app.db.queries import (
 async def assign_repo_data(owner: str, repo: str):
     with db_connection() as conn:
         # fetch data from the git api
-        repo_details = await get_repository_details(owner, repo)
-        commit_data = await get_commit_history(owner, repo)
+        [repo_details, commit_data, lang_data, contributor_data] = await asyncio.gather(
+            get_repository_details(owner, repo),
+            get_commit_history(owner, repo),
+            fetch_lang_details(owner, repo),
+            get_contributors(owner, repo),
+        )
+
         default_branch = repo_details.get("default_branch", "main")
-        file_data = await get_files(owner, repo, default_branch)
-        lang_data = await fetch_lang_details(owner, repo)
-        contributor_data = await get_contributors(owner, repo)
         # prep repo data
         repository_id = f"github-{repo_details['id']}"
         workspace_id = (
@@ -38,15 +39,8 @@ async def assign_repo_data(owner: str, repo: str):
         )
         license_id = None  # Is assigned after inset attempt
         user_ids = [user["id"] for user in contributor_data]
-        print(user_ids)
-        archieved_user_ids = [0, 1]
+        archived_user_ids = [0, 1]
         linked_status = "Linked"
-        # print("Calling query_insert_licenses with:")
-        # print("Key:", repo_details["license"]["key"])
-        # print("Name:", repo_details["license"]["name"])
-        # print("SPDX ID:", repo_details["license"]["spdx_id"])
-        # print("URL:", repo_details["license"]["url"])
-        # print("Node ID:", repo_details["license"]["node_id"])
 
         # Licence
         if repo_details["license"] is None:
@@ -60,8 +54,6 @@ async def assign_repo_data(owner: str, repo: str):
                 repo_details["license"]["url"],
                 repo_details["license"]["node_id"],
             )
-        print("LICENSE ID:", license_id, "Type: ", type(license_id))
-        license_id = 1
         # Repository
         query_insert_repository(
             conn,
@@ -77,7 +69,7 @@ async def assign_repo_data(owner: str, repo: str):
             repo_details["contributors_url"],
             default_branch,
             user_ids,
-            archieved_user_ids,  # Archived user IDs
+            archived_user_ids,  # Archived user IDs
             license_id,
             workspace_id,
         )
@@ -85,27 +77,23 @@ async def assign_repo_data(owner: str, repo: str):
         query_insert_branches(conn, default_branch, repository_id)
 
         # Files
-        for file in file_data.get("tree", []):
-            path = file["path"]
-            print("INSIDE FILE LOOP: ", path)
-            analyzed_files = await analyze_repository(owner, repo, default_branch)
-            for file_info in analyzed_files:
-                total_lines = file_info["total_lines"]
-                functional_lines = file_info["functional_lines"]
-                query_insert_files(
-                    conn,
-                    file_data["type"] == "file",  # is directory true
-                    file_data["path"],
-                    os.path.basename(path),
-                    total_lines,  # total line count
-                    functional_lines,  # functional lines
-                    None,  # symlinkTarget placeholder as I am unsure
-                    default_branch,  # Replace dynamically
-                    # improve query to match a branch ID to the name
-                )
+        analyzed_files = await analyze_repository(owner, repo, default_branch)
+        for path, data in analyzed_files.items():
+            query_insert_files(
+                conn,
+                data["is_directory"],
+                path,
+                os.path.basename(path),
+                data.get("line_count", 0),  # total line count (0 for dirs)
+                data.get(
+                    "functional_line_count", 0
+                ),  # functional line count (0 for dirs)
+                "",  # symlinkTarget placeholder as I am unsure
+                default_branch,  # Replace dynamically
+                repository_id,
+            )
 
         for commit in commit_data:
-            print("commiting")
             query_insert_commits(
                 conn,
                 commit["sha"],
@@ -115,15 +103,7 @@ async def assign_repo_data(owner: str, repo: str):
                 repository_id,
             )
 
-        # Languages using asyncio to better deal with inserting multiple languages
-        lang_names = list(lang_data.keys())
-        print("Inside lang amount: ", len(lang_names))
-        # await asyncio.gather(
-        #     *[query_insert_language(conn, repository_id, lang_name)
-        #       for lang_name in lang_names]
-        # )
-
-        for lang_name in lang_names:
+        for lang_name in lang_data.keys():
             lang_name = str(lang_name)
             query_insert_language(conn, repository_id, lang_name)
 

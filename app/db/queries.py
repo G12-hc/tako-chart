@@ -10,6 +10,9 @@ def query(query_function):
             with conn.cursor(row_factory=dict_row) as cursor:
                 result = query_function(cursor, *args, **kwargs)
 
+                if result is not None:
+                    return result
+
                 if cursor.description is not None:
                     if result == "one":
                         return cursor.fetchone()
@@ -224,23 +227,26 @@ def query_insert_files(
     line_count,
     functional_line_count,
     symlinkTarget,
-    branch_id,
+    branch_name,
+    repo_id,
 ):
-    params = [
-        is_directory,
-        path,
-        name,
-        line_count,
-        functional_line_count,
-        symlinkTarget,
-        branch_id,
-    ]
     cursor.execute(
         """
         INSERT INTO files (is_directory, path, name, line_count, functional_line_count, "symlinkTarget", branch_id)
-        VALUES(%s, %s, %s, %s, %s, %s, %s)
+        SELECT %(is_directory)s, %(path)s, %(name)s, %(line_count)s, %(functional_line_count)s, %(symlink_target)s, b.id
+        FROM branches b
+        WHERE b.repository_id = %(repo_id)s AND b.name = %(branch_name)s
         """,
-        params,
+        {
+            "is_directory": is_directory,
+            "path": path,
+            "name": name,
+            "line_count": line_count,
+            "functional_line_count": functional_line_count,
+            "symlink_target": symlinkTarget,
+            "branch_name": branch_name,
+            "repo_id": repo_id,
+        },
     )
 
 
@@ -332,6 +338,7 @@ def query_insert_licenses(
     return existing_license
 
 
+@query
 def query_commits_per_author(cursor, repo_id):
     params = [repo_id]
     cursor.execute(

@@ -51,13 +51,9 @@ def get_all_repo_data(repo_id):
         }
 
 
-tmp_router = APIRouter(prefix="/tmp")
-
-
-@tmp_router.get("/{owner}/{repo}")
+@router.post("/fetch-repo/{owner}/{repo}")
 async def import_repo_data(owner, repo):
     await assign_repo_data(owner, repo)
-    return {True}
 
 
 @router.get("/chart-data/commit-dates/{repo_id}")
