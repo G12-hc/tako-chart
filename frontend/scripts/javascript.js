@@ -1,47 +1,24 @@
 const queryElements = new URL(document.location.toString()).searchParams;
 const currentRepo = queryElements.get("repo");
 
-if (currentRepo !== "") {
-  drawPieChart(document.querySelector(".commits-per-author-container"), {
-    getLabel: (row) => row.author,
-    getValue: (row) => row.commit_count,
-    endpoint: "commits-per-author",
-    repo: currentRepo,
-    },
-      "commits"
-  );
-
-  drawBarChart(
-    document.querySelector(".code-lines-in-files-per-project-container"),
-    {
-      xLabel: "File",
-      yLabel: "Lines of code",
-      getX: (row) => row.path,
-      getY: (row) => row.line_count,
-      endpoint: "line-counts-per-file",
-      repo: currentRepo,
-    },
-      "files"
-  );
-  drawHistogram(document.querySelector(".commits-over-time-container"), {
-    getX: (commit) => commit.date,
-    xLabel: "Date",
-    yLabel: "Commit count",
-    endpoint: "commit-dates",
-    repo: currentRepo,
-  });
-}
-
-async function initReposDropdown() {
+async function populateReposDropdown() {
   // Fetch data from the repository
   const data = await fetch("/api/repos");
 
   if (!data.ok) {
     // TODO: error
   }
+  const dropdown = document.getElementById("repos-dropdown");
+  // Clear all dropdown options
+  dropdown.textContent = "";
+
+  // Insert an initial empty option
+  const emptyOption = document.createElement("option");
+  emptyOption.textContent = "--Select a repository--";
+  emptyOption.value = "";
+  dropdown.appendChild(emptyOption);
 
   const repos = JSON.parse(await data.text()).repos;
-  const dropdown = document.getElementById("repos-dropdown");
 
   for (const { id, name, owner } of repos) {
     const option = document.createElement("option");
@@ -60,7 +37,66 @@ async function initReposDropdown() {
   };
 }
 
-initReposDropdown();
+populateReposDropdown();
+
+document.getElementById("add-repo-btn").onclick = async () => {
+  const repoRegex = /^(\w+(-?|\.?|_?)+)+(\/{1})(\w+(-?|\.?|_?)+)+$/g;
+
+  const repo = prompt("Owner/Repository\nex. (g12-hc/tako-chart)");
+  if (!repo) return;
+  if (repo.match(repoRegex) === null) {
+    alert(`"${repo}" is not a valid repository string!`);
+    return;
+  }
+
+  const response = await fetch(`/api/fetch-repo/${encodeURIComponent(repo)}`, {
+    method: "POST",
+  });
+
+  if (!response.ok) {
+    alert(
+      `Fetching repository failed with HTTP status code ${response.status}`,
+    );
+    return;
+  }
+
+  alert("Repo fetched successfully!");
+  // Reload to update repo list
+  await populateReposDropdown();
+};
+
+if (currentRepo !== "") {
+  drawPieChart(
+    document.querySelector(".commits-per-author-container"),
+    {
+      getLabel: (row) => row.author,
+      getValue: (row) => row.commit_count,
+      endpoint: "commits-per-author",
+      repo: currentRepo,
+    },
+    "commits",
+  );
+
+  drawBarChart(
+    document.querySelector(".code-lines-in-files-per-project-container"),
+    {
+      xLabel: "File",
+      yLabel: "Lines of code",
+      getX: (row) => row.path,
+      getY: (row) => row.line_count,
+      endpoint: "line-counts-per-file",
+      repo: currentRepo,
+    },
+    "files",
+  );
+  drawHistogram(document.querySelector(".commits-over-time-container"), {
+    getX: (commit) => commit.date,
+    xLabel: "Date",
+    yLabel: "Commit count",
+    endpoint: "commit-dates",
+    repo: currentRepo,
+  });
+}
 
 async function fetchData({ endpoint, repo }) {
   // Fetch data for the chart
