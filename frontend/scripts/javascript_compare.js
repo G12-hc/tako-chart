@@ -202,11 +202,20 @@ async function drawPieChart(
   const layout = { margin: { l: 50, r: 50, t: 25, b: 25, pad: 2 } };
   const dataAsArrays = data.map((row) => [getLabel(row), getValue(row)]);
   Plotly.newPlot(domElement, plotlyData, layout);
-  drawTables(domElement, dataAsArrays);
+  console.log(dataAsArrays);
+  let element;
+  if (domElement.id === 'plotly-graph2') {
+    element = '.plotly-graph2-table'
+  } else {
+    element = '.plotly-graph1-table'
+  }
+  drawTables(document.querySelector(element), dataAsArrays);
 
 }
 
-async function drawBarChart(domElement, { xLabel, yLabel, endpoint, getX, getY, repo }) {
+async function drawBarChart(
+    domElement,
+    { xLabel, yLabel, endpoint, getX, getY, repo }) {
   const data = await fetchData({ endpoint, repo });
 
   const plotlyData = [
@@ -215,18 +224,28 @@ async function drawBarChart(domElement, { xLabel, yLabel, endpoint, getX, getY, 
       y: data.map(getY),
       type: "bar",
       marker: { color: "rgba(5,112,1,0.65)" },
+      textinfo: "none",
     },
   ];
   const layout = {
     xaxis: { title: { text: xLabel }, showticklabels: false },
-    yaxis: { title: { text: yLabel } },
+    yaxis: { title: { text: yLabel }, barcornerradius: 7, },
   };
+
   const dataAsArrays = data.map((row) => [getX(row), getY(row)]);
   Plotly.newPlot(domElement, plotlyData, layout);
-  drawTables(domElement, dataAsArrays);
+  let element;
+  if (domElement.id === 'plotly-graph2') {
+    element = '.plotly-graph2-table'
+  } else {
+    element = '.plotly-graph1-table'
+  }
+  drawTables(document.querySelector(element), dataAsArrays);
 }
 
-async function drawHistogram(domElement, { xLabel, yLabel, endpoint, getX, repo }) {
+async function drawHistogram(
+    domElement,
+    { xLabel, yLabel, endpoint, getX, repo }) {
   const data = await fetchData({ endpoint, repo });
 
   const plotlyData = [
@@ -240,9 +259,8 @@ async function drawHistogram(domElement, { xLabel, yLabel, endpoint, getX, repo 
     xaxis: { title: { text: xLabel } },
     yaxis: { title: { text: yLabel } },
   };
-  const dataAsArrays = data.map((row) => [getX(row), getY(row)]);
   Plotly.newPlot(domElement, plotlyData, layout);
-  drawTables(domElement, dataAsArrays);
+
 }
 
 // Initialize dropdowns for the two repositories
