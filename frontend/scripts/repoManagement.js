@@ -1,4 +1,4 @@
-async function initReposTable(element) {
+async function initReposTable() {
     // Fetch data from the repository
     const data = await fetch("/api/repos");
 
@@ -11,8 +11,7 @@ async function initReposTable(element) {
     // const dataAsArrays = repos.map();
 
     // Put data into table
-    const managementTable = element.querySelector(".management-table");
-    console.log(dataAsArrays);
+    const managementTable = document.querySelector("#management-table");
     for (const { name, owner, linkedAt, modifiedAt } of repos) {
         const row = document.createElement("tr");
         managementTable.appendChild(row);
@@ -27,3 +26,4 @@ async function initReposTable(element) {
 }
 
 
+initReposTable();

@@ -433,32 +433,32 @@ tr:nth-child(even) {
   background-color: #3d972a;
 }
 
-.management-table {
+#management-table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
 }
 
-.management-table th,
-.management-table td {
+#management-table th,
+#management-table td {
   border: 1px solid #ccc;
   padding: 10px;
   text-align: left;
 }
 
-.management-table th {
+#management-table th {
   background-color: #f4f4f4;
 }
 
-.management-table tbody tr:nth-child(even) {
+#management-table tbody tr:nth-child(even) {
   background-color: #f9f9f9;
 }
 
-.management-table tbody tr:hover {
+#management-table tbody tr:hover {
   background-color: #f2f2f2;
 }
 
-.management-table td button {
+#management-table td button {
   padding: 5px 10px;
   font-size: 14px;
   cursor: pointer;
@@ -470,6 +470,6 @@ tr:nth-child(even) {
   transition: background-color 0.3s ease;
 }
 
-.management-table td button:hover {
+#management-table td button:hover {
   background-color: #3d972a;
 }
