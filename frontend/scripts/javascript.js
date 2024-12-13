@@ -1,46 +1,6 @@
 const queryElements = new URL(document.location.toString()).searchParams;
 const currentRepo = queryElements.get("repo");
 
-if (currentRepo !== "") {
-  drawPieChart(document.querySelector(".commits-per-author-container"), {
-    getLabel: (row) => row.author,
-    getValue: (row) => row.commit_count,
-    endpoint: "commits-per-author",
-    repo: currentRepo,
-  });
-
-  drawBarChart(
-    document.querySelector(".code-lines-in-files-per-project-container"),
-    {
-      xLabel: "File",
-      yLabel: "Lines of code",
-      getX: (row) => row.path,
-      getY: (row) => row.line_count,
-      endpoint: "line-counts-per-file",
-      repo: currentRepo,
-    },
-  );
-  drawBarChart(
-    document.querySelector(".functional-code-lines-in-files-per-project-container"),
-    {
-      xLabel: "File",
-      yLabel: "Functional lines of code",
-      getX: (row) => row.path,
-      getY: (row) => row.functional_line_count,
-      endpoint: "functional-line-counts-per-file",
-      repo: currentRepo,
-    },
-  );
-
-  drawHistogram(document.querySelector(".commits-over-time-container"), {
-    getX: (commit) => commit.date,
-    xLabel: "Date",
-    yLabel: "Commit count",
-    endpoint: "commit-dates",
-    repo: currentRepo,
-  });
-}
-
 async function populateReposDropdown() {
   // Fetch data from the repository
   const data = await fetch("/api/repos");
