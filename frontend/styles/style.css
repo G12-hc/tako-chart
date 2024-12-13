@@ -20,10 +20,11 @@ h1 {
   color: #e9ede4;
   font-size: 21px;
   display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   gap: 10px;
   margin: 10px 20px;
   align-items: center;
-  flex-direction: row;
 }
 
 .web-title > img {
@@ -34,7 +35,9 @@ h1 {
   text-shadow: 1px 3px 2px #ddd;
 }
 /*Button redirect to compare page*/
-.compare-btn, .management-btn {
+.compare-btn,
+.management-btn,
+#add-repo-btn {
   margin-left: auto;
   margin-right: 5%;
   margin-bottom: 0;
@@ -77,10 +80,9 @@ h1 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex: 1 1 50%;
+  flex: 1 1 100%;
   min-width: 0; /* Allow shrinking within flex containers */
 }
-
 
 /*  Code lines in file per project and  Commits per authorTitle Styling */
 .commits-per-authors-title h2,
@@ -97,7 +99,7 @@ h1 {
 /* Code lines in file per project and Commits per author text description Styling */
 .commits-per-author-description,
 .code-lines-in-files-per-project-description,
-.commits-over-time-description{
+.commits-over-time-description {
   margin: 15px 0;
   font-family: "Open+Sans", sans-serif;
   font-weight: 400;
@@ -117,7 +119,6 @@ h1 {
 
 /* All tables style */
 table {
-
   border-collapse: collapse;
   border-radius: 12px;
   overflow: hidden;
@@ -140,7 +141,7 @@ th {
   text-align: center;
   text-transform: uppercase;
   padding: 10px;
- max-width: 10px;
+  max-width: 10px;
 }
 
 /* Tables content styling */
@@ -193,10 +194,8 @@ tr:nth-child(even) {
   margin-left: -50px;
   margin-right: 50px;
 }
-
 /*  plotly Chart Styling */
 .plotly-graph {
-  overflow: hidden;
   width: 600px;
   height: 300px;
   background-color: #f9f9f9;
@@ -215,12 +214,14 @@ tr:nth-child(even) {
   font-size: 16px;
   cursor: pointer;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
 }
 
 /* Hover effect for the button */
 .button:hover {
-  background-color: transparent; ;
+  background-color: transparent;
   border-color: #43972a;
   transform: scale(1.05);
   color: black;
@@ -236,7 +237,6 @@ tr:nth-child(even) {
   gap: 1em;
   margin-left: auto;
 }
-
 
 /*CODE LINES IN FILE PER PROJECT STYLING*/
 
@@ -281,11 +281,13 @@ tr:nth-child(even) {
   background: #47ae31;
   font-weight: bold;
   font-size: 16px;
+  width: 100%;
+  margin: auto;
 }
 
 #repo-container {
   margin-left: 3em;
-  padding-left: 3px;
+  margin-right: 5%;
   border: solid 2px #43972a;
   background: #47ae31;
   border-radius: 5px 5px 5px 5px;
@@ -293,10 +295,13 @@ tr:nth-child(even) {
 
 #topbar {
   display: flex;
+  gap: 1em;
   align-items: center;
   height: 100%;
   width: 100%;
   position: relative;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
 /* Responsive Design */
@@ -309,7 +314,6 @@ tr:nth-child(even) {
     margin-bottom: 0;
     margin-right: 0;
     margin-left: 0;
-    max-width: 50%;
   }
   .table-wrapper,
   .code-lines-in-files-per-project-table-wrapper,
@@ -318,13 +322,10 @@ tr:nth-child(even) {
     margin-bottom: 0;
     margin-right: 0;
     margin-left: 0;
-    max-width: 50%;
   }
   .plotly-graph {
     max-width: 100%;
-    overflow: scroll;
-    align-content: center;
-
+    overflow-y: hidden !important;
   }
 }
 
@@ -361,7 +362,7 @@ tr:nth-child(even) {
 @media only screen and (max-width: 999px) {
   .commits-per-author-container,
   .code-lines-in-files-per-project-container,
-  .commits-over-time-chart-container {
+  .commits-over-time-container {
     flex-direction: column;
   }
 
@@ -371,7 +372,7 @@ tr:nth-child(even) {
   .code-lines-in-files-per-project-table-wrapper,
   .commits-over-time-chart-content,
   .commits-over-time-table-wrapper {
-    flex: 1 1 100%;
+    flex: 1 1 50%;
     margin-bottom: 0;
     margin-right: 0;
     margin-left: 0;
@@ -381,10 +382,9 @@ tr:nth-child(even) {
   .commits-over-time-table-wrapper {
     margin-top: 40px;
     grid-template-columns: 1fr;
-    display: block; /* Prevent flex issues on smaller screens */
   }
   .plotly-graph {
-    overflow: scroll;
+    overflow: hidden;
     width: 100%;
   }
 }
@@ -488,4 +488,18 @@ tr:nth-child(even) {
 
 #management-table td button.update-button:hover {
   background-color: rgba(0, 119, 255, 0.6);
+}
+
+@media only screen and (max-width: 810px) {
+  #topbar {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    flex: 0 0 100%;
+  }
+  #button-group {
+    margin-left: 1em;
+  }
+  #repo-container {
+    margin: 0;
+  }
 }
