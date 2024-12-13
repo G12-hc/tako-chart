@@ -81,7 +81,7 @@ document.getElementById("add-repo-btn").onclick = async () => {
 
   alert("Repo fetched successfully!");
   // Reload to update repo list
-  await populateReposDropdown();
+  location.reload();
 };
 
 
