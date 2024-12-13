@@ -399,6 +399,10 @@ tr:nth-child(even) {
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+.repository-management-container .button{
+  margin: 0px;
+}
+
 .repo-input {
   display: flex;
   align-items: center;
@@ -447,7 +451,7 @@ tr:nth-child(even) {
 }
 
 #management-table th {
-  background-color: #f4f4f4;
+  background-color: #3d972a;
 }
 
 #management-table tbody tr:nth-child(even) {
