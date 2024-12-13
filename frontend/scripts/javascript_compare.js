@@ -9,6 +9,63 @@ function updateChart(repo, graphId, chartType) {
   }
 }
 
+
+
+
+function drawTables(element, data) {
+  const mostCommitsTable = element.querySelector(".most-table");
+  const leastCommitsTable = element.querySelector(".least-table");
+
+  const highestCommitters = data.slice(0, 3);
+  const lowestCommitters = data.slice(Math.max(data.length - 3, 0)).reverse();
+
+  var i = 0;
+
+  for (const [author, commitCount] of highestCommitters) {
+    const row = document.createElement("tr");
+    mostCommitsTable.appendChild(row);
+    const rankCell = document.createElement("td");
+    rankCell.textContent = `${i + 1}`;
+    row.appendChild(rankCell);
+    const authorCell = document.createElement("td");
+    authorCell.textContent = `${author} (${commitCount} commits)`;
+    row.appendChild(authorCell);
+
+    i++;
+  }
+
+  i = data.length;
+
+  for (const [author, commitCount] of lowestCommitters) {
+    const row = document.createElement("tr");
+    leastCommitsTable.appendChild(row);
+    const rankCell = document.createElement("td");
+    rankCell.textContent = `${i}`;
+    row.appendChild(rankCell);
+    const authorCell = document.createElement("td");
+    authorCell.textContent = `${author} (${commitCount} commits)`;
+    row.appendChild(authorCell);
+
+    i--;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Update both charts when the global chart type changes
 function updateAllCharts() {
   const chartType = document.getElementById("global_type_chart").value;
@@ -122,16 +179,16 @@ async function fetchData({ endpoint, repo }) {
 
   if (data.ok) {
     return JSON.parse(await data.text());
-  } else {
-    // TODO: error
   }
 }
 
 // Chart rendering functions
-async function drawPieChart(domElement, { endpoint, getLabel, getValue, repo }) {
+async function drawPieChart(
+    domElement,
+    { endpoint, getLabel, getValue, repo })
+{
   const data = await fetchData({ endpoint, repo });
-
-  const plotlyData = [
+  const plotlyData   = [
     {
       labels: data.map(getLabel),
       values: data.map(getValue),
@@ -139,11 +196,14 @@ async function drawPieChart(domElement, { endpoint, getLabel, getValue, repo }) 
       textinfo: "none",
       showlegend: false,
       hoverinfo: "percent+label",
+      domain: { x: [0, 1], y: [0, 1] },
     },
   ];
   const layout = { margin: { l: 50, r: 50, t: 25, b: 25, pad: 2 } };
-
+  const dataAsArrays = data.map((row) => [getLabel(row), getValue(row)]);
   Plotly.newPlot(domElement, plotlyData, layout);
+  drawTables(domElement, dataAsArrays);
+
 }
 
 async function drawBarChart(domElement, { xLabel, yLabel, endpoint, getX, getY, repo }) {
@@ -161,8 +221,9 @@ async function drawBarChart(domElement, { xLabel, yLabel, endpoint, getX, getY, 
     xaxis: { title: { text: xLabel }, showticklabels: false },
     yaxis: { title: { text: yLabel } },
   };
-
+  const dataAsArrays = data.map((row) => [getX(row), getY(row)]);
   Plotly.newPlot(domElement, plotlyData, layout);
+  drawTables(domElement, dataAsArrays);
 }
 
 async function drawHistogram(domElement, { xLabel, yLabel, endpoint, getX, repo }) {
@@ -179,8 +240,9 @@ async function drawHistogram(domElement, { xLabel, yLabel, endpoint, getX, repo 
     xaxis: { title: { text: xLabel } },
     yaxis: { title: { text: yLabel } },
   };
-
+  const dataAsArrays = data.map((row) => [getX(row), getY(row)]);
   Plotly.newPlot(domElement, plotlyData, layout);
+  drawTables(domElement, dataAsArrays);
 }
 
 // Initialize dropdowns for the two repositories
@@ -189,3 +251,6 @@ initReposDropdown(document.getElementById("repos-dropdown2"), "repo2");
 
 // Ensure charts are drawn on page load
 updateAllCharts();
+
+
+

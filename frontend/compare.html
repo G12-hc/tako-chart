@@ -18,12 +18,12 @@
         </a>
         <h1>Compare Repositories</h1>
         <label for="global_type_chart">Chart Types:
-                <select id="global_type_chart">
-                    <option value="pie">Commits by Author (Pie)</option>
-                    <option value="bar">Lines of Code (Bar)</option>
-                    <option value="hist">Commits Over Time (Histogram)</option>
-                </select>
-            </label>
+            <select id="global_type_chart">
+                <option value="pie">Commits by Author (Pie)</option>
+                <option value="bar">Lines of Code (Bar)</option>
+                <option value="hist">Commits Over Time (Histogram)</option>
+            </select>
+        </label>
         <a class="compare-btn" href="index.html">Back</a>
     </div>
 
@@ -47,7 +47,29 @@
             </label>
             <div id="plotly-graph2" class="plotly-graph2"></div>
         </div>
-    </div>
+
+        <!--Tables container -->
+        <div class="table-block">
+          <table class="most-table">
+            <colgroup>
+              <col />
+              <col />
+            </colgroup>
+            <tr>
+              <th colspan="2">Most</th>
+            </tr>
+          </table>
+          <table class="least-table">
+            <colgroup>
+              <col />
+              <col />
+            </colgroup>
+            <tr>
+              <th colspan="2">Least</th>
+            </tr>
+          </table>
+        </div>
+      </div>
 
     <script src="scripts/javascript_compare.js"></script>
 </body>
