@@ -56,5 +56,34 @@ async function refreshManagementTable() {
 
 }
 
+document.getElementById("add-repo-btn").onclick = async () => {
+  const repoRegex = /^(\w+(-?|\.?|_?)+)+(\/{1})(\w+(-?|\.?|_?)+)+$/g;
+
+  // const repo = prompt("Owner/Repository\nex. (g12-hc/tako-chart)");
+    const repo = document.getElementById("repo-url").value;
+    debugger;
+  if (!repo) return;
+  if (repo.match(repoRegex) === null) {
+    alert(`"${repo}" is not a valid repository string!`);
+    return;
+  }
+
+  const response = await fetch(`/api/fetch-repo/${encodeURIComponent(repo)}`, {
+    method: "POST",
+  });
+
+  if (!response.ok) {
+    alert(
+      `Fetching repository failed with HTTP status code ${response.status}`,
+    );
+    return;
+  }
+
+  alert("Repo fetched successfully!");
+  // Reload to update repo list
+  await populateReposDropdown();
+};
+
+
 // Run stuff:
 refreshManagementTable();
