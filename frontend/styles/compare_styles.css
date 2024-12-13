@@ -169,6 +169,33 @@ body, h1, h2, table, img, div, a {
   box-shadow: 0 0 20px rgba(103, 101, 101, 0.08);
 }
 
+/* Repositories dropdown and its label */
+#repos-dropdown {
+  font-size: inherit;
+  background: white;
+  border: 0;
+  border-left: solid 2px #47ae31 !important;
+  padding: 5px 5px;
+}
+
+#global_type_chart {
+  color: white;
+  height: 100% !important;
+  position: relative;
+  background: #47ae31;
+  font-weight: bold;
+  font-size: 16px;
+  width: 100%;
+  margin: auto;
+}
+
+.repo-container {
+  margin-left: 3em;
+  margin-right: 5%;
+  border: solid 2px #43972a;
+  background: #47ae31;
+  border-radius: 5px 5px 5px 5px;
+}
 /*
 .plotly-graph:hover {
   transform: scale(1.00);
