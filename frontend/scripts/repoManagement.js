@@ -11,7 +11,7 @@ async function initReposTable() {
 
     // Put data into table
     const managementTable = document.querySelector("#management-table");
-    for (const { name, owner, linkedAt, modifiedAt } of repos) {
+    for (const { name, owner, linked_at, modified_at } of repos) {
         // row
         const row = document.createElement("tr");
         managementTable.appendChild(row);
@@ -24,6 +24,17 @@ async function initReposTable() {
         row.appendChild(repoCell);
         repoCell.appendChild(repoURL);
 
+        // linked at
+        const linkedAtString = new Date(linked_at).toLocaleString();
+        const linkedAtCell = document.createElement("td");
+        linkedAtCell.textContent = `${linkedAtString}`;
+        row.appendChild(linkedAtCell);
+
+        // modified at
+        const modifiedAtString = new Date(modified_at).toLocaleString();
+        const modifiedAtCell = document.createElement("td");
+        modifiedAtCell.textContent = `${modifiedAtString}`;
+        row.appendChild(modifiedAtCell);
     }
 
 }
