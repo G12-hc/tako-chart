@@ -360,7 +360,7 @@ tr:nth-child(even) {
 @media only screen and (max-width: 999px) {
   .commits-per-author-container,
   .code-lines-in-files-per-project-container,
-  .commits-over-time-chart-container {
+  .commits-over-time-container {
     flex-direction: column;
   }
 
