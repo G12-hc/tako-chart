@@ -154,9 +154,8 @@ async function drawHistogram(
 ) {
   const data = await fetchData({ endpoint, repo });
 
-    const graphDiv = domElement.querySelector(".plotly-graph");
+  const graphDiv = domElement.querySelector(".plotly-graph");
   const button = domElement.querySelector(".fullscreen-button");
-
 
   // Set up the Plotly data and layout
   let plotlyData, layout;
@@ -175,12 +174,10 @@ async function drawHistogram(
   };
 
   // Render the Plotly graph
-  Plotly.newPlot(domElement.querySelector(".plotly-graph"), plotlyData, layout);
+  Plotly.newPlot(graphDiv, plotlyData, layout);
 
-    setupFullscreenButton(graphDiv, button);
-
+  setupFullscreenButton(graphDiv, button);
 }
-
 
 async function drawPieChart(
   domElement,
@@ -189,9 +186,8 @@ async function drawPieChart(
 ) {
   const data = await fetchData({ endpoint, repo });
 
-    const graphDiv = domElement.querySelector(".plotly-graph");
+  const graphDiv = domElement.querySelector(".plotly-graph");
   const button = domElement.querySelector(".fullscreen-button");
-
 
   const plotlyData = [
     {
@@ -219,11 +215,10 @@ async function drawPieChart(
   // to allow sharing the "most" and "least" table code below
   const dataAsArrays = data.map((row) => [getLabel(row), getValue(row)]);
 
-  Plotly.newPlot(domElement.querySelector(".plotly-graph"), plotlyData, layout);
+  Plotly.newPlot(graphDiv, plotlyData, layout);
   drawTables(domElement, dataAsArrays, label);
 
-    setupFullscreenButton(graphDiv, button);
-
+  setupFullscreenButton(graphDiv, button);
 }
 
 async function drawBarChart(
@@ -233,9 +228,8 @@ async function drawBarChart(
 ) {
   const data = await fetchData({ endpoint, repo });
 
-    const graphDiv = domElement.querySelector(".plotly-graph");
+  const graphDiv = domElement.querySelector(".plotly-graph");
   const button = domElement.querySelector(".fullscreen-button");
-
 
   const plotlyData = [
     {
@@ -250,7 +244,7 @@ async function drawBarChart(
   layout = {
     xaxis: {
       title: { text: xLabel },
-      showticklabels: false
+      showticklabels: false,
     },
     yaxis: { title: { text: yLabel } },
     barcornerradius: 7,
@@ -260,11 +254,10 @@ async function drawBarChart(
   // to allow sharing the "most" and "least" table code below
   const dataAsArrays = data.map((row) => [getX(row), getY(row)]);
 
-  Plotly.newPlot(domElement.querySelector(".plotly-graph"), plotlyData, layout);
+  Plotly.newPlot(graphDiv, plotlyData, layout);
   drawTables(domElement, dataAsArrays, label);
 
-    setupFullscreenButton(graphDiv, button);
-
+  setupFullscreenButton(graphDiv, button);
 }
 
 function setupFullscreenButton(graphDiv, button) {

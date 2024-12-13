@@ -97,7 +97,7 @@ h1 {
 /* Code lines in file per project and Commits per author text description Styling */
 .commits-per-author-description,
 .code-lines-in-files-per-project-description,
-.commits-over-time-description{
+.commits-over-time-description {
   margin: 15px 0;
   font-family: "Open+Sans", sans-serif;
   font-weight: 400;
@@ -117,7 +117,6 @@ h1 {
 
 /* All tables style */
 table {
-
   border-collapse: collapse;
   border-radius: 12px;
   overflow: hidden;
@@ -140,7 +139,7 @@ th {
   text-align: center;
   text-transform: uppercase;
   padding: 10px;
- max-width: 10px;
+  max-width: 10px;
 }
 
 /* Tables content styling */
@@ -215,12 +214,14 @@ tr:nth-child(even) {
   font-size: 16px;
   cursor: pointer;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
 }
 
 /* Hover effect for the button */
 .button:hover {
-  background-color: transparent; ;
+  background-color: transparent;
   border-color: #43972a;
   transform: scale(1.05);
   color: black;
@@ -236,7 +237,6 @@ tr:nth-child(even) {
   gap: 1em;
   margin-left: auto;
 }
-
 
 /*CODE LINES IN FILE PER PROJECT STYLING*/
 
@@ -324,7 +324,6 @@ tr:nth-child(even) {
     max-width: 100%;
     overflow: scroll;
     align-content: center;
-
   }
 }
 
