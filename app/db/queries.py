@@ -232,7 +232,6 @@ async def query_insert_licenses(
         lic = await cursor.fetchone()
         existing_license = lic["id"]
 
-    print("ID inside query: ", existing_license, "Type: ", type(existing_license))
     return existing_license
 
 
