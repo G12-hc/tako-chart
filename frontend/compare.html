@@ -14,22 +14,34 @@
 </head>
 <body>
 <div class="web-title">
-    <a href="index.html">
-        <img alt="The tako-chart logo, a purple octopus" id="titleImg" src="assets/takochart-rounded-64x.png"/>
-    </a>
-    <h1>Compare Repositories</h1>
-    <div class="repo-container">
-        <label for="global_type_chart" >Chart Types:
+      <img
+        alt="The tako-chart logo, a purple octopus"
+        id="titleImg"
+        src="assets/takochart-rounded-64x.png"
+      />
+      <h1>TakoChart</h1>
+      <div id="topbar">
+        <div class="repo-container">
+            <label class="" for="global_type_chart" id="repos-dropdown-label">Chart Type:</label>
             <select id="global_type_chart" class="repo-container">
                 <option value="pie">Commits by Author (Pie)</option>
                 <option value="bar">Lines of Code (Bar)</option>
                 <option value="hist">Commits Over Time (Histogram)</option>
             </select>
-        </label>
+        </div>
+        <div id="button-group">
+          <button
+            class="compare-btn button" onclick="window.location.href='index.html'">Home
+          </button>
+          <button
+              class="compare-btn button" onclick="window.location.href='management.html'">Repository Management
+          </button>
+          <button
+            class="compare-btn button" onclick="window.location.href='compare.html'">Compare
+          </button>
+        </div>
+      </div>
     </div>
-    <a class="compare-btn" href="index.html">Back</a>
-</div>
-
 <div class="compare-container">
     <!-- First repository chart -->
     <div class="chart-content">
