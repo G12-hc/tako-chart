@@ -6,6 +6,7 @@ let currentRepo2 = queryElements.get("repo2");
 function updateChart(repo, graphId, chartType) {
   if (repo) {
     drawChartsForRepo(repo, graphId, chartType);
+
   }
 }
 
@@ -18,6 +19,12 @@ function drawTables(element, data) {
 
   const highestCommitters = data.slice(0, 3);
   const lowestCommitters = data.slice(Math.max(data.length - 3, 0)).reverse();
+
+  for (const table of [mostCommitsTable, leastCommitsTable]) {
+    while (table.lastElementChild.nodeName.toLowerCase() === "tr") {
+      table.removeChild(table.lastElementChild);
+    }
+  }
 
   var i = 0;
 
