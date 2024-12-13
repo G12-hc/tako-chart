@@ -83,3 +83,11 @@ fabric.properties
 # Virtual environments
 venv/
 .venv/
+
+
+# enviroment
+# hidden token
+cfg.ini
+
+# python cache stuff
+__pycache__
