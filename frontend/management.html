@@ -13,21 +13,33 @@
     <title>Repository Management</title>
   </head>
   <body>
-    <div class="web-title">
-      <a href="index.html">
-        <img
-          alt="The tako-chart logo, a purple octopus"
-          id="titleImg"
-          src="assets/takochart-rounded-64x.png"
-          />
-        </a>
-      <h1>
-        <a href="index.html" style="color: black; text-decoration: none;">TakoChart</a>
-      </h1>
+<div class="web-title">
+      <img
+        alt="The tako-chart logo, a purple octopus"
+        id="titleImg"
+        src="assets/takochart-rounded-64x.png"
+      />
+      <h1>TakoChart</h1>
       <div id="topbar">
+        <div id="repo-container">
+          <label
+            class="btn-compare"
+            for="repos-dropdown-label"
+            id="repos-dropdown-label"
+            >Repository:</label
+          >
+          <select id="repos-dropdown"></select>
+        </div>
         <div id="button-group">
-          <button class="compare-btn button" onclick="window.location.href='compare.html'">Compare</button>
-          <button class="compare-btn button" onclick="window.location.href='management.html'">Repository Management</button>
+          <button
+            class="compare-btn button" onclick="window.location.href='index.html'">Home
+          </button>
+          <button
+              class="compare-btn button" onclick="window.location.href='management.html'">Repository Management
+          </button>
+          <button
+            class="compare-btn button" onclick="window.location.href='compare.html'">Compare
+          </button>
         </div>
       </div>
     </div>

@@ -278,12 +278,13 @@ tr:nth-child(even) {
   background: white;
   border: 1px solid rgba(103, 101, 101, 0.39);
   padding: 5px 5px;
+  border-radius: 12px;
+  margin-left: 1em;
 }
 
 #repos-dropdown-label {
   height: 100% !important;
   position: relative;
-  font-weight: bold;
   font-size: 16px;
   width: 100%;
   margin: auto;
@@ -293,7 +294,6 @@ tr:nth-child(even) {
 #repo-container {
   margin-left: 3em;
   margin-right: 5%;
-  border-radius: 5px 5px 5px 5px;
 }
 
 #topbar {
@@ -424,10 +424,6 @@ tr:nth-child(even) {
   align-items: center;
   margin-bottom: 20px;
   gap: 10px;
-}
-
-.repo-input label {
-  font-weight: bold;
 }
 
 .repo-input input {
