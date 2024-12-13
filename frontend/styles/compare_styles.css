@@ -2,12 +2,15 @@ body, h1, h2, table, img, div, a {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    border-radius: 12px;
   }
 .compare-container {
   display: flex;
   flex-direction: row;
 }
-
+th {
+  border-radius: 12px 12px 0 0;
+}
 
 @media (max-width: 768px) {
   .compare-container {
@@ -73,6 +76,7 @@ body, h1, h2, table, img, div, a {
     flex: 1 1 45%;
     display: flex;
     flex-direction: column;
+    gap: 3em;
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 10px;
@@ -170,30 +174,44 @@ body, h1, h2, table, img, div, a {
 }
 
 /* Repositories dropdown and its label */
-#repos-dropdown {
-  font-size: inherit;
-  background: white;
-  border: 0;
-  border-left: solid 2px #47ae31 !important;
-  padding: 5px 5px;
-}
-
-#global_type_chart {
-  color: white;
+#repos-dropdown1 {
   height: 100% !important;
   position: relative;
-  background: #47ae31;
-  font-weight: bold;
   font-size: 16px;
   width: 100%;
   margin: auto;
+  color: black;
+  background: white;
+  border: 1px solid rgba(103, 101, 101, 0.39);
+  border-radius: 12px;
+}
+#repos-dropdown2 {
+  height: 100% !important;
+  position: relative;
+  font-size: 16px;
+  width: 100%;
+  margin: auto;
+  color: black;
+  background: white;
+  border: 1px solid rgba(103, 101, 101, 0.39);
+  border-radius: 12px;
+}
+
+#global_type_chart {
+  height: 100% !important;
+  position: relative;
+  font-size: 16px;
+  width: 100%;
+  margin: auto;
+  color: black;
+  background: white;
+  border: 1px solid rgba(103, 101, 101, 0.39);
+  padding: 5px 5px;
 }
 
 .repo-container {
   margin-left: 3em;
   margin-right: 5%;
-  border: solid 2px #43972a;
-  background: #47ae31;
   border-radius: 5px 5px 5px 5px;
 }
 /*
