@@ -51,7 +51,8 @@ async def assign_repo_data(owner: str, repo: str):
                 repo_details["license"]["key"],
                 repo_details["license"]["name"],
                 repo_details["license"]["spdx_id"],
-                repo_details["license"]["url"],
+                # Can be null
+                repo_details["license"]["url"] or "",
                 repo_details["license"]["node_id"],
             )
         # Repository

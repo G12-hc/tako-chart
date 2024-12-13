@@ -180,7 +180,7 @@ async def query_insert_language(cursor, repository_id, lang_name: str):
     # If result is not set then (language already exists), else set to the existing ID
     if result is None:
         await cursor.execute("SELECT id FROM languages WHERE name = %s", [lang_name])
-        result = cursor.fetchone()
+        result = await cursor.fetchone()
     lang_id = result["id"]
     await cursor.execute(
         """
