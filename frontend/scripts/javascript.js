@@ -169,12 +169,13 @@ async function drawHistogram(
   ];
 
   layout = {
+    autosize: true,
     xaxis: { title: { text: xLabel } },
     yaxis: { title: { text: yLabel } },
   };
 
   // Render the Plotly graph
-  Plotly.newPlot(graphDiv, plotlyData, layout);
+  Plotly.newPlot(graphDiv, plotlyData, layout, {responsive: true});
 
   setupFullscreenButton(graphDiv, button);
 }
@@ -203,6 +204,7 @@ async function drawPieChart(
   ];
 
   const layout = {
+    autosize: true,
     margin: {
       l: 50,
       r: 50,
@@ -215,7 +217,7 @@ async function drawPieChart(
   // to allow sharing the "most" and "least" table code below
   const dataAsArrays = data.map((row) => [getLabel(row), getValue(row)]);
 
-  Plotly.newPlot(graphDiv, plotlyData, layout);
+  Plotly.newPlot(graphDiv, plotlyData, layout, {responsive: true});
   drawTables(domElement, dataAsArrays, label);
 
   setupFullscreenButton(graphDiv, button);
@@ -236,12 +238,12 @@ async function drawBarChart(
       type: "bar",
       x: data.map(getX),
       y: data.map(getY),
-      type: "bar",
       marker: { color: "rgba(5,112,1,0.65)" },
       textinfo: "none",
     },
-  ];
+  ],
   layout = {
+    autosize: true,
     xaxis: {
       title: { text: xLabel },
       showticklabels: false,
@@ -254,7 +256,7 @@ async function drawBarChart(
   // to allow sharing the "most" and "least" table code below
   const dataAsArrays = data.map((row) => [getX(row), getY(row)]);
 
-  Plotly.newPlot(graphDiv, plotlyData, layout);
+  Plotly.newPlot(graphDiv, plotlyData, layout, {responsive:true});
   drawTables(domElement, dataAsArrays, label);
 
   setupFullscreenButton(graphDiv, button);
