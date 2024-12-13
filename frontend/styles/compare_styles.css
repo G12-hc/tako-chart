@@ -3,6 +3,11 @@ body, h1, h2, table, img, div, a {
     padding: 0;
     box-sizing: border-box;
   }
+.compare-container {
+  display: flex;
+  flex-direction: row;
+}
+
 
 @media (max-width: 768px) {
   .compare-container {
@@ -73,6 +78,8 @@ body, h1, h2, table, img, div, a {
     border-radius: 10px;
     padding: 15px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    flex-wrap: wrap;
+    align-content: center;
   }
 
   .chart-to-compare {
@@ -125,6 +132,18 @@ body, h1, h2, table, img, div, a {
     padding: 10px;
     text-align: center;
     border: 1px solid #ddd;
+    white-space: nowrap; /* Prevent wrapping */
+    overflow: hidden; /* Hide overflowed content */
+    text-overflow: ellipsis; /* Add "..." for truncated text */
+    max-width: 150px; /* Set a maximum width for cells */
+  }
+  td:hover {
+  overflow: visible;
+  white-space: normal;
+  position: relative;
+  z-index: 1;
+  background-color: #f2f2f2;
+  cursor: pointer;
   }
 
   /* Responsive Design */
