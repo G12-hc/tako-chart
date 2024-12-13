@@ -11,7 +11,7 @@ async function initReposTable() {
 
     // Put data into table
     const managementTable = document.querySelector("#management-table");
-    for (const { name, owner, linked_at, modified_at } of repos) {
+    for (const {name, owner, linked_at, modified_at} of repos) {
         // row
         const row = document.createElement("tr");
         managementTable.appendChild(row);
@@ -25,16 +25,33 @@ async function initReposTable() {
         repoCell.appendChild(repoURL);
 
         // linked at
-        const linkedAtString = new Date(linked_at).toLocaleString();
         const linkedAtCell = document.createElement("td");
+        const linkedAtString = new Date(linked_at).toLocaleString();
         linkedAtCell.textContent = `${linkedAtString}`;
         row.appendChild(linkedAtCell);
 
         // modified at
-        const modifiedAtString = new Date(modified_at).toLocaleString();
         const modifiedAtCell = document.createElement("td");
+        const modifiedAtString = new Date(modified_at).toLocaleString();
         modifiedAtCell.textContent = `${modifiedAtString}`;
         row.appendChild(modifiedAtCell);
+
+        // buttons
+        const buttonsCell = document.createElement("td");
+
+        const buttonUpdate = document.createElement("button");
+        buttonUpdate.className = "update-button button";
+        buttonUpdate.textContent = "Update";
+        // TODO: button functionality
+
+        const buttonDelete = document.createElement("button");
+        buttonDelete.className = "delete-button button";
+        buttonDelete.textContent = "Delete";
+        // TODO: button functionality
+
+        row.appendChild(buttonsCell);
+        buttonsCell.appendChild(buttonUpdate);
+        buttonsCell.appendChild(buttonDelete);
     }
 
 }
