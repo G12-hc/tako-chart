@@ -34,7 +34,7 @@
           <select id="repos-dropdown"></select>
         </div>
         <div id="button-group">
-          <button id="add-repo-btn" class="button">Add Repository</button>
+          <button class="compare-btn button" onclick="window.location.href='management.html'">Repository Management</button>
           <button
             class="compare-btn button"
             onclick="window.location.href='compare.html'"
@@ -132,6 +132,57 @@
         <!-- Graph container -->
 
         <div class="plotly-graph" id="code-lines-in-file-plotlyGraph"></div>
+        <button class="fullscreen-button button">Fullscreen</button>
+      </div>
+    </div>
+    <!--Container for functional lines of code in files per project -->
+    <div class="functional-code-lines-in-files-per-project-container">
+      <!--container; description and tables-->
+      <div class="functional-code-lines-in-files-per-project-table-wrapper">
+        <!--Description container -->
+        <div class="functional-code-lines-in-files-per-project-description">
+          Illustrates amount of functional lines in each file in this repository
+          each bar represents a specific file, which can be seen by hovering
+          over said bar. Functional lines are all lines of code, excluding blank
+          lines and comments.
+        </div>
+        <!--Tables container -->
+        <div class="table-block">
+          <table class="most-table">
+            <colgroup>
+              <col />
+              <col />
+            </colgroup>
+            <tr>
+              <th colspan="2">Most</th>
+            </tr>
+          </table>
+          <table class="least-table">
+            <colgroup>
+              <col />
+              <col />
+            </colgroup>
+            <tr>
+              <th colspan="2">Least</th>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <!--graph and title container-->
+      <div class="functional-code-lines-in-file-per-project-content">
+        <div
+          class="functional-code-lines-in-file-per-project-title"
+          data-text="Bar Chart"
+        >
+          <h2>Functional lines per File</h2>
+        </div>
+
+        <!-- Graph container -->
+
+        <div
+          class="plotly-graph"
+          id="functional-code-lines-in-file-plotlyGraph"
+        ></div>
         <button class="fullscreen-button button">Fullscreen</button>
       </div>
     </div>

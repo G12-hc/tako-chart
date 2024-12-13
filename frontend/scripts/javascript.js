@@ -39,31 +39,6 @@ async function populateReposDropdown() {
 
 populateReposDropdown();
 
-document.getElementById("add-repo-btn").onclick = async () => {
-  const repoRegex = /^(\w+(-?|\.?|_?)+)+(\/{1})(\w+(-?|\.?|_?)+)+$/g;
-
-  const repo = prompt("Owner/Repository\nex. (g12-hc/tako-chart)");
-  if (!repo) return;
-  if (repo.match(repoRegex) === null) {
-    alert(`"${repo}" is not a valid repository string!`);
-    return;
-  }
-
-  const response = await fetch(`/api/fetch-repo/${encodeURIComponent(repo)}`, {
-    method: "POST",
-  });
-
-  if (!response.ok) {
-    alert(
-      `Fetching repository failed with HTTP status code ${response.status}`,
-    );
-    return;
-  }
-
-  alert("Repo fetched successfully!");
-  // Reload to update repo list
-  await populateReposDropdown();
-};
 
 if (currentRepo !== "") {
   drawPieChart(
@@ -87,7 +62,19 @@ if (currentRepo !== "") {
       endpoint: "line-counts-per-file",
       repo: currentRepo,
     },
-    "files",
+    "LoC",
+  );
+  drawBarChart(
+    document.querySelector(".functional-code-lines-in-files-per-project-container"),
+    {
+      xLabel: "File",
+      yLabel: "Functional lines of code",
+      getX: (row) => row.path,
+      getY: (row) => row.functional_line_count,
+      endpoint: "functional-line-counts-per-file",
+      repo: currentRepo,
+    },
+    "fLoC",
   );
   drawHistogram(document.querySelector(".commits-over-time-container"), {
     getX: (commit) => commit.date,

@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles/style.css" />
+    <title>Repository Management</title>
+  </head>
+  <body>
+    <div class="web-title">
+      <a href="index.html">
+        <img
+          alt="The tako-chart logo, a purple octopus"
+          id="titleImg"
+          src="assets/takochart-rounded-64x.png"
+          />
+        </a>
+      <h1>
+        <a href="index.html" style="color: black; text-decoration: none;">TakoChart</a>
+      </h1>
+      <div id="topbar">
+        <div id="button-group">
+          <button class="compare-btn button" onclick="window.location.href='compare.html'">Compare</button>
+          <button class="compare-btn button" onclick="window.location.href='management.html'">Repository Management</button>
+        </div>
+      </div>
+    </div>
+    <!-- Repository Management Section -->
+    <div class="repository-management-container">
+      <div class="repo-input">
+        <label for="repo-url">Repo URL:</label>
+        <input type="text" id="repo-url" placeholder="ex. (g12-hc/tako-chart)" />
+        <button class="button" id="add-repo-btn">Add</button>
+
+      </div>
+      <table id="management-table">
+        <thead>
+          <tr>
+            <th>Repository</th>
+            <th>Created</th>
+            <th>Modified</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+  </body>
+  <script src="scripts/repoManagement.js"></script>
+</html>
