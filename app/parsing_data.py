@@ -12,12 +12,13 @@ from app.db.fetch_git_api import (
     get_contributors,
 )
 from app.db.queries import (
-    query_insert_commits,
-    query_insert_repository,
-    query_insert_files,
+    query_delete_all_repo_data,
     query_insert_branches,
-    query_insert_licenses,
+    query_insert_commits,
+    query_insert_files,
     query_insert_language,
+    query_insert_licenses,
+    query_insert_repository,
 )
 
 
@@ -41,6 +42,9 @@ async def assign_repo_data(owner: str, repo: str):
         user_ids = [user["id"] for user in contributor_data]
         archived_user_ids = [0, 1]
         linked_status = "Linked"
+
+        # Delete repo's data (in case it already exists, to refresh)
+        await query_delete_all_repo_data(conn, repository_id)
 
         # Licence
         if repo_details["license"] is None:

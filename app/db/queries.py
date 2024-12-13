@@ -32,6 +32,53 @@ async def query_repos(cursor):
 
 
 @query
+async def query_delete_all_repo_data(cursor, repo_id):
+    """
+    Delete a repositories and all its associated data from other tables.
+    :param cursor:
+    :param repo_id:
+    :return:
+    """
+    await cursor.execute(
+        """
+        DELETE FROM commits
+        WHERE repository_id = %s
+        """,
+        [repo_id],
+    )
+    await cursor.execute(
+        """
+        DELETE FROM files
+        USING branches
+        WHERE files.branch_id = branches.id
+          AND branches.repository_id = %s
+        """,
+        [repo_id],
+    )
+    await cursor.execute(
+        """
+        DELETE FROM branches
+        WHERE branches.repository_id = %s
+        """,
+        [repo_id],
+    )
+    await cursor.execute(
+        """
+        DELETE FROM repository_languages
+        WHERE repository_languages.repository_id = %s
+        """,
+        [repo_id],
+    )
+    await cursor.execute(
+        """
+        DELETE FROM repositories
+        WHERE id = %s
+        """,
+        [repo_id],
+    )
+
+
+@query
 async def query_file_by_line_count(cursor, repo_id):
     """
     Fetch files for a specific branch with a minimum line count.
