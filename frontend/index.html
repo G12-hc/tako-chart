@@ -25,14 +25,22 @@
       <h1>TakoChart</h1>
       <div id="topbar">
         <div id="repo-container">
-          <label class="btn-compare" for="repos-dropdown-label" id="repos-dropdown-label">Repository</label>
-          <select id="repos-dropdown">
-            <option></option>
-          </select>
+          <label
+            class="btn-compare"
+            for="repos-dropdown-label"
+            id="repos-dropdown-label"
+            >Repository</label
+          >
+          <select id="repos-dropdown"></select>
         </div>
         <div id="button-group">
-          <button class="compare-btn button" onclick="window.prompt('Owner/Repository\nex. (g12-hc/tako-chart)')">Add Repository</button>
-          <button class="compare-btn button" onclick="window.location.href='compare.html'">Compare</button>
+          <button id="add-repo-btn" class="button">Add Repository</button>
+          <button
+            class="compare-btn button"
+            onclick="window.location.href='compare.html'"
+          >
+            Compare
+          </button>
         </div>
       </div>
     </div>
@@ -44,20 +52,19 @@
         <div class="commits-per-authors-title" data-text="pie Chart">
           <h2>Commits per Author</h2>
         </div>
-
         <!-- Graph container -->
 
-          <div class="plotly-graph" id="commits-per-author-plotlyGraph"></div>
-          <button class="fullscreen-button button">Fullscreen</button>
-
+        <div class="plotly-graph" id="commits-per-author-plotlyGraph"></div>
+        <button class="fullscreen-button button">Fullscreen</button>
       </div>
-
 
       <!--container; description and tables-->
       <div class="table-wrapper">
         <div class="commits-per-author-description">
-          Illustrates commits per commit author. Each section represents specific
-          author and percentage share of total commits.
+          <p>
+            Illustrates commits per commit author. Each section represents
+            specific author and percentage share of total commits.
+          </p>
         </div>
         <div class="table-block">
           <table class="most-table">
@@ -88,9 +95,11 @@
       <div class="code-lines-in-files-per-project-table-wrapper">
         <!--Description container -->
         <div class="code-lines-in-files-per-project-description">
-          Illustrates amount of lines in each file in this repository
-          each bar represents a specific file, which can be seen by hovering
-          over said bar.
+          <p>
+            Illustrates amount of lines in each file in this repository each bar
+            represents a specific file, which can be seen by hovering over said
+            bar.
+          </p>
         </div>
         <!--Tables container -->
         <div class="table-block">
@@ -120,10 +129,10 @@
           <h2>Lines per File</h2>
         </div>
 
-       <!-- Graph container -->
+        <!-- Graph container -->
 
-          <div class="plotly-graph" id="code-lines-in-file-plotlyGraph"></div>
-          <button class="fullscreen-button button">Fullscreen</button>
+        <div class="plotly-graph" id="code-lines-in-file-plotlyGraph"></div>
+        <button class="fullscreen-button button">Fullscreen</button>
       </div>
     </div>
     <!--Container for functional lines of code in files per project -->
@@ -178,19 +187,19 @@
         <div class="commits-over-time-title" data-text="bar Chart">
           <h2>Commits over Time</h2>
         </div>
-       <!-- Graph container -->
+        <!-- Graph container -->
 
-          <div class="plotly-graph" id="commits-over-time-plotlyGraph"></div>
-          <button class="fullscreen-button button">Fullscreen</button>
-
+        <div class="plotly-graph" id="commits-over-time-plotlyGraph"></div>
+        <button class="fullscreen-button button">Fullscreen</button>
       </div>
 
-
-        <!--container; description and tables-->
+      <!--container; description and tables-->
       <div class="commits-over-time-table-wrapper">
         <div class="commits-over-time-description">
-          Illustrates number of commits over time, each bar represents a time period
-          (1 (one) week) along with how many commits were made.
+          <p>
+            Illustrates number of commits over time, each bar represents a time
+            period (1 (one) week) along with how many commits were made.
+          </p>
         </div>
       </div>
     </div>

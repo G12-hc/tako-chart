@@ -41,16 +41,24 @@ if (currentRepo !== "") {
   });
 }
 
-async function initReposDropdown() {
+async function populateReposDropdown() {
   // Fetch data from the repository
   const data = await fetch("/api/repos");
 
   if (!data.ok) {
     // TODO: error
   }
+  const dropdown = document.getElementById("repos-dropdown");
+  // Clear all dropdown options
+  dropdown.textContent = "";
+
+  // Insert an initial empty option
+  const emptyOption = document.createElement("option");
+  emptyOption.textContent = "--Select a repository--";
+  emptyOption.value = "";
+  dropdown.appendChild(emptyOption);
 
   const repos = JSON.parse(await data.text()).repos;
-  const dropdown = document.getElementById("repos-dropdown");
 
   for (const { id, name, owner } of repos) {
     const option = document.createElement("option");
@@ -69,7 +77,66 @@ async function initReposDropdown() {
   };
 }
 
-initReposDropdown();
+populateReposDropdown();
+
+document.getElementById("add-repo-btn").onclick = async () => {
+  const repoRegex = /^(\w+(-?|\.?|_?)+)+(\/{1})(\w+(-?|\.?|_?)+)+$/g;
+
+  const repo = prompt("Owner/Repository\nex. (g12-hc/tako-chart)");
+  if (!repo) return;
+  if (repo.match(repoRegex) === null) {
+    alert(`"${repo}" is not a valid repository string!`);
+    return;
+  }
+
+  const response = await fetch(`/api/fetch-repo/${encodeURIComponent(repo)}`, {
+    method: "POST",
+  });
+
+  if (!response.ok) {
+    alert(
+      `Fetching repository failed with HTTP status code ${response.status}`,
+    );
+    return;
+  }
+
+  alert("Repo fetched successfully!");
+  // Reload to update repo list
+  await populateReposDropdown();
+};
+
+if (currentRepo !== "") {
+  drawPieChart(
+    document.querySelector(".commits-per-author-container"),
+    {
+      getLabel: (row) => row.author,
+      getValue: (row) => row.commit_count,
+      endpoint: "commits-per-author",
+      repo: currentRepo,
+    },
+    "commits",
+  );
+
+  drawBarChart(
+    document.querySelector(".code-lines-in-files-per-project-container"),
+    {
+      xLabel: "File",
+      yLabel: "Lines of code",
+      getX: (row) => row.path,
+      getY: (row) => row.line_count,
+      endpoint: "line-counts-per-file",
+      repo: currentRepo,
+    },
+    "files",
+  );
+  drawHistogram(document.querySelector(".commits-over-time-container"), {
+    getX: (commit) => commit.date,
+    xLabel: "Date",
+    yLabel: "Commit count",
+    endpoint: "commit-dates",
+    repo: currentRepo,
+  });
+}
 
 async function fetchData({ endpoint, repo }) {
   // Fetch data for the chart
@@ -83,39 +150,39 @@ async function fetchData({ endpoint, repo }) {
   }
 }
 
-function drawTables(element, data) {
-  const mostCommitsTable = element.querySelector(".most-table");
-  const leastCommitsTable = element.querySelector(".least-table");
+function drawTables(element, data, label) {
+  const mostTable = element.querySelector(".most-table");
+  const leastTable = element.querySelector(".least-table");
 
-  const highestCommitters = data.slice(0, 3);
-  const lowestCommitters = data.slice(Math.max(data.length - 3, 0)).reverse();
+  const highestEntries = data.slice(0, 3);
+  const lowestEntries = data.slice(Math.max(data.length - 3, 0)).reverse();
 
   var i = 0;
 
-  for (const [author, commitCount] of highestCommitters) {
+  for (const [author, commitCount] of highestEntries) {
     const row = document.createElement("tr");
-    mostCommitsTable.appendChild(row);
+    mostTable.appendChild(row);
     const rankCell = document.createElement("td");
     rankCell.textContent = `${i + 1}`;
     row.appendChild(rankCell);
-    const authorCell = document.createElement("td");
-    authorCell.textContent = `${author} (${commitCount} commits)`;
-    row.appendChild(authorCell);
+    const entryCell = document.createElement("td");
+    entryCell.textContent = `${author} (${commitCount} ${label})`;
+    row.appendChild(entryCell);
 
     i++;
   }
 
   i = data.length;
 
-  for (const [author, commitCount] of lowestCommitters) {
+  for (const [author, commitCount] of lowestEntries) {
     const row = document.createElement("tr");
-    leastCommitsTable.appendChild(row);
+    leastTable.appendChild(row);
     const rankCell = document.createElement("td");
     rankCell.textContent = `${i}`;
     row.appendChild(rankCell);
-    const authorCell = document.createElement("td");
-    authorCell.textContent = `${author} (${commitCount} commits)`;
-    row.appendChild(authorCell);
+    const entryCell = document.createElement("td");
+    entryCell.textContent = `${author} (${commitCount} ${label})`;
+    row.appendChild(entryCell);
 
     i--;
   }
@@ -127,9 +194,8 @@ async function drawHistogram(
 ) {
   const data = await fetchData({ endpoint, repo });
 
-    const graphDiv = domElement.querySelector(".plotly-graph");
+  const graphDiv = domElement.querySelector(".plotly-graph");
   const button = domElement.querySelector(".fullscreen-button");
-
 
   // Set up the Plotly data and layout
   let plotlyData, layout;
@@ -143,27 +209,26 @@ async function drawHistogram(
   ];
 
   layout = {
+    autosize: true,
     xaxis: { title: { text: xLabel } },
     yaxis: { title: { text: yLabel } },
   };
 
   // Render the Plotly graph
-  Plotly.newPlot(domElement.querySelector(".plotly-graph"), plotlyData, layout);
+  Plotly.newPlot(graphDiv, plotlyData, layout, {responsive: true});
 
-    setupFullscreenButton(graphDiv, button);
-
+  setupFullscreenButton(graphDiv, button);
 }
-
 
 async function drawPieChart(
   domElement,
   { endpoint, getLabel, getValue, repo },
+  label,
 ) {
   const data = await fetchData({ endpoint, repo });
 
-    const graphDiv = domElement.querySelector(".plotly-graph");
+  const graphDiv = domElement.querySelector(".plotly-graph");
   const button = domElement.querySelector(".fullscreen-button");
-
 
   const plotlyData = [
     {
@@ -179,6 +244,7 @@ async function drawPieChart(
   ];
 
   const layout = {
+    autosize: true,
     margin: {
       l: 50,
       r: 50,
@@ -191,37 +257,36 @@ async function drawPieChart(
   // to allow sharing the "most" and "least" table code below
   const dataAsArrays = data.map((row) => [getLabel(row), getValue(row)]);
 
-  Plotly.newPlot(domElement.querySelector(".plotly-graph"), plotlyData, layout);
-  drawTables(domElement, dataAsArrays);
+  Plotly.newPlot(graphDiv, plotlyData, layout, {responsive: true});
+  drawTables(domElement, dataAsArrays, label);
 
-    setupFullscreenButton(graphDiv, button);
-
+  setupFullscreenButton(graphDiv, button);
 }
 
 async function drawBarChart(
   domElement,
   { xLabel, yLabel, endpoint, getX, getY, repo },
+  label,
 ) {
   const data = await fetchData({ endpoint, repo });
 
-    const graphDiv = domElement.querySelector(".plotly-graph");
+  const graphDiv = domElement.querySelector(".plotly-graph");
   const button = domElement.querySelector(".fullscreen-button");
-
 
   const plotlyData = [
     {
       type: "bar",
       x: data.map(getX),
       y: data.map(getY),
-      type: "bar",
       marker: { color: "rgba(5,112,1,0.65)" },
       textinfo: "none",
     },
-  ];
+  ],
   layout = {
+    autosize: true,
     xaxis: {
       title: { text: xLabel },
-      showticklabels: false
+      showticklabels: false,
     },
     yaxis: { title: { text: yLabel } },
     barcornerradius: 7,
@@ -231,11 +296,10 @@ async function drawBarChart(
   // to allow sharing the "most" and "least" table code below
   const dataAsArrays = data.map((row) => [getX(row), getY(row)]);
 
-  Plotly.newPlot(domElement.querySelector(".plotly-graph"), plotlyData, layout);
-  drawTables(domElement, dataAsArrays);
+  Plotly.newPlot(graphDiv, plotlyData, layout, {responsive:true});
+  drawTables(domElement, dataAsArrays, label);
 
-    setupFullscreenButton(graphDiv, button);
-
+  setupFullscreenButton(graphDiv, button);
 }
 
 function setupFullscreenButton(graphDiv, button) {
