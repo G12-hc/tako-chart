@@ -125,9 +125,10 @@ async function initReposDropdown(dropdown, queryKey) {
 // Centralized chart-drawing logic
 function drawChartsForRepo(repo, graphId, chartType) {
   const chartMapping = {
-    pie: drawPieChart,
-    bar: drawBarChart,
-    hist: drawHistogram,
+    'commits-by-author': drawPieChart,
+    'lines-per-file': drawBarChart,
+    'functional-lines-per-file': drawBarChart,
+    'commits-over-time': drawHistogram,
   };
 
   const chartFunc = chartMapping[chartType];
@@ -146,35 +147,38 @@ function drawChartsForRepo(repo, graphId, chartType) {
 // Chart-specific configuration mappings
 function getEndpointForChart(chartType) {
   return {
-    pie: "commits-per-author",
-    bar: "line-counts-per-file",
-    hist: "commit-dates",
+    'commits-by-author': "commits-per-author",
+    'lines-per-file': "line-counts-per-file",
+    'functional-lines-per-file': "functional-line-counts-per-file",
+    'commits-over-time': "commit-dates",
   }[chartType];
 }
 
 function getXForChart(chartType) {
   return {
-    bar: (row) => row.path,
-    hist: (commit) => commit.date,
+    'lines-per-file': (row) => row.path,
+    'functional-lines-per-file': (row) => row.path,
+    'commits-over-time': (commit) => commit.date,
   }[chartType] || (() => null);
 }
 
 function getYForChart(chartType) {
   return {
-    bar: (row) => row.line_count,
-    hist: () => null,
+    'lines-per-file': (row) => row.line_count,
+    'functional-lines-per-file': (row) => row.functional_line_count,
+    'commits-over-time': () => null,
   }[chartType] || (() => null);
 }
 
 function getLabelForChart(chartType) {
   return {
-    pie: (row) => row.author,
+    'commits-by-author': (row) => row.author,
   }[chartType] || (() => null);
 }
 
 function getValueForChart(chartType) {
   return {
-    pie: (row) => row.commit_count,
+    'commits-by-author': (row) => row.commit_count,
   }[chartType] || (() => null);
 }
 
