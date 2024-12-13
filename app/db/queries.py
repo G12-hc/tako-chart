@@ -28,7 +28,12 @@ def query(query_function):
 
 @query
 async def query_repos(cursor):
-    await cursor.execute("SELECT * FROM repositories")
+    await cursor.execute(
+        """
+        SELECT * FROM repositories r
+        ORDER BY r.owner || '/' || r.name 
+        """
+    )
 
 
 @query
