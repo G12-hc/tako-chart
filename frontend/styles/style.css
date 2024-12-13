@@ -474,6 +474,18 @@ tr:nth-child(even) {
   transition: background-color 0.3s ease;
 }
 
-#management-table td button:hover {
-  background-color: #3d972a;
+#management-table td button.delete-button {
+  background-color: #ff0000;
+}
+
+#management-table td button.update-button {
+  background-color: #0077ff;
+}
+
+#management-table td button.delete-button:hover {
+  background-color: rgba(255, 0, 0, 0.6);
+}
+
+#management-table td button.update-button:hover {
+  background-color: rgba(0, 119, 255, 0.6);
 }
