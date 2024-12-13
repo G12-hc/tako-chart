@@ -1,63 +1,72 @@
 const queryElements = new URL(document.location.toString()).searchParams;
-const currentRepo1 = queryElements.get("repo1");
-const currentRepo2 = queryElements.get("repo2");
+let currentRepo1 = queryElements.get("repo1");
+let currentRepo2 = queryElements.get("repo2");
 
-if (currentRepo1 || currentRepo2) {
-  // Initialize both graphs
-  if (currentRepo1) {
-    drawChartsForRepo(currentRepo1, "plotly-graph1", "dropdown_type_chart1");
-  }
-  if (currentRepo2) {
-    drawChartsForRepo(currentRepo2, "plotly-graph2", "dropdown_type_chart2");
+// Update a chart based on repo, graphId, and chart type
+function updateChart(repo, graphId, chartType) {
+  if (repo) {
+    drawChartsForRepo(repo, graphId, chartType);
   }
 }
 
-async function initReposDropdown(dropdown, graphId, chartTypeDropdownId, queryKey) {
-  const data = await fetch("/api/repos");
+// Update both charts when the global chart type changes
+function updateAllCharts() {
+  const chartType = document.getElementById("global_type_chart").value;
+  updateChart(currentRepo1, "plotly-graph1", chartType);
+  updateChart(currentRepo2, "plotly-graph2", chartType);
+}
 
-  if (!data.ok) {
-    console.error("Failed to fetch repositories", data.status);
-    return;
-  }
+// Add event listeners for global chart type and dropdowns
+document.getElementById("global_type_chart").onchange = updateAllCharts;
 
-  const repos = JSON.parse(await data.text()).repos;
+document.getElementById("repos-dropdown1").onchange = function () {
+  currentRepo1 = this.value;
+  updateAllCharts();
+};
 
-  for (const { id, name, owner } of repos) {
-    const option = document.createElement("option");
-    option.textContent = `${owner}/${name}`;
-    option.value = id;
-    dropdown.appendChild(option);
+document.getElementById("repos-dropdown2").onchange = function () {
+  currentRepo2 = this.value;
+  updateAllCharts();
+};
 
-    if (queryElements.get(queryKey) === id) {
-      option.selected = "selected";
+// Initialize repository dropdowns
+async function initReposDropdown(dropdown, queryKey) {
+  try {
+    const response = await fetch("/api/repos");
+
+    if (!response.ok) {
+      console.error("Failed to fetch repositories:", response.status);
+      return;
     }
+
+    const repos = await response.json();
+
+    for (const { id, name, owner } of repos.repos) {
+      const option = document.createElement("option");
+      option.textContent = `${owner}/${name}`;
+      option.value = id;
+      dropdown.appendChild(option);
+
+      if (queryElements.get(queryKey) === id) {
+        option.selected = true;
+      }
+    }
+
+    dropdown.onchange(); // Trigger initial update for preselected values
+  } catch (error) {
+    console.error("Error initializing repositories:", error);
   }
-
-  dropdown.onchange = function () {
-    const selectedRepo = dropdown.value;
-    const params = new URLSearchParams(document.location.search);
-    params.set(queryKey, selectedRepo);
-
-    // Update URL without refreshing
-    history.replaceState(null, "", `?${params.toString()}`);
-
-    // Draw charts for the selected repo
-    drawChartsForRepo(selectedRepo, graphId, chartTypeDropdownId);
-  };
 }
 
-function drawChartsForRepo(repo, graphId, chartTypeDropdownId) {
-  const chartTypeDropdown = document.getElementById(chartTypeDropdownId);
-
+// Centralized chart-drawing logic
+function drawChartsForRepo(repo, graphId, chartType) {
   const chartMapping = {
     pie: drawPieChart,
     bar: drawBarChart,
     hist: drawHistogram,
   };
 
-  const chartType = chartTypeDropdown.value || "pie"; // Default to Pie Chart
   const chartFunc = chartMapping[chartType];
-
   if (chartFunc) {
     chartFunc(document.getElementById(graphId), {
       repo,
@@ -68,74 +77,57 @@ function drawChartsForRepo(repo, graphId, chartTypeDropdownId) {
       getValue: getValueForChart(chartType),
     });
   }
-
-  chartTypeDropdown.onchange = function () {
-    const newChartType = chartTypeDropdown.value;
-    const newChartFunc = chartMapping[newChartType];
-
-    if (newChartFunc) {
-      newChartFunc(document.getElementById(graphId), {
-        repo,
-        endpoint: getEndpointForChart(newChartType),
-        getX: getXForChart(newChartType),
-        getY: getYForChart(newChartType),
-        getLabel: getLabelForChart(newChartType),
-        getValue: getValueForChart(newChartType),
-      });
-    }
-  };
 }
 
+// Chart-specific configuration mappings
 function getEndpointForChart(chartType) {
-  const endpoints = {
+  return {
     pie: "commits-per-author",
     bar: "line-counts-per-file",
     hist: "commit-dates",
-  };
-  return endpoints[chartType];
+  }[chartType];
 }
 
 function getXForChart(chartType) {
-  const getXFuncs = {
+  return {
     bar: (row) => row.path,
     hist: (commit) => commit.date,
-  };
-  return getXFuncs[chartType] || (() => null);
+  }[chartType] || (() => null);
 }
 
 function getYForChart(chartType) {
-  const getYFuncs = {
+  return {
     bar: (row) => row.line_count,
     hist: () => null,
-  };
-  return getYFuncs[chartType] || (() => null);
+  }[chartType] || (() => null);
 }
 
 function getLabelForChart(chartType) {
-  const getLabelFuncs = {
+  return {
     pie: (row) => row.author,
-  };
-  return getLabelFuncs[chartType] || (() => null);
+  }[chartType] || (() => null);
 }
 
 function getValueForChart(chartType) {
-  const getValueFuncs = {
+  return {
     pie: (row) => row.commit_count,
-  };
-  return getValueFuncs[chartType] || (() => null);
+  }[chartType] || (() => null);
 }
 
+// Fetch data utility
 async function fetchData({ endpoint, repo }) {
+  // Fetch data for the chart
   const uri = `/api/chart-data/${endpoint}/${repo}`;
   const data = await fetch(uri);
 
   if (data.ok) {
     return JSON.parse(await data.text());
   } else {
-    console.error("Failed to fetch chart data", data.status);
+    // TODO: error
   }
 }
 
+// Chart rendering functions
 async function drawPieChart(domElement, { endpoint, getLabel, getValue, repo }) {
   const data = await fetchData({ endpoint, repo });
 
@@ -147,13 +139,11 @@ async function drawPieChart(domElement, { endpoint, getLabel, getValue, repo }) 
       textinfo: "none",
       showlegend: false,
       hoverinfo: "percent+label",
-      domain: { x: [0, 1], y: [0, 1] },
     },
   ];
+  const layout = { margin: { l: 50, r: 50, t: 25, b: 25, pad: 2 } };
 
-  Plotly.newPlot(domElement, plotlyData, {
-    margin: { t: 20, b: 20, l: 20, r: 20 },
-  });
+  Plotly.newPlot(domElement, plotlyData, layout);
 }
 
 async function drawBarChart(domElement, { xLabel, yLabel, endpoint, getX, getY, repo }) {
@@ -165,14 +155,14 @@ async function drawBarChart(domElement, { xLabel, yLabel, endpoint, getX, getY, 
       y: data.map(getY),
       type: "bar",
       marker: { color: "rgba(5,112,1,0.65)" },
-      textinfo: "none",
     },
   ];
+  const layout = {
+    xaxis: { title: { text: xLabel }, showticklabels: false },
+    yaxis: { title: { text: yLabel } },
+  };
 
-  Plotly.newPlot(domElement, plotlyData, {
-    xaxis: { title: xLabel },
-    yaxis: { title: yLabel },
-  });
+  Plotly.newPlot(domElement, plotlyData, layout);
 }
 
 async function drawHistogram(domElement, { xLabel, yLabel, endpoint, getX, repo }) {
@@ -185,34 +175,17 @@ async function drawHistogram(domElement, { xLabel, yLabel, endpoint, getX, repo 
       marker: { color: "rgba(5,112,1,0.65)" },
     },
   ];
+  const layout = {
+    xaxis: { title: { text: xLabel } },
+    yaxis: { title: { text: yLabel } },
+  };
 
-  Plotly.newPlot(domElement, plotlyData, {
-    xaxis: { title: xLabel },
-    yaxis: { title: yLabel },
-  });
+  Plotly.newPlot(domElement, plotlyData, layout);
 }
 
-document.getElementById('global_type_chart').onchange = function () {
-  const selectedChartType = 'global_type_chart';
+// Initialize dropdowns for the two repositories
+initReposDropdown(document.getElementById("repos-dropdown1"), "repo1");
+initReposDropdown(document.getElementById("repos-dropdown2"), "repo2");
 
-if (selectedChartType) {
-  // Initialize dropdowns for the two repositories
-  initReposDropdown(
-      document.getElementById("repos-dropdown1"),
-      "plotly-graph1",
-      selectedChartType,
-      "repo1"
-  );
-
-  initReposDropdown(
-      document.getElementById("repos-dropdown2"),
-      "plotly-graph2",
-      selectedChartType,
-      "repo2"
-  );
-
-}
-
-
-
-}
+// Ensure charts are drawn on page load
+updateAllCharts();
