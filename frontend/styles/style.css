@@ -36,6 +36,7 @@ h1 {
 }
 /*Button redirect to compare page*/
 .compare-btn,
+.management-btn,
 #add-repo-btn {
   margin-left: auto;
   margin-right: 5%;
@@ -387,6 +388,107 @@ tr:nth-child(even) {
     overflow: hidden;
     width: 100%;
   }
+}
+
+/* Repository Management Section */
+.repository-management-container {
+  margin: 20px;
+  padding: 20px;
+  background-color: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.repository-management-container .button{
+  margin: 0px;
+}
+
+.repo-input {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 10px;
+}
+
+.repo-input label {
+  font-weight: bold;
+}
+
+.repo-input input {
+  flex: 1;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.repo-input button {
+  padding: 8px 12px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #47ae31;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.repo-input button:hover {
+  background-color: #3d972a;
+}
+
+#management-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+#management-table th,
+#management-table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+}
+
+#management-table th {
+  background-color: #3d972a;
+}
+
+#management-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+#management-table tbody tr:hover {
+  background-color: #f2f2f2;
+}
+
+#management-table td button {
+  padding: 5px 10px;
+  font-size: 14px;
+  cursor: pointer;
+  background-color: #47ae31;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  margin-right: 5px;
+  transition: background-color 0.3s ease;
+}
+
+#management-table td button.delete-button {
+  background-color: #ff0000;
+}
+
+#management-table td button.update-button {
+  background-color: #0077ff;
+}
+
+#management-table td button.delete-button:hover {
+  background-color: rgba(255, 0, 0, 0.6);
+}
+
+#management-table td button.update-button:hover {
+  background-color: rgba(0, 119, 255, 0.6);
 }
 
 @media only screen and (max-width: 810px) {
