@@ -28,31 +28,58 @@ def query(query_function):
 
 @query
 async def query_repos(cursor):
-    await cursor.execute("SELECT * FROM repositories")
+    await cursor.execute(
+        """
+        SELECT * FROM repositories r
+        ORDER BY r.owner || '/' || r.name 
+        """
+    )
 
 
 @query
-async def query_file_by_line_count(cursor, repo_id):
+async def query_delete_all_repo_data(cursor, repo_id):
     """
-    Fetch files for a specific branch with a minimum line count.
+    Delete a repositories and all its associated data from other tables.
     :param cursor:
     :param repo_id:
     :return:
     """
-    params = [repo_id]
     await cursor.execute(
         """
-        SELECT
-            REGEXP_REPLACE(f.name, '^[^.]*\.', '') AS stripped_name,
-            SUM(f.line_count) AS total_line_count
-        FROM files f
-        JOIN branches b ON f.branch_id = b.id
-        JOIN repositories r ON b.repository_id = r.id
-        WHERE f.is_directory = FALSE AND r.id = %s
-        GROUP BY stripped_name
-        ORDER BY stripped_name
+        DELETE FROM commits
+        WHERE repository_id = %s
         """,
-        params,
+        [repo_id],
+    )
+    await cursor.execute(
+        """
+        DELETE FROM files
+        USING branches
+        WHERE files.branch_id = branches.id
+          AND branches.repository_id = %s
+        """,
+        [repo_id],
+    )
+    await cursor.execute(
+        """
+        DELETE FROM branches
+        WHERE branches.repository_id = %s
+        """,
+        [repo_id],
+    )
+    await cursor.execute(
+        """
+        DELETE FROM repository_languages
+        WHERE repository_languages.repository_id = %s
+        """,
+        [repo_id],
+    )
+    await cursor.execute(
+        """
+        DELETE FROM repositories
+        WHERE id = %s
+        """,
+        [repo_id],
     )
 
 
@@ -180,7 +207,7 @@ async def query_insert_language(cursor, repository_id, lang_name: str):
     # If result is not set then (language already exists), else set to the existing ID
     if result is None:
         await cursor.execute("SELECT id FROM languages WHERE name = %s", [lang_name])
-        result = cursor.fetchone()
+        result = await cursor.fetchone()
     lang_id = result["id"]
     await cursor.execute(
         """
@@ -232,7 +259,6 @@ async def query_insert_licenses(
         lic = await cursor.fetchone()
         existing_license = lic["id"]
 
-    print("ID inside query: ", existing_license, "Type: ", type(existing_license))
     return existing_license
 
 
@@ -258,13 +284,13 @@ async def query_line_counts_per_file(cursor, repo_id):
         """
         SELECT f.path, f.line_count
         FROM files f
-        WHERE f.branch_id = (
-            SELECT b.id
-            FROM branches b
-            JOIN repositories r ON r.id = %s AND b.repository_id = r.id
-            WHERE r.default_branch = b.name
-
-        )
+        WHERE NOT f.is_directory
+          AND f.branch_id = (
+                  SELECT b.id
+                  FROM branches b
+                  JOIN repositories r ON r.id = %s AND b.repository_id = r.id
+                  WHERE r.default_branch = b.name
+              )
         ORDER BY f.line_count DESC
         """,
         params,
@@ -278,13 +304,13 @@ async def query_functional_line_counts_per_file(cursor, repo_id):
         """
         SELECT f.path, f.functional_line_count
         FROM files f
-        WHERE f.branch_id = (
-            SELECT b.id
-            FROM branches b
-            JOIN repositories r ON r.id = %s
-            WHERE r.default_branch = b.name
-
-        )
+        WHERE NOT f.is_directory
+          AND f.branch_id = (
+                  SELECT b.id
+                  FROM branches b
+                  JOIN repositories r ON r.id = %s
+                  WHERE r.default_branch = b.name
+              )
         ORDER BY f.functional_line_count DESC
         """,
         params,
