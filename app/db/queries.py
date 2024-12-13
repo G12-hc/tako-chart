@@ -284,13 +284,13 @@ async def query_line_counts_per_file(cursor, repo_id):
         """
         SELECT f.path, f.line_count
         FROM files f
-        WHERE f.branch_id = (
-            SELECT b.id
-            FROM branches b
-            JOIN repositories r ON r.id = %s AND b.repository_id = r.id
-            WHERE r.default_branch = b.name
-
-        )
+        WHERE NOT f.is_directory
+          AND f.branch_id = (
+                  SELECT b.id
+                  FROM branches b
+                  JOIN repositories r ON r.id = %s
+                  WHERE r.default_branch = b.name
+              )
         ORDER BY f.line_count DESC
         """,
         params,
@@ -304,13 +304,13 @@ async def query_functional_line_counts_per_file(cursor, repo_id):
         """
         SELECT f.path, f.functional_line_count
         FROM files f
-        WHERE f.branch_id = (
-            SELECT b.id
-            FROM branches b
-            JOIN repositories r ON r.id = %s
-            WHERE r.default_branch = b.name
-
-        )
+        WHERE NOT f.is_directory
+          AND f.branch_id = (
+                  SELECT b.id
+                  FROM branches b
+                  JOIN repositories r ON r.id = %s
+                  WHERE r.default_branch = b.name
+              )
         ORDER BY f.functional_line_count DESC
         """,
         params,
