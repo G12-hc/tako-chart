@@ -84,31 +84,6 @@ async def query_delete_all_repo_data(cursor, repo_id):
 
 
 @query
-async def query_file_by_line_count(cursor, repo_id):
-    """
-    Fetch files for a specific branch with a minimum line count.
-    :param cursor:
-    :param repo_id:
-    :return:
-    """
-    params = [repo_id]
-    await cursor.execute(
-        """
-        SELECT
-            REGEXP_REPLACE(f.name, '^[^.]*\.', '') AS stripped_name,
-            SUM(f.line_count) AS total_line_count
-        FROM files f
-        JOIN branches b ON f.branch_id = b.id
-        JOIN repositories r ON b.repository_id = r.id
-        WHERE f.is_directory = FALSE AND r.id = %s
-        GROUP BY stripped_name
-        ORDER BY stripped_name
-        """,
-        params,
-    )
-
-
-@query
 async def query_insert_commits(cursor, sha, date, message, author, repository_id):
     params = [sha, date, message, author, repository_id]
     await cursor.execute(
