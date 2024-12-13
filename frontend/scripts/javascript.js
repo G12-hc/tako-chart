@@ -1,12 +1,6 @@
 const queryElements = new URL(document.location.toString()).searchParams;
 const currentRepo = queryElements.get("repo");
 
-function onPlotlyPlotLoaded() {
-   // code/functions to be executed when plot is fully loaded
-   console.log('Plotly plot is fully loaded');
-   addObserver();
-}
-
 if (currentRepo !== "") {
   drawPieChart(document.querySelector(".commits-per-author-container"), {
     getLabel: (row) => row.author,
@@ -140,12 +134,13 @@ async function drawHistogram(
   ];
 
   layout = {
+    autosize: true,
     xaxis: { title: { text: xLabel } },
     yaxis: { title: { text: yLabel } },
   };
 
   // Render the Plotly graph
-  Plotly.newPlot(domElement.querySelector(".plotly-graph"), plotlyData, layout, {responsive:true, }).then(onPlotlyPlotLoaded);
+  Plotly.newPlot(domElement.querySelector(".plotly-graph"), plotlyData, layout, {responsive: true});
 
     setupFullscreenButton(graphDiv, button);
 
@@ -177,6 +172,7 @@ async function drawPieChart(
   ];
 
   const layout = {
+    autosize: true,
     margin: {
       l: 50,
       r: 50,
@@ -189,7 +185,7 @@ async function drawPieChart(
   // to allow sharing the "most" and "least" table code below
   const dataAsArrays = data.map((row) => [getLabel(row), getValue(row)]);
 
-  Plotly.newPlot(domElement.querySelector(".plotly-graph"), plotlyData, layout, {responsive:true, }).then(onPlotlyPlotLoaded);
+  Plotly.newPlot(domElement.querySelector(".plotly-graph"), plotlyData, layout, {responsive: true});
   drawTables(domElement, dataAsArrays, label);
 
     setupFullscreenButton(graphDiv, button);
@@ -217,6 +213,7 @@ async function drawBarChart(
     },
   ],
   layout = {
+    autosize: true,
     xaxis: {
       title: { text: xLabel },
       showticklabels: false
@@ -229,7 +226,7 @@ async function drawBarChart(
   // to allow sharing the "most" and "least" table code below
   const dataAsArrays = data.map((row) => [getX(row), getY(row)]);
 
-  Plotly.newPlot(domElement.querySelector(".plotly-graph"), plotlyData, layout, {responsive:true, }).then(onPlotlyPlotLoaded);
+  Plotly.newPlot(domElement.querySelector(".plotly-graph"), plotlyData, layout, {responsive:true});
   drawTables(domElement, dataAsArrays, label);
 
     setupFullscreenButton(graphDiv, button);
@@ -261,26 +258,4 @@ function setupFullscreenButton(graphDiv, button) {
       Plotly.Plots.resize(graphDiv);
     });
   });
-}
-
-let resizeTimeout;
-
-function addObserver() {
-  for (const plotlyPlot of document.getElementsByClassName('plotly-graph')) {
-    let observer = new ResizeObserver(function (mutations) {
-      console.log('Resized:', mutations);
-      // clear any existing timeout
-      clearTimeout(resizeTimeout);
-      // set a new timeout to trigger Plotly.update after resizing stops
-      resizeTimeout = setTimeout(function () {
-        console.log('Resizing stopped, updating layout to new height: ', plotlyPlot.clientHeight, "px tall");
-        console.log('Resizing stopped, updating layout to new width: ', plotlyPlot.clientWidth, "px wide");
-        // Update the layout of the existing Plotly plot
-        for (const graphDiv of document.getElementsByClassName('plotly-graph')) {
-          Plotly.update(graphDiv.id, {}, { height: plotlyPlot.clientHeight, width: plotlyPlot.clientWidth });
-        }
-      }, 500); //  timeout duration, change as needed
-    });
-    observer.observe(plotlyPlot, { attributes: true });
-  }
 }
