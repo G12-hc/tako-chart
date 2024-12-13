@@ -1,4 +1,4 @@
-async function initReposTable() {
+async function refreshManagementTable() {
     // Fetch data from the repository
     const data = await fetch("/api/repos");
 
@@ -56,5 +56,5 @@ async function initReposTable() {
 
 }
 
-
-initReposTable();
+// Run stuff:
+refreshManagementTable();
