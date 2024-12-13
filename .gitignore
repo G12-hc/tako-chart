@@ -88,3 +88,6 @@ venv/
 # enviroment
 # hidden token
 cfg.ini
+
+# python cache stuff
+__pycache__
