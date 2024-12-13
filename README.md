@@ -7,8 +7,7 @@ This project is primarily built for deployment in a linux-based environment. Dep
 - MacOS
 - Windows (Using WSL)
 - Windows (Manual)
-<br>
-Before running the server, you will need to [obtain a GitHub personal token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-fine-grained-personal-access-token)  ideally a fine-grained token. After you get one, create `cfg.ini` in the root of this repository with these contents:
+Before running the server, you will need to [obtain a GitHub personal token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-fine-grained-personal-access-token) ideally a fine-grained token. After you get one, create `cfg.ini` in the root of this repository with these contents:
 ```ini
 [tokens]
 github = <put your github token here>
