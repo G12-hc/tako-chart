@@ -52,6 +52,7 @@ h1 {
 /*  Commits per author and code lines in file per project Graph container Styling */
 .commits-per-author-container,
 .code-lines-in-files-per-project-container,
+.functional-code-lines-in-files-per-project-container,
 .commits-over-time-container {
   margin-left: 20px;
   margin-right: 20px;
@@ -73,7 +74,9 @@ h1 {
 .commits-per-author-chart-content,
 .table-wrapper,
 .code-lines-in-file-per-project-content,
+.functional-code-lines-in-file-per-project-content,
 .code-lines-in-files-per-project-table-wrapper,
+.functional-code-lines-in-files-per-project-table-wrapper,
 .commits-over-time-chart-content,
 .commits-over-time-table-wrapper {
   margin-bottom: 25px;
@@ -87,6 +90,7 @@ h1 {
 /*  Code lines in file per project and  Commits per authorTitle Styling */
 .commits-per-authors-title h2,
 .code-lines-in-file-per-project-title h2,
+.functional-code-lines-in-file-per-project-title h2,
 .commits-over-time-title h2 {
   font-family: "Open+Sans", sans-serif;
   font-size: 35px;
@@ -99,6 +103,7 @@ h1 {
 /* Code lines in file per project and Commits per author text description Styling */
 .commits-per-author-description,
 .code-lines-in-files-per-project-description,
+.functional-code-in-files-per-project-description,
 .commits-over-time-description {
   margin: 15px 0;
   font-family: "Open+Sans", sans-serif;
@@ -238,17 +243,19 @@ tr:nth-child(even) {
   margin-left: auto;
 }
 
-/*CODE LINES IN FILE PER PROJECT STYLING*/
+/*CODE LINES AND FUNCTIONAL CODE LINES IN FILE PER PROJECT STYLING*/
 
 /*code lines in files per project tables wrapper*/
-.code-lines-in-files-per-project-table-wrapper {
+.code-lines-in-files-per-project-table-wrapper,
+.functional-code-lines-in-files-per-project-table-wrapper {
   margin-top: 40px;
   margin-left: 50px;
   margin-right: -50px;
 }
 
 /* codel lines in file per project content Styling */
-.code-lines-in-file-per-project-content {
+.code-lines-in-file-per-project-content,
+.functional-code-lines-in-file-per-project-content {
   margin-right: -50px;
   margin-left: 100px;
 }
@@ -309,6 +316,7 @@ tr:nth-child(even) {
 @media screen and (min-width: 1000px) and (max-width: 1500px) {
   .commits-per-author-chart-content,
   .code-lines-in-file-per-project-content,
+  .functional-code-lines-in-file-per-project-content,
   .commits-over-time-chart-content {
     justify-content: center;
     align-items: center;
@@ -318,6 +326,7 @@ tr:nth-child(even) {
   }
   .table-wrapper,
   .code-lines-in-files-per-project-table-wrapper,
+  .functional-code-lines-in-files-per-project-table-wrapper,
   .commits-over-time-table-wrapper {
     flex: 1 1 100%;
     margin-bottom: 0;
@@ -344,6 +353,7 @@ tr:nth-child(even) {
   }
   .commits-per-author-chart-content,
   .code-lines-in-file-per-project-content,
+  .functional-code-lines-in-file-per-project-content,
   .commits-over-time-chart-content {
     justify-content: center;
     align-items: center;
@@ -353,6 +363,7 @@ tr:nth-child(even) {
   }
   .table-wrapper,
   .code-lines-in-files-per-project-table-wrapper,
+  .functional-code-lines-in-files-per-project-table-wrapper,
   .commits-over-time-table-wrapper {
     flex: 1 1 100%;
     margin-bottom: 0;
@@ -363,6 +374,7 @@ tr:nth-child(even) {
 @media only screen and (max-width: 999px) {
   .commits-per-author-container,
   .code-lines-in-files-per-project-container,
+  .functional-code-lines-in-files-per-project-container,
   .commits-over-time-container {
     flex-direction: column;
   }
@@ -371,6 +383,8 @@ tr:nth-child(even) {
   .table-wrapper,
   .code-lines-in-file-per-project-content,
   .code-lines-in-files-per-project-table-wrapper,
+  .functional-code-lines-in-file-per-project-content,
+  .functional-code-lines-in-files-per-project-table-wrapper,
   .commits-over-time-chart-content,
   .commits-over-time-table-wrapper {
     flex: 1 1 50%;
@@ -380,6 +394,7 @@ tr:nth-child(even) {
   }
   .table-wrapper,
   .code-lines-in-files-per-project-table-wrapper,
+  .functional-code-lines-in-files-per-project-table-wrapper,
   .commits-over-time-table-wrapper {
     margin-top: 40px;
     grid-template-columns: 1fr;

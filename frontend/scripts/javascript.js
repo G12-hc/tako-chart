@@ -62,7 +62,19 @@ if (currentRepo !== "") {
       endpoint: "line-counts-per-file",
       repo: currentRepo,
     },
-    "files",
+    "LoC",
+  );
+  drawBarChart(
+    document.querySelector(".functional-code-lines-in-files-per-project-container"),
+    {
+      xLabel: "File",
+      yLabel: "Functional lines of code",
+      getX: (row) => row.path,
+      getY: (row) => row.functional_line_count,
+      endpoint: "functional-line-counts-per-file",
+      repo: currentRepo,
+    },
+    "fLoC",
   );
   drawHistogram(document.querySelector(".commits-over-time-container"), {
     getX: (commit) => commit.date,
