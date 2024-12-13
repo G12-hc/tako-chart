@@ -102,9 +102,13 @@ async function initReposDropdown(dropdown, queryKey) {
       console.error("Failed to fetch repositories:", response.status);
       return;
     }
-
+    dropdown.textContent="";
     const repos = await response.json();
-
+    // Insert an initial empty option
+    const emptyOption = document.createElement("option");
+    emptyOption.textContent = "--Select a repository--";
+    emptyOption.value = "";
+    dropdown.appendChild(emptyOption);
     for (const { id, name, owner } of repos.repos) {
       const option = document.createElement("option");
       option.textContent = `${owner}/${name}`;

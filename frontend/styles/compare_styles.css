@@ -2,12 +2,15 @@ body, h1, h2, table, img, div, a {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    border-radius: 12px;
   }
 .compare-container {
   display: flex;
   flex-direction: row;
 }
-
+th {
+  border-radius: 12px 12px 0 0;
+}
 
 @media (max-width: 768px) {
   .compare-container {
@@ -73,6 +76,7 @@ body, h1, h2, table, img, div, a {
     flex: 1 1 45%;
     display: flex;
     flex-direction: column;
+    gap: 3em;
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 10px;
@@ -169,6 +173,47 @@ body, h1, h2, table, img, div, a {
   box-shadow: 0 0 20px rgba(103, 101, 101, 0.08);
 }
 
+/* Repositories dropdown and its label */
+#repos-dropdown1 {
+  height: 100% !important;
+  position: relative;
+  font-size: 16px;
+  width: 100%;
+  margin: auto;
+  color: black;
+  background: white;
+  border: 1px solid rgba(103, 101, 101, 0.39);
+  border-radius: 12px;
+}
+#repos-dropdown2 {
+  height: 100% !important;
+  position: relative;
+  font-size: 16px;
+  width: 100%;
+  margin: auto;
+  color: black;
+  background: white;
+  border: 1px solid rgba(103, 101, 101, 0.39);
+  border-radius: 12px;
+}
+
+#global_type_chart {
+  height: 100% !important;
+  position: relative;
+  font-size: 16px;
+  width: 100%;
+  margin: auto;
+  color: black;
+  background: white;
+  border: 1px solid rgba(103, 101, 101, 0.39);
+  padding: 5px 5px;
+}
+
+.repo-container {
+  margin-left: 3em;
+  margin-right: 5%;
+  border-radius: 5px 5px 5px 5px;
+}
 /*
 .plotly-graph:hover {
   transform: scale(1.00);
