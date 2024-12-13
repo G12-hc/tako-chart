@@ -8,18 +8,21 @@ async function initReposTable() {
     }
 
     const repos = JSON.parse(await data.text()).repos;
-    // const dataAsArrays = repos.map();
 
     // Put data into table
     const managementTable = document.querySelector("#management-table");
     for (const { name, owner, linkedAt, modifiedAt } of repos) {
+        // row
         const row = document.createElement("tr");
         managementTable.appendChild(row);
 
+        // repository name (and link)
         const repoCell = document.createElement("td");
-        // const repoCellLink = document.createElement("a","href")
-        repoCell.textContent = `${owner}/${name}`;
-
+        const repoURL = document.createElement("a");
+        repoURL.href = 'https://github.com/' + `${owner}/${name}`;
+        repoURL.textContent = `${owner}/${name}`;
+        row.appendChild(repoCell);
+        repoCell.appendChild(repoURL);
 
     }
 
