@@ -1,19 +1,21 @@
 <!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="preconnect" href="https://fonts.googleapis.com"/>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
-          rel="stylesheet"/>
-    <link rel="icon" type="image/x-icon" href="favicon.ico"/>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
     <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
-    <link rel="stylesheet" href="styles/compare_styles.css"/>
+    <link rel="stylesheet" href="styles/compare_styles.css" />
     <title>Compare Repositories</title>
-</head>
-<body>
-<div class="web-title">
+  </head>
+  <body>
+    <div class="web-title">
       <img
         alt="The tako-chart logo, a purple octopus"
         id="titleImg"
@@ -22,101 +24,117 @@
       <h1>TakoChart</h1>
       <div id="topbar">
         <div class="repo-container">
-            <label class="" for="global_type_chart" id="repos-dropdown-label">Chart Type:</label>
-            <select id="global_type_chart" class="repo-container">
-                <option value="commits-by-author">Commits by Author (Pie)</option>
-                <option value="lines-per-file">Lines of Code (Bar)</option>
-                <option value="functional-lines-per-file">Functional lines of Code (Bar)</option>
-                <option value="commits-over-time">Commits Over Time (Histogram)</option>
-            </select>
+          <label class="" for="global_type_chart" id="repos-dropdown-label"
+            >Chart Type:</label
+          >
+          <select id="global_type_chart" class="repo-container">
+            <option value="commits-by-author">Commits by Author (Pie)</option>
+            <option value="lines-per-file">Lines of Code (Bar)</option>
+            <option value="functional-lines-per-file">
+              Functional lines of Code (Bar)
+            </option>
+            <option value="commits-over-time">
+              Commits Over Time (Histogram)
+            </option>
+          </select>
         </div>
         <div id="button-group">
           <button
-            class="compare-btn button" onclick="window.location.href='index.html'">Home
+            class="compare-btn button"
+            onclick="window.location.href='index.html'"
+          >
+            Home
           </button>
           <button
-              class="compare-btn button" onclick="window.location.href='management.html'">Repository Management
+            class="compare-btn button"
+            onclick="window.location.href='management.html'"
+          >
+            Repository Management
           </button>
           <button
-            class="compare-btn button" onclick="window.location.href='compare.html'">Compare
+            class="compare-btn button"
+            onclick="window.location.href='compare.html'"
+          >
+            Compare
           </button>
         </div>
       </div>
     </div>
-<div class="compare-container">
-    <!-- First repository chart -->
-    <div class="chart-content">
+    <div class="compare-container">
+      <!-- First repository chart -->
+      <div class="chart-content">
         <div class="repo-container">
-            <label for="repos-dropdown1">Repository 1:
-                <select id="repos-dropdown1">
-                    <option value="">Select a repository</option>
-                </select>
-            </label>
+          <label for="repos-dropdown1"
+            >Repository 1:
+            <select id="repos-dropdown1">
+              <option value="">Select a repository</option>
+            </select>
+          </label>
         </div>
         <div id="plotly-graph1" class="plotly-graph1"></div>
         <div class="plotly-graph1-table">
-            <!--Tables container -->
-            <div class="table-block">
-                <table class="most-table">
-                    <colgroup>
-                        <col/>
-                        <col/>
-                    </colgroup>
-                    <tr>
-                        <th colspan="2">Most</th>
-                    </tr>
-                </table>
-                <table class="least-table">
-                    <colgroup>
-                        <col/>
-                        <col/>
-                    </colgroup>
-                    <tr>
-                        <th colspan="2">Least</th>
-                    </tr>
-                </table>
-            </div>
+          <!--Tables container -->
+          <div class="table-block">
+            <table class="most-table">
+              <colgroup>
+                <col />
+                <col />
+              </colgroup>
+              <tr>
+                <th colspan="2">Most</th>
+              </tr>
+            </table>
+            <table class="least-table">
+              <colgroup>
+                <col />
+                <col />
+              </colgroup>
+              <tr>
+                <th colspan="2">Least</th>
+              </tr>
+            </table>
+          </div>
         </div>
-    </div>
+      </div>
 
-    <!-- Second repository chart -->
-    <div class="chart-content">
+      <!-- Second repository chart -->
+      <div class="chart-content">
         <div class="repo-container">
-            <label for="repos-dropdown2">Repository 2:
-                <select id="repos-dropdown2">
-                    <option value="">Select a repository</option>
-                </select>
-            </label>
+          <label for="repos-dropdown2"
+            >Repository 2:
+            <select id="repos-dropdown2">
+              <option value="">Select a repository</option>
+            </select>
+          </label>
         </div>
         <div id="plotly-graph2" class="plotly-graph2"></div>
         <!--Tables container -->
         <div class="plotly-graph2-table">
-            <!--Tables container -->
-            <div class="table-block">
-                <table class="most-table">
-                    <colgroup>
-                        <col/>
-                        <col/>
-                    </colgroup>
-                    <tr>
-                        <th colspan="2">Most</th>
-                    </tr>
-                </table>
-                <table class="least-table">
-                    <colgroup>
-                        <col/>
-                        <col/>
-                    </colgroup>
-                    <tr>
-                        <th colspan="2">Least</th>
-                    </tr>
-                </table>
-            </div>
+          <!--Tables container -->
+          <div class="table-block">
+            <table class="most-table">
+              <colgroup>
+                <col />
+                <col />
+              </colgroup>
+              <tr>
+                <th colspan="2">Most</th>
+              </tr>
+            </table>
+            <table class="least-table">
+              <colgroup>
+                <col />
+                <col />
+              </colgroup>
+              <tr>
+                <th colspan="2">Least</th>
+              </tr>
+            </table>
+          </div>
         </div>
+      </div>
     </div>
-</div>
 
-
-<script src="scripts/javascript_compare.js"></script>
-</body>
+    <script src="scripts/javascript_compare.js"></script>
+  </body>
 </html>

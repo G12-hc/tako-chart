@@ -39,7 +39,6 @@ async function populateReposDropdown() {
 
 populateReposDropdown();
 
-
 if (currentRepo !== "") {
   drawPieChart(
     document.querySelector(".commits-per-author-container"),
@@ -65,7 +64,9 @@ if (currentRepo !== "") {
     "LoC",
   );
   drawBarChart(
-    document.querySelector(".functional-code-lines-in-files-per-project-container"),
+    document.querySelector(
+      ".functional-code-lines-in-files-per-project-container",
+    ),
     {
       xLabel: "File",
       yLabel: "Functional lines of code",
@@ -162,7 +163,7 @@ async function drawHistogram(
   };
 
   // Render the Plotly graph
-  Plotly.newPlot(graphDiv, plotlyData, layout, {responsive: true});
+  Plotly.newPlot(graphDiv, plotlyData, layout, { responsive: true });
 
   setupFullscreenButton(graphDiv, button);
 }
@@ -204,7 +205,7 @@ async function drawPieChart(
   // to allow sharing the "most" and "least" table code below
   const dataAsArrays = data.map((row) => [getLabel(row), getValue(row)]);
 
-  Plotly.newPlot(graphDiv, plotlyData, layout, {responsive: true});
+  Plotly.newPlot(graphDiv, plotlyData, layout, { responsive: true });
   drawTables(domElement, dataAsArrays, label);
 
   setupFullscreenButton(graphDiv, button);
@@ -221,29 +222,29 @@ async function drawBarChart(
   const button = domElement.querySelector(".fullscreen-button");
 
   const plotlyData = [
-    {
-      type: "bar",
-      x: data.map(getX),
-      y: data.map(getY),
-      marker: { color: "rgba(5,112,1,0.65)" },
-      textinfo: "none",
-    },
-  ],
-  layout = {
-    autosize: true,
-    xaxis: {
-      title: { text: xLabel },
-      showticklabels: false,
-    },
-    yaxis: { title: { text: yLabel } },
-    barcornerradius: 7,
-  };
+      {
+        type: "bar",
+        x: data.map(getX),
+        y: data.map(getY),
+        marker: { color: "rgba(5,112,1,0.65)" },
+        textinfo: "none",
+      },
+    ],
+    layout = {
+      autosize: true,
+      xaxis: {
+        title: { text: xLabel },
+        showticklabels: false,
+      },
+      yaxis: { title: { text: yLabel } },
+      barcornerradius: 7,
+    };
 
   // `dataAsArrays` is just `data` but with each row as an array instead of an object,
   // to allow sharing the "most" and "least" table code below
   const dataAsArrays = data.map((row) => [getX(row), getY(row)]);
 
-  Plotly.newPlot(graphDiv, plotlyData, layout, {responsive:true});
+  Plotly.newPlot(graphDiv, plotlyData, layout, { responsive: true });
   drawTables(domElement, dataAsArrays, label);
 
   setupFullscreenButton(graphDiv, button);

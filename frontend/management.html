@@ -13,7 +13,7 @@
     <title>Repository Management</title>
   </head>
   <body>
-<div class="web-title">
+    <div class="web-title">
       <img
         alt="The tako-chart logo, a purple octopus"
         id="titleImg"
@@ -23,13 +23,22 @@
       <div id="topbar">
         <div id="button-group">
           <button
-            class="compare-btn button" onclick="window.location.href='index.html'">Home
+            class="compare-btn button"
+            onclick="window.location.href='index.html'"
+          >
+            Home
           </button>
           <button
-              class="compare-btn button" onclick="window.location.href='management.html'">Repository Management
+            class="compare-btn button"
+            onclick="window.location.href='management.html'"
+          >
+            Repository Management
           </button>
           <button
-            class="compare-btn button" onclick="window.location.href='compare.html'">Compare
+            class="compare-btn button"
+            onclick="window.location.href='compare.html'"
+          >
+            Compare
           </button>
         </div>
       </div>
@@ -38,9 +47,12 @@
     <div class="repository-management-container">
       <div class="repo-input">
         <label for="repo-url">Repo URL:</label>
-        <input type="text" id="repo-url" placeholder="ex. (g12-hc/tako-chart)" />
+        <input
+          type="text"
+          id="repo-url"
+          placeholder="ex. (g12-hc/tako-chart)"
+        />
         <button class="button" id="add-repo-btn">Add</button>
-
       </div>
       <table id="management-table">
         <thead>
