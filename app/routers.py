@@ -7,6 +7,7 @@ from app.db.queries import (
     query_repos,
     query_functional_line_counts_per_file,
     query_line_counts_per_file,
+    query_delete_all_repo_data,
 )
 from app.parsing_data import assign_repo_data
 
@@ -20,9 +21,15 @@ async def get_all_repos():
         return {"repos": repos}
 
 
-@router.post("/fetch-repo/{owner}/{repo}")
+@router.post("/repos/fetch/{owner}/{repo}")
 async def import_repo_data(owner, repo):
     await assign_repo_data(owner, repo)
+
+
+@router.delete("/repos/delete/{repo_id}")
+async def delete_repo_data(repo_id):
+    async with db_connection() as conn:
+        await query_delete_all_repo_data(conn, repo_id)
 
 
 @router.get("/chart-data/commit-dates/{repo_id}")

@@ -46,11 +46,21 @@ async def query_delete_all_repo_data(cursor, repo_id):
     """
     await cursor.execute(
         """
+        DELETE FROM branch_commits
+        USING branches
+        WHERE branch_commits.branch_id = branches.id
+          AND branches.repository_id = %s;
+        """,
+        [repo_id],
+    )
+    await cursor.execute(
+        """
         DELETE FROM commits
         WHERE repository_id = %s
         """,
         [repo_id],
     )
+
     await cursor.execute(
         """
         DELETE FROM files
