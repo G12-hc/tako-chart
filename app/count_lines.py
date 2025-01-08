@@ -6,7 +6,7 @@ import json
 import tarfile
 from pathlib import Path
 
-from app.db.fetch_git_api import download_zip
+from app.fetch_git_api import download_zip
 
 
 def run_cloc(directory: str):

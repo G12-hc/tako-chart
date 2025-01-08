@@ -5,7 +5,7 @@ from datetime import datetime
 
 from app.count_lines import analyze_repository
 from app.db import db_connection
-from app.db.fetch_git_api import (
+from app.fetch_git_api import (
     get_repository_details,
     get_commit_history,
     fetch_lang_details,
