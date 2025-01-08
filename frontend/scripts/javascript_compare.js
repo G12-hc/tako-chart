@@ -9,24 +9,34 @@ function updateChart(repo, graphId, chartType) {
   }
 }
 
-function drawTables(element, data) {
-  const mostCommitsTable = element.querySelector(".most-table");
-  const leastCommitsTable = element.querySelector(".least-table");
+function clearTables(element) {
+ const mostTable = element.querySelector(".most-table");
+ const leastTable = element.querySelector(".least-table"); 
+ clearTable(mostTable);
+ clearTable(leastTable);
+}
 
-  const highestCommitters = data.slice(0, 3);
-  const lowestCommitters = data.slice(Math.max(data.length - 3, 0)).reverse();
-
-  for (const table of [mostCommitsTable, leastCommitsTable]) {
-    while (table.lastElementChild.nodeName.toLowerCase() === "tr") {
-      table.removeChild(table.lastElementChild);
-    }
+function clearTable(table) {
+  while (table.lastElementChild.nodeName.toLowerCase() === "tr") {
+    table.removeChild(table.lastElementChild);
   }
+}
+
+function drawTables(element, data) {
+  const mostTable = element.querySelector(".most-table");
+  const leastTable = element.querySelector(".least-table");
+
+  const highest = data.slice(0, 3);
+  const lowest = data.slice(Math.max(data.length - 3, 0)).reverse();
+
+  clearTable(mostTable);
+  clearTable(leastTable);
 
   var i = 0;
 
-  for (const [author, commitCount] of highestCommitters) {
+  for (const [author, commitCount] of highest) {
     const row = document.createElement("tr");
-    mostCommitsTable.appendChild(row);
+    mostTable.appendChild(row);
     const rankCell = document.createElement("td");
     rankCell.textContent = `${i + 1}`;
     row.appendChild(rankCell);
@@ -39,9 +49,9 @@ function drawTables(element, data) {
 
   i = data.length;
 
-  for (const [author, commitCount] of lowestCommitters) {
+  for (const [author, commitCount] of lowest) {
     const row = document.createElement("tr");
-    leastCommitsTable.appendChild(row);
+    leastTable.appendChild(row);
     const rankCell = document.createElement("td");
     rankCell.textContent = `${i}`;
     row.appendChild(rankCell);
@@ -264,6 +274,13 @@ async function drawHistogram(
     yaxis: { title: { text: yLabel } },
   };
   Plotly.newPlot(domElement, plotlyData, layout);
+  let element;
+  if (domElement.id === "plotly-graph2") {
+    element = ".plotly-graph2-table";
+  } else {
+    element = ".plotly-graph1-table";
+  }
+  clearTables(document.querySelector(element));
 }
 
 // Initialize dropdowns for the two repositories
