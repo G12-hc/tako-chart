@@ -27,11 +27,7 @@ github = <put your github token here>
 3. Create the table with `sudo -u postgres psql -c 'CREATE DATABASE hackcamp;'`
 4. Populate the database with the SQL file `sudo -u postgres psql -U postgres -d hackcamp -a -f /path/to/.sql_file`
 
-### 3. Clone Repository
-Clone Directory: `git clone https://github.com/G12-hc/tako-chart.git`<br>
-Navigate to repository directory: `cd tako-chart`
-
-### 4. Install Python Dependencies and Run
+### 3. Install Python Dependencies and Run
 To set up a virtual environment and start the server:
 ```
 $ make venv # Setup up the virtual environment, also installs the pip deps
@@ -39,6 +35,6 @@ $ make dev-server # Run development server (also supports reload)
 $ make deps # To reinstall dependencies
 $ make clean # Clean the virtual environment
 ```
-### 5. Done!
+### 4. Done!
 Open in browser at `http://HOST_IP:8000`
 - If running on the same machine: `http://localhost:8000`
